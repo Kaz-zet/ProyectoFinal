@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>canchas</title>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+  <a href="#">canchas</a>
+  <a href="#">Contacto</a>
+</div>
+
+<header>
+  <h1>Logo</h1>
+  <nav>
+    <a href="#">canchas</a>
+    <a href="#">Contacto</a>
+  </nav>
+  <button class="hamburger" onclick="toggleSidebar()">☰</button>
+</header>
+
+<main>
+  <div class="grid-cancha">
+    <div class="cancha">
+      <img src="https://via.placeholder.com/300x180" alt="Cancha 1">
+      <h4>Cancha 1</h4>
+      <button>VER</button>
+    </div>
+    <div class="cancha">
+      <img src="https://via.placeholder.com/300x180" alt="Cancha 2">
+      <h4>Cancha 2</h4>
+      <button>VER</button>
+    </div>
+    <div class="cancha">
+      <img src="https://via.placeholder.com/300x180" alt="Cancha 3">
+      <h4>Cancha 3</h4>
+      <button>VER</button>
+    </div>
+    <div class="cancha">
+      <img src="https://via.placeholder.com/300x180" alt="Cancha 4">
+      <h4>Cancha 4</h4>
+      <button>VER</button>
+    </div>
+    <div class="cancha">
+      <img src="https://via.placeholder.com/300x180" alt="Cancha 5">
+      <h4>Cancha 5</h4>
+      <button>VER</button>
+    </div>
+    <div class="cancha">
+      <img src="https://via.placeholder.com/300x180" alt="Cancha 6">
+      <h4>Cancha 6</h4>
+      <button>VER</button>
+    </div>
+  </div>
+</main>
+
+<script>
+  function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    sidebar.classList.toggle('open');
+  }
+</script>
+</body>
+</html>
