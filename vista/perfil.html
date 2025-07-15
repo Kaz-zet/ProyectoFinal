@@ -1,0 +1,51 @@
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfil - Canchapp</title>
+<link rel="stylesheet" href="css/perfil.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">Canchapp</div>
+    <div class="navbar-links">
+      <a href="index.html">Inicio</a>
+      <a href="perfil.html"><img src="foto_perfil.png" alt="Perfil" class="profile-pic"></a>
+    </div>
+    <div class="menu-toggle" onclick="toggleSidebar()">&#9776;</div>
+  </nav>
+
+  <div class="sidebar" id="sidebar">
+    <a href="index.html">Inicio</a>
+    <a href="perfil.html">Cerrar sesión</a>
+  </div>
+
+  <div class="perfil-card">
+    <div class="perfil-container">
+      <div class="perfil-info">
+        <h2>Nombre de perfil</h2>
+        <p>Nivel de experiencia en pádel</p>
+        <div class="biografia">
+          <p>Biografía del usuario...</p>
+        </div>
+      </div>
+
+      <div class="perfil-foto">
+        <img src="foto_perfil.png" alt="Foto de perfil">
+      </div>
+    </div>
+
+    <div class="acciones">
+      <a href="editar-perfil.php">Editar perfil</a>
+      <a href="logout.php">Cerrar sesión</a>
+    </div>
+  </div>
+
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      sidebar.style.display = sidebar.style.display === 'flex' ? 'none' : 'flex';
+    }
+  </script>
+</body>
+</html>

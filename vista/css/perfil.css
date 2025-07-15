@@ -1,0 +1,162 @@
+:root {
+      --verde-suave: #a3b48b;
+      --verde-oscuro: #5c845d;
+      --gris-fondo: #f9f8f4;
+      --gris-claro: #e0ded4;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: var(--gris-fondo);
+    }
+
+    /* NAVBAR */
+    .navbar {
+      background-color: var(--verde-suave);
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+    }
+
+    .logo {
+      font-weight: bold;
+      font-size: 1.5rem;
+    }
+
+    .navbar-links {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .navbar-links a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .profile-pic {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      cursor: pointer;
+    }
+
+    /* SIDEBAR */
+    .menu-toggle {
+      display: none;
+      cursor: pointer;
+    }
+
+    .sidebar {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 70px;
+      right: 0;
+      background-color: var(--verde-suave);
+      width: 200px;
+      padding: 1rem;
+      z-index: 1000;
+    }
+
+    .sidebar a {
+      color: white;
+      text-decoration: none;
+      margin: 0.5rem 0;
+    }
+
+    /* PERFIL CARD */
+    .perfil-card {
+      background-color: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+      max-width: 1000px;
+      margin: 2rem auto;
+    }
+
+    .perfil-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+
+    .perfil-info {
+      flex: 1;
+      min-width: 280px;
+    }
+
+    .perfil-info h2 {
+      margin-bottom: 0.5rem;
+    }
+
+    .perfil-info p {
+      margin: 0.5rem 0;
+    }
+
+    .biografia {
+      border: 1px solid #ccc;
+      padding: 1rem;
+      background-color: var(--gris-claro);
+      height: 200px;
+      margin-top: 1rem;
+    }
+
+    .perfil-foto {
+      flex: 1;
+      min-width: 250px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .perfil-foto img {
+      width: 100%;
+      max-width: 300px;
+      height: auto;
+      object-fit: cover;
+      background-color: #ddd;
+      border-radius: 8px;
+    }
+
+    .acciones {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .acciones a {
+      background-color: var(--verde-oscuro);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      text-decoration: none;
+      border-radius: 6px;
+      transition: background-color 0.3s;
+    }
+
+    .acciones a:hover {
+      background-color: #476c48;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .navbar-links {
+        display: none;
+      }
+      .menu-toggle {
+        display: block;
+        color: white;
+        font-size: 1.5rem;
+      }
+      .sidebar {
+        display: flex;
+      }
+    }

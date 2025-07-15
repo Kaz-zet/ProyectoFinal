@@ -1,13 +1,18 @@
-body {
+    * {
       margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
       font-family: Arial, sans-serif;
+      background-color: #f8f8f5;
       overflow-x: hidden;
-      background-color: #F6F5F2;
-      color: #333;
     }
 
     header {
       background-color: #A3B18A;
+      color: white;
       padding: 1rem 2rem;
       display: flex;
       justify-content: space-between;
@@ -15,14 +20,22 @@ body {
       position: relative;
     }
 
-    header h1 {
-      margin: 0;
-      color: white;
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .logo-text {
+      font-size: 1.3rem;
     }
 
     nav {
       display: flex;
-      gap: 1rem;
+      align-items: center;
+      gap: 1.5rem;
     }
 
     nav a {
@@ -31,30 +44,33 @@ body {
       font-weight: bold;
     }
 
-    /* Botón hamburguesa oculto en escritorio */
+    .profile-pic {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid white;
+    }
+
     .hamburger {
       display: none;
-      background: none;
-      border: none;
       font-size: 1.5rem;
-      color: white;
       cursor: pointer;
     }
 
-    /* Sidebar */
     .sidebar {
-        position: fixed;
-        top: 0;
-        left: -100%; /* <-- más seguro que -250px */
-        width: 250px;
-        height: 100%;
-        background-color: #A3B18A;
-        padding: 2rem 1rem;
-        transition: left 0.3s ease;
-        z-index: 1000;
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 250px;
+      height: 100%;
+      background-color: #A3B18A;
+      padding: 2rem 1rem;
+      transition: left 0.3s ease;
+      z-index: 1000;
     }
 
-    .sidebar.open {
+    .sidebar.active {
       left: 0;
     }
 
@@ -62,51 +78,46 @@ body {
       display: block;
       margin-bottom: 1rem;
       color: white;
-      text-decoration: none;
       font-weight: bold;
+      text-decoration: none;
     }
 
-    .grid-cancha {
+    /* Grid de canchas */
+    .grid-container {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
       padding: 2rem;
     }
 
-    .cancha {
-      background-color: #DAD7CD;
-      padding: 1rem;
+    .cancha-card {
+      background-color: #dddace;
       border-radius: 10px;
+      padding: 1rem;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
       text-align: center;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     }
 
-    .cancha img {
+    .cancha-card img {
       width: 100%;
-      height: auto;
-      background-color: #ccc;
-      aspect-ratio: 16/9;
+      height: 150px;
       object-fit: cover;
-      border-radius: 8px;
+      border-radius: 5px;
+      margin-bottom: 0.5rem;
     }
 
-    .cancha h4 {
+    .cancha-card h4 {
       margin: 0.5rem 0;
-      font-size: 1rem;
     }
 
-    .cancha button {
+    .cancha-card button {
       background-color: #588157;
       color: white;
+      padding: 0.4rem 1rem;
       border: none;
-      padding: 0.5rem 1.2rem;
-      border-radius: 6px;
+      border-radius: 5px;
       cursor: pointer;
       font-weight: bold;
-    }
-
-    .cancha button:hover {
-      background-color: #3a5a40;
     }
 
     /* Responsive */
@@ -114,17 +125,13 @@ body {
       nav {
         display: none;
       }
+
       .hamburger {
         display: block;
+        color: white;
       }
 
-      .grid-cancha {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (max-width: 480px) {
-      .grid-cancha {
-        grid-template-columns: 1fr;
+      .profile-pic {
+        display: none;
       }
     }
