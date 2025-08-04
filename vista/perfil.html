@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Perfil - Canchapp</title>
+  <link rel="stylesheet" href="css/perfil.css">
+</head>
+<body>
+<body>
+
+  <!-- Sidebar móvil -->
+  <div class="sidebar" id="sidebar">
+    <a href="index.html">Volver</a>
+    <a href="#">Editar Perfil</a>
+    <a href="#">Cerrar Sesión</a>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="volver">
+      <a href="index.html">←</a>
+    </div>
+
+    <nav>
+      <a href="#">Editar Perfil</a>
+      <a href="#">Cerrar Sesión</a>
+    </nav>
+
+    <div class="menu" onclick="toggleSidebar()">☰</div>
+  </header>
+
+  <div class="perfil-container">
+    <div class="datos">
+      <div class="info-texto">
+        <p>Username: </p>
+        <p>Nombre: </p>
+        <p>Apellido: </p>
+        <p>Nivel: </p>
+      </div>
+      <div class="lupa-css">
+        <div class="circulo">
+          <img src="images/perfil.jpg" alt="Foto de perfil">
+        </div>
+        <div class="mango"></div>
+      </div>
+    </div>
+    <div class="bio">
+      <p>Bio/Descripción: </p>
+    </div>
+  </div>
+
+  <script>
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('active');
+    }
+  </script>
+</body>
+</html>
