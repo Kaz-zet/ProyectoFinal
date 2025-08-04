@@ -1,137 +1,137 @@
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f8f8f5;
-      overflow-x: hidden;
-    }
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f8f8f5;
+  overflow-x: hidden;
+}
 
-    header {
-      background-color: #A3B18A;
-      color: white;
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: relative;
-    }
+header {
+  background-color: #A3B18A;
+  color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
 
-    .logo {
-      font-size: 1.5rem;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
 
-    .logo-text {
-      font-size: 1.3rem;
-    }
+.logo-text {
+  font-size: 1.3rem;
+}
 
-    nav {
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-    }
+nav {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
 
-    nav a {
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-    }
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
 
-    .profile-pic {
-      width: 35px;
-      height: 35px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid white;
-    }
+.profile-pic {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid white;
+}
 
-    .hamburger {
-      display: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-    }
+.menu {
+  display: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
 
-    .sidebar {
-      position: fixed;
-      top: 0;
-      left: -100%;
-      width: 250px;
-      height: 100%;
-      background-color: #A3B18A;
-      padding: 2rem 1rem;
-      transition: left 0.3s ease;
-      z-index: 1000;
-    }
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 250px;
+  height: 100%;
+  background-color: #A3B18A;
+  padding: 2rem 1rem;
+  transition: left 0.3s ease;
+  z-index: 1000;
+}
 
-    .sidebar.active {
-      left: 0;
-    }
+.sidebar.active {
+  left: 0;
+}
 
-    .sidebar a {
-      display: block;
-      margin-bottom: 1rem;
-      color: white;
-      font-weight: bold;
-      text-decoration: none;
-    }
+.sidebar a {
+  display: block;
+  margin-bottom: 1rem;
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+}
 
-    /* Grid de canchas */
-    .grid-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1.5rem;
-      padding: 2rem;
-    }
+/* Grid de canchas */
+.contenedor {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem;
+}
 
-    .cancha-card {
-      background-color: #dddace;
-      border-radius: 10px;
-      padding: 1rem;
-      box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-      text-align: center;
-    }
+.cancha {
+  background-color: #dddace;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
 
-    .cancha-card img {
-      width: 100%;
-      height: 150px;
-      object-fit: cover;
-      border-radius: 5px;
-      margin-bottom: 0.5rem;
-    }
+.cancha img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 5px;
+  margin-bottom: 0.5rem;
+}
 
-    .cancha-card h4 {
-      margin: 0.5rem 0;
-    }
+.cancha h4 {
+  margin: 0.5rem 0;
+}
 
-    .cancha-card button {
-      background-color: #588157;
-      color: white;
-      padding: 0.4rem 1rem;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: bold;
-    }
+.cancha button {
+  background-color: #588157;
+  color: white;
+  padding: 0.4rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
 
-    /* Responsive */
-    @media (max-width: 768px) {
-      nav {
-        display: none;
-      }
+/* Responsive */
+@media (max-width: 768px) {
+  nav {
+    display: none;
+  }
 
-      .hamburger {
-        display: block;
-        color: white;
-      }
+  .menu {
+    display: block;
+    color: white;
+  }
 
-      .profile-pic {
-        display: none;
-      }
-    }
+  .profile-pic {
+    display: none;
+  }
+}
