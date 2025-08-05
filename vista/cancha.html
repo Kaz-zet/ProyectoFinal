@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Club</title>
+    <link rel="stylesheet" href="css/cancha.css">
+</head>
+<body>
+    <!-- Sidebar móvil -->
+    <div class="sidebar" id="sidebar">
+        <a href="index.html">Canchas</a>
+        <a href="contacto.html">Contacto</a>
+        <a href="perfil.html">Perfil</a>
+    </div>
+
+        <!-- Header -->
+        <header>
+            <div class="logo">
+            <span class="logo-text">🏓Canchapp</span>
+        </div>
+
+        <nav>
+            <a href="index.html">Canchas</a>
+            <a href="contacto.html">Contacto</a>
+            <a href="perfil.html">
+                <img src="images/perfil.jpg" alt="Perfil" class="profile-pic" />
+            </a>
+        </nav>
+
+        <div class="menu" onclick="toggleSidebar()">☰</div>
+    </header>
+    <main>
+        <div class="club-contenedor">
+            <div class="datos-club">
+                <div class="club">
+                    <div class="nombre-club"><h2>Nombre del Club/complejo/centro de padel</h2></div>
+                    <div class="descripcion"><p>Descripción del club/complejo/centro de padel.</p></div>
+                </div>
+            </div>
+            <div class="apartado-club">
+                <img src="images/club.jpg" alt="Imagen del Club">
+                <p><h3>Dirección:</h3> Calle Falsa 123, Ciudad</p>
+            </div>
+        </div>
+        <div class="horarios">
+            placeholder para los horarios y el calendario
+        </div>
+        <div class="galeria">
+            <h3>Galería</h3>
+            <div class="imagenes-galeria">
+                <div class="tamaño-imagenes">
+                    <div class="imagen"><img src="images/club.jpg" alt="Imagen 1"></div>
+                    <div class="imagen"><img src="images/club.jpg" alt="Imagen 2"></div>
+                    <div class="imagen"><img src="images/club.jpg" alt="Imagen 3"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
