@@ -458,7 +458,7 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
 
         <?php if (!$id_usuario): ?>
             <div class="alert-login">
-                <a href="login.php">Inicia sesión</a> para poder reservar esta cancha
+                <a href="inicioses.php">Inicia sesión</a> para poder reservar esta cancha
             </div>
         <?php endif; ?>
 

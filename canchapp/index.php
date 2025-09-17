@@ -77,9 +77,11 @@ if ($calendario) header("Location: calendario.php");
                     <a class="nav-link mx-lg-2" href="gestion.php">Gestión</a>
                   </li>
                 <?php endif; ?>
+                <?php if ($rol === 'duenio' || $rol === 'admin' || $rol === 'usuario'): ?>
                 <li class="nav-item">
                   <a class="nav-link mx-lg-2" href="buscador.php">Reservar</a>
                 </li>
+                <?php endif;?>
                 <li class="nav-item">
                   <a class="nav-link mx-lg-2" href="acerca-de.php">Acerca de</a>
                 </li>

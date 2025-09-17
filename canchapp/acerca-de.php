@@ -1,4 +1,6 @@
 <?php
+session_start();
+require_once 'conexiones/conDB.php';
 $nombre = $_SESSION['nombre'] ?? null; //Si existe el nombre y rol que lo asigne, sino q no ponga nada. Asi la gente sin iniciar sesion puede entrar.
 $rol = $_SESSION['rol'] ?? null;
 $foto = $_SESSION['foto'] ?? null; // Obtener la foto de la sesión
@@ -226,9 +228,11 @@ $foto = $_SESSION['foto'] ?? null; // Obtener la foto de la sesión
                     <a class="nav-link mx-lg-2" href="gestion.php">Gestión</a>
                   </li>
                 <?php endif; ?>
+                <?php if ($rol === 'duenio' || $rol === 'admin' || $rol === 'usuario'): ?>
                 <li class="nav-item">
                   <a class="nav-link mx-lg-2" href="buscador.php">Reservar</a>
                 </li>
+                <?php endif;?>
                 <li class="nav-item">
                   <a class="nav-link mx-lg-2" href="acerca-de.php">Acerca de</a>
                 </li>
@@ -270,7 +274,7 @@ $foto = $_SESSION['foto'] ?? null; // Obtener la foto de la sesión
             </div>
           <?php else: ?>
             <a href="inicioses.php" class="login-button btn btn-primary">Login</a>
-          <?php endif; ?>
+          <?php endif; ?>   
           
           <button class="navbar-toggler pe-0 ms-2" type="button" data-bs-toggle="offcanvas"
             data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">

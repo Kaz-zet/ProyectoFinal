@@ -374,7 +374,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                             <!-- Botones de navegación -->
                             <div class="nav-buttons">
-                                <a href="gestion_reservas.php" class="btn neumorphic-btn">
+                                <a href="gestion.php" class="btn neumorphic-btn">
                                     <i class="fas fa-arrow-left me-2"></i>Volver
                                 </a>
                             </div>

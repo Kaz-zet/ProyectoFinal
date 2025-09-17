@@ -346,13 +346,13 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
                                     <a class="nav-link mx-lg-2" href="index.php">Index</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link mx-lg-2 active" aria-current="page" href="gestion_reservas.php">Gestión</a>
+                                    <a class="nav-link mx-lg-2 active" aria-current="page">Gestión</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link mx-lg-2" href="cancha.php">Reservar</a>
+                                    <a class="nav-link mx-lg-2" href="buscador.php">Reservar</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link mx-lg-2" href="acerca-de.html">Acerca de</a>
+                                    <a class="nav-link mx-lg-2" href="acerca-de.php">Acerca de</a>
                                 </li>
                             </ul>
                         </div>
@@ -420,7 +420,7 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
                                     Mis Canchas
                                 </h3>
                                 <div>
-                                    <a href="dueño.php" class="btn btn-primary">
+                                    <a href="crear_cancha.php" class="btn btn-primary">
                                         <i class="fas fa-plus me-2"></i>Nueva Cancha
                                     </a>
                                 </div>
