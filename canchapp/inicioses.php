@@ -2,7 +2,7 @@
 session_start();
 require_once 'conexiones/conDB.php';
 
-// Si ya está logueado, redirigir
+//Si ya tiene rol lo manda al index
 if (isset($_SESSION['rol'])) {
     header('Location: index.php');
     exit;
@@ -11,14 +11,14 @@ if (isset($_SESSION['rol'])) {
 $error_message = '';
 $success_message = '';
 
-// Mensaje de logout exitoso
+// Logout
 if (isset($_GET['logout']) && $_GET['logout'] === 'success') {
     $success_message = 'Sesión cerrada exitosamente.';
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nombre = trim($_POST['nombre'] ?? '');
-    $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+    $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL); //Saca &%() u todas esas cosas raras-
     $contrasena = $_POST['contrasena'] ?? '';
     
     if (empty($nombre) || empty($email) || empty($contrasena)) {
@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $rol = null;
             $user = null;
             
-            // Buscar en Admin
+            // Busca en Admin
             $stmt = $pdo->prepare("SELECT id_admin AS id, nombre, contrasena 
                                    FROM admin WHERE email = ?");
             $stmt->execute([$email]);
@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($user && $user['contrasena'] === $contrasena && mb_strtolower($user['nombre']) === mb_strtolower($nombre)) {
                 $rol = "admin";
             } else {
-                // Buscar en Dueño
+                // Busca en Dueño
                 $stmt = $pdo->prepare("SELECT id_duenio AS id, nombre, contrasena
                                        FROM duenio WHERE email = ?");
                 $stmt->execute([$email]);
@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($user && $user['contrasena'] === $contrasena && mb_strtolower($user['nombre']) === mb_strtolower($nombre)) {
                     $rol = "duenio";
                 } else {
-                    // Buscar en Usuario
+                    // Y x ultimo Busca en Usuario
                     $stmt = $pdo->prepare("SELECT id_usuario AS id, nombre, contrasena 
                                            FROM usuario WHERE email = ?");
                     $stmt->execute([$email]);
@@ -59,12 +59,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             if ($rol && $user) {
-                // Guardar en sesión
+                //GUARDA ROL!!
                 $_SESSION['id'] = $user['id'];
                 $_SESSION['nombre'] = $user['nombre'];
                 $_SESSION['rol'] = $rol;
 
-                // Para compatibilidad con el sistema anterior
                 if ($rol === "usuario") {
                     $_SESSION['usuario'] = [
                         'id' => $user['id'],

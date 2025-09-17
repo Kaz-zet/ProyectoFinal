@@ -29,20 +29,20 @@ if ($_POST) {
         $error_message = 'Las contraseñas no coinciden.';
     } else {
         try {
-            // Verificar si el email ya existe
+            // Verifica si el email ya existe
             $stmt = $pdo->prepare("SELECT id_usuario FROM usuario WHERE email = ?");
             $stmt->execute([$email]);
             
             if ($stmt->fetch()) {
                 $error_message = 'Este email ya está registrado.';
             } else {
-                // Insertar nuevo usuario
+                // Inserta nuevo usuario
                 $stmt = $pdo->prepare("INSERT INTO usuario (nombre, email, contrasena, telefono, fecha_registro) VALUES (?, ?, ?, ?, NOW())");
                 
                 if ($stmt->execute([$nombre, $email, $contraseña, $telefono])) {
                     $success_message = 'Usuario registrado exitosamente. <a href="inicioses.php">Iniciar sesión</a>';
                     
-                    // Limpiar campos del formulario
+                    // Limpia campos del formulario
                     $_POST = array();
                 } else {
                     $error_message = 'Error al registrar usuario. Intente nuevamente.';

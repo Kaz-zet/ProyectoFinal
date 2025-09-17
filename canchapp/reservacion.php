@@ -10,13 +10,12 @@ $id_usuario = $_SESSION['id'] ?? null;
 $msg = '';
 $error = '';
 
-// Get court ID
+// Sacamos ID de cancha
 $id_cancha = $_GET['id'] ?? null;
 
-// Get date to display
 $fecha_mostrar = $_GET['fecha'] ?? date('Y-m-d');
 
-// Get and prepare data for specific court using ID
+// Sacamos datos medaunte esa ID
 if ($id_cancha) {
     try {
         $stmt = $pdo->prepare("
@@ -42,7 +41,7 @@ if ($id_cancha) {
     exit;
 }
 
-// Get reservations for specific hour and date
+// Se generan reservaciones para horario y dia especifico
 function obtenerreservas($pdo, $id_cancha, $fecha) {
     $stmt = $pdo->prepare("
         SELECT r.*, u.nombre as usuario_nombre 
@@ -55,7 +54,7 @@ function obtenerreservas($pdo, $id_cancha, $fecha) {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-// Generate available schedules
+// Se crean llos horarios disponisbles
 function generarhorarios() {
     $horarios = [];
     for ($h = 8; $h <= 22; $h++) {
@@ -64,7 +63,7 @@ function generarhorarios() {
     return $horarios;
 }
 
-// Check if schedule is occupied and calculate available spaces
+// Se fija si el luggar está ocupado y los espacios.
 function verificarDisponibilidad($reservas, $hora, $fecha_mostrar, $espacios_total = 4) {
     $hora_fin = date('H:i', strtotime($hora . ' +1 hour'));
     $espacios_ocupados = 0;
@@ -128,7 +127,7 @@ function verificarDisponibilidad($reservas, $hora, $fecha_mostrar, $espacios_tot
     }
 }
 
-// Convert from English default to Spanish
+//Pasa de ingles a españolds
 function diasespanol($dia_ingles) {
     $dias = [
         'Mon' => 'Lun',
@@ -397,7 +396,7 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
     </div>
     <!-- Fin Navbar -->
 
-        <!-- Error/Success Messages -->
+        <!-- Mensage de error u success -->
         <?php if (!empty($msg)): ?>
             <div class="row mt-3">
                 <div class="col-12">
@@ -414,7 +413,7 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
             </div>
         <?php endif; ?>
 
-        <!-- Back Button -->
+        <!-- Volver -->
         <div class="row mt-3">
             <div class="col-12">
                 <button class="btn btn-outline-secondary" onclick="history.back()">
@@ -424,7 +423,7 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
         </div>
 
         <?php if ($cancha): ?>
-        <!-- Court Image -->
+        <!-- Busca imagen -->
         <div class="row mt-4">
             <div class="col-12">
                 <?php if (!empty($cancha['foto'])): ?>
@@ -439,7 +438,7 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
             </div>
         </div>
 
-        <!-- Court Information -->
+        <!--Informacoion de la cancha -->
         <div class="row mt-4">
             <div class="col-12">
                 <div class="text-center">
@@ -462,12 +461,12 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
             </div>
         <?php endif; ?>
 
-        <!-- Reservation System -->
+        <!-- Sistema de reserva-->
         <div class="row mt-4">
             <div class="col-12">
                 <h3 class="text-center mb-4"><?= $id_usuario ? 'Haz clic para reservar' : 'Horarios disponibles' ?></h3>
                 
-                <!-- Date Selector -->
+                <!-- PARA SELECCIONAR DIAS-->
                 <div class="date-picker-container text-center" style="background-image: url('image/padel-fondo.jpg'); background-size: cover; background-position: center;">
                     <h5 class="mb-3">Selecciona el día</h5>
                     <p class="text-light mb-3">Mostrando: <span id="currentDate"><?= date('d/m/Y', strtotime($fecha_mostrar)) ?></span></p>
@@ -519,7 +518,7 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
                     </div>
                 </div>
 
-                <!-- Available Times -->
+                <!--Horas disponivles -->
                 <div class="row g-3" id="timeSlots">
                     <?php foreach ($horarios as $hora): ?>
                         <?php 

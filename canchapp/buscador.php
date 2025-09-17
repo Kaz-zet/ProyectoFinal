@@ -195,7 +195,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['accion'] === 'editar') { //
             </div>
           </div>
           
-          <!-- Sistema de login/logout integrado -->
           <?php if ($nombre): ?>
             <div class="dropdown">
               <button class="btn p-0 border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">

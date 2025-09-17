@@ -2,7 +2,6 @@
 session_start();
 require_once 'conexiones/conDB.php';
 
-// Solo dueños pueden acceder
 if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'duenio') {
     header("Location: login.php");
     exit;
@@ -11,7 +10,7 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'duenio') {
 $id_duenio = $_SESSION['id'];
 $msg = '';
 $error = '';
-$easterEggTrigger = null;
+$easterEggTrigger = null; //JIJIJI
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nombre = trim($_POST['nombre'] ?? '');
@@ -21,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $foto = null;
     $uploadError = '';
 
-    // Validaciones básicas
+    //Valida lo q se le entregue a la cancha.
     $errores = [];
     
     if (empty($nombre)) {
@@ -46,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errores[] = "La biografía no puede exceder 500 caracteres.";
     }
 
-    // Manejo de foto mejorado
+    // Para subir fotos
     if (isset($_FILES['foto']) && $_FILES['foto']['error'] !== UPLOAD_ERR_NO_FILE) {
         if ($_FILES['foto']['error'] !== UPLOAD_ERR_OK) {
             $uploadErrors = [
@@ -67,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } elseif ($_FILES['foto']['size'] > $maxSize) {
             $uploadError = 'El archivo es muy grande. Máximo 5MB.';
         } else {
-            // Create uploads directory if it doesn't exist
+            // Crea carpeta tploads si no eciste
             if (!file_exists('uploads')) {
                 mkdir('uploads', 0777, true);
             }
@@ -78,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             
             if (move_uploaded_file($_FILES['foto']['tmp_name'], $uploadPath)) {
-                $foto = $filename; // This should now work
+                $foto = $filename; 
             } else {
                 $uploadError = 'Error al subir la imagen.';
             }
@@ -86,17 +85,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-    // Si no hay errores, procesar la creación
+    // Si no hay errores, se creaaaa
     if (empty($errores)) {
         try {
-            // Verificar si ya existe una cancha con el mismo nombre para este dueño
+            // Verific si ya existe una cancha con el mismo nombre para este dueñoddo
             $stmt = $pdo->prepare('SELECT id_cancha FROM cancha WHERE nombre = ? AND id_duenio = ?');
             $stmt->execute([$nombre, $id_duenio]);
 
             if ($stmt->fetch()) {
-                $error = 'Ya tienes una cancha registrada con ese nombre.';
+                $error = 'Ya tenes una cancha registrada con ese nombre.';
             } else {
-                // Crear cancha con los campos básicos
+                //Sino se crea.
                 $stmt = $pdo->prepare('
                     INSERT INTO cancha (nombre, lugar, bio, foto, id_duenio, precio) 
                     VALUES (?, ?, ?, ?, ?, ?)
@@ -114,7 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($resultado) {
                     $msg = 'Cancha creada exitosamente!';
 
-                    // Easter eggs mejorados
+                    // Easter eggs
                     $easterEggs = [
                         'Vegetta|777' => [
                             'color' => '#6a0dad',
