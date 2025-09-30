@@ -48,7 +48,7 @@ $foto = $_SESSION['foto'] ?? null; // Obtener la foto de la sesión
         }
 
 
-        
+
 
         /* diseño de la sección de contacto */
         .contact-section {
@@ -173,7 +173,7 @@ $foto = $_SESSION['foto'] ?? null; // Obtener la foto de la sesión
             margin-bottom: 1rem;
             border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .accordion-body {
@@ -192,98 +192,107 @@ $foto = $_SESSION['foto'] ?? null; // Obtener la foto de la sesión
 
 
         .blur-container {
-        backdrop-filter: blur(8px);
-        background-color: rgba(255, 255, 255, 0.3); /* semitransparente */
-        padding: 20px;
-        border-radius: 10px;
+            backdrop-filter: blur(8px);
+            background-color: rgba(255, 255, 255, 0.3);
+            /* semitransparente */
+            padding: 20px;
+            border-radius: 10px;
         }
     </style>
 </head>
 
 <body>
-    <div class="container-fluid p-0 m-0 bg-light">
+    <div class="container-fluid p-2 bg-light">
 
         <!-- Header Section -->
-        <section class="text-center text-white d-flex flex-column">
-    <!-- Navbar -->
-    <div class="row" id="navbar">
-      <div class="col-12">
-        <nav class="navbar navbar-expand-lg">
-          <a class="navbar-brand me-auto" href="#">
-            <img src="image/icon.png" alt="Logo" width="85" height="60" class="d-inline-block align-text-top">
-          </a>
-          <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
-            aria-labelledby="offcanvasNavbarLabel">
-            <div class="offcanvas-header">
-              <h5 class="offcanvas-title" id="offcanvasNavbarLabel">CanchApp</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        <section class="text-center text-white d-flex flex-column"> a
+            <!-- Navbar -->
+            <div class="row" id="navbar">
+                <div class="col-12">
+                    <nav class="navbar navbar-expand-lg">
+                        <a class="navbar-brand me-auto" href="#">
+                            <img src="image/icon.png" alt="Logo" width="85" height="60"
+                                class="d-inline-block align-text-top">
+                        </a>
+                        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
+                            aria-labelledby="offcanvasNavbarLabel">
+                            <div class="offcanvas-header">
+                                <h5 class="offcanvas-title" id="offcanvasNavbarLabel">CanchApp</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="offcanvas-body">
+                                <ul class="navbar-nav justify-content-center flex-grow-1 pe-3">
+                                    <li class="nav-item">
+                                        <a class="nav-link mx-lg-2" aria-current="page" href="index.php">Inicio</a>
+                                    </li>
+                                    <?php if ($rol === 'duenio'): ?>
+                                        <li class="nav-item">
+                                            <a class="nav-link mx-lg-2" href="gestion.php">Gestión</a>
+                                        </li>
+                                    <?php endif; ?>
+                                    <?php if ($rol === 'duenio' || $rol === 'admin' || $rol === 'usuario'): ?>
+                                        <li class="nav-item">
+                                            <a class="nav-link mx-lg-2" href="buscador.php">Reservar</a>
+                                        </li>
+                                    <?php endif; ?>
+                                    <li class="nav-item">
+                                        <a class="nav-link mx-lg-2 active" href="acerca-de.php">Acerca de</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Sistema de login/logout integrado -->
+                        <?php if ($nombre): ?>
+                            <div class="dropdown">
+                                <button class="btn p-0 border-0" type="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    <?php if (!empty($foto)): ?>
+                                        <img src="uploads/usuarios/<?= htmlspecialchars($foto) ?>"
+                                            alt="Foto de perfil de <?= htmlspecialchars($nombre) ?>"
+                                            class="rounded-circle border border-2 border-white" width="40" height="40"
+                                            style="object-fit: cover;">
+                                    <?php else: ?>
+                                        <div class="rounded-circle border border-2 border-white d-flex align-items-center justify-content-center bg-secondary text-white"
+                                            style="width: 40px; height: 40px; font-size: 20px;">
+                                            👤
+                                        </div>
+                                    <?php endif; ?>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li>
+                                        <h6 class="dropdown-header">¡Hola, <?= htmlspecialchars($nombre) ?>!</h6>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <?php if ($rol === 'usuario'): ?>
+                                        <li><a class="dropdown-item" href="perfil_padel.php">
+                                                <i class="fas fa-user me-2"></i>Editar Perfil
+                                            </a></li>
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
+                                    <?php endif; ?>
+                                    <li><a class="dropdown-item text-danger" href="logout.php">
+                                            <i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión
+                                        </a></li>
+                                </ul>
+                            </div>
+                        <?php else: ?>
+                            <a href="inicioses.php" class="login-button btn btn-primary">Login</a>
+                        <?php endif; ?>
+
+                        <button class="navbar-toggler pe-0 ms-2" type="button" data-bs-toggle="offcanvas"
+                            data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar"
+                            aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                    </nav>
+                </div>
             </div>
-            <div class="offcanvas-body">
-              <ul class="navbar-nav justify-content-center flex-grow-1 pe-3">
-                <li class="nav-item">
-                  <a class="nav-link mx-lg-2 active" aria-current="page" href="index.php">Inicio</a>
-                </li>
-                <?php if ($rol === 'duenio'): ?>
-                  <li class="nav-item">
-                    <a class="nav-link mx-lg-2" href="gestion.php">Gestión</a>
-                  </li>
-                <?php endif; ?>
-                <?php if ($rol === 'duenio' || $rol === 'admin' || $rol === 'usuario'): ?>
-                <li class="nav-item">
-                  <a class="nav-link mx-lg-2" href="buscador.php">Reservar</a>
-                </li>
-                <?php endif;?>
-                <li class="nav-item">
-                  <a class="nav-link mx-lg-2" href="acerca-de.php">Acerca de</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-          
-          <!-- Sistema de login/logout integrado -->
-          <?php if ($nombre): ?>
-            <div class="dropdown">
-              <button class="btn p-0 border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <?php if (!empty($foto)): ?>
-                  <img src="uploads/usuarios/<?= htmlspecialchars($foto) ?>" 
-                       alt="Foto de perfil de <?= htmlspecialchars($nombre) ?>" 
-                       class="rounded-circle border border-2 border-white" 
-                       width="40" 
-                       height="40" 
-                       style="object-fit: cover;">
-                <?php else: ?>
-                  <div class="rounded-circle border border-2 border-white d-flex align-items-center justify-content-center bg-secondary text-white" 
-                       style="width: 40px; height: 40px; font-size: 20px;">
-                    👤
-                  </div>
-                <?php endif; ?>
-              </button>
-              <ul class="dropdown-menu dropdown-menu-end">
-                <li><h6 class="dropdown-header">¡Hola, <?= htmlspecialchars($nombre) ?>!</h6></li>
-                <li><hr class="dropdown-divider"></li>
-                <?php if ($rol === 'usuario'): ?>
-                  <li><a class="dropdown-item" href="perfil_padel.php">
-                    <i class="fas fa-user me-2"></i>Editar Perfil
-                  </a></li>
-                  <li><hr class="dropdown-divider"></li>
-                <?php endif; ?>
-                <li><a class="dropdown-item text-danger" href="logout.php">
-                  <i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión
-                </a></li>
-              </ul>
-            </div>
-          <?php else: ?>
-            <a href="inicioses.php" class="login-button btn btn-primary">Login</a>
-          <?php endif; ?>   
-          
-          <button class="navbar-toggler pe-0 ms-2" type="button" data-bs-toggle="offcanvas"
-            data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-        </nav>
-      </div>
-    </div>
-    <!-- Fin Navbar -->
+            <!-- Fin Navbar -->
 
 
 
@@ -510,68 +519,68 @@ $foto = $_SESSION['foto'] ?? null; // Obtener la foto de la sesión
             </div>
         </div>
 
-        
+
         <!-- Fin FAQ Section -->
 
         <!-- Contacto Section -->
-            <div class="row justify-content-center contact-section">
-                <div class="row text-center text-light mb-5">
-                    <div class="col-12">
-                        <h2 class="section-title">Contacto</h2>
-                        <p class="section-subtitle">¿Tienes alguna pregunta? Estamos aquí para ayudarte</p>
-                    </div>
-                </div>
-
-                <div class="row g-4">
-                    <div class="col-lg-3 col-md-6">
-                        <div class="contact-card">
-                            <i class="fas fa-envelope contact-icon"></i>
-                            <h5>Email</h5>
-                            <p class="main-text">info@padelreservas.com</p>
-                            <p class="sub-text">Respuesta en menos de 24 horas</p>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3 col-md-6">
-                        <div class="contact-card">
-                            <i class="fas fa-phone contact-icon"></i>
-                            <h5>Teléfono</h5>
-                            <p class="main-text">+34 900 123 456</p>
-                            <p class="sub-text">Lunes a Viernes, 9:00 - 18:00</p>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3 col-md-6">
-                        <div class="contact-card">
-                            <i class="fas fa-map-marker-alt contact-icon"></i>
-                            <h5>Oficina Central</h5>
-                            <p class="main-text">Madrid, España</p>
-                            <p class="sub-text">Calle del Pádel, 123</p>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3 col-md-6">
-                        <div class="contact-card">
-                            <i class="fas fa-clock contact-icon"></i>
-                            <h5>Soporte</h5>
-                            <p class="main-text">24/7 Online</p>
-                            <p class="sub-text">Chat en vivo disponible</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="contact-cta p-5">
-                    <h4 class="mb-3">¿Necesitas más información?</h4>
-                    <p class="mb-4">Nuestro equipo de soporte está listo para resolver todas tus dudas sobre la
-                        plataforma, reservas, pagos o cualquier aspecto técnico.</p>
-                    <button class="btn btn-primary-contact btn-contact">
-                        <i class="fas fa-envelope me-2"></i>Enviar Email
-                    </button>
-                    <button class="btn btn-outline-contact btn-contact">
-                        <i class="fas fa-phone me-2"></i>Llamar Ahora
-                    </button>
+        <div class="row justify-content-center contact-section">
+            <div class="row text-center text-light mb-5">
+                <div class="col-12">
+                    <h2 class="section-title">Contacto</h2>
+                    <p class="section-subtitle">¿Tienes alguna pregunta? Estamos aquí para ayudarte</p>
                 </div>
             </div>
+
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6">
+                    <div class="contact-card">
+                        <i class="fas fa-envelope contact-icon"></i>
+                        <h5>Email</h5>
+                        <p class="main-text">info@padelreservas.com</p>
+                        <p class="sub-text">Respuesta en menos de 24 horas</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="contact-card">
+                        <i class="fas fa-phone contact-icon"></i>
+                        <h5>Teléfono</h5>
+                        <p class="main-text">+34 900 123 456</p>
+                        <p class="sub-text">Lunes a Viernes, 9:00 - 18:00</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="contact-card">
+                        <i class="fas fa-map-marker-alt contact-icon"></i>
+                        <h5>Oficina Central</h5>
+                        <p class="main-text">Madrid, España</p>
+                        <p class="sub-text">Calle del Pádel, 123</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="contact-card">
+                        <i class="fas fa-clock contact-icon"></i>
+                        <h5>Soporte</h5>
+                        <p class="main-text">24/7 Online</p>
+                        <p class="sub-text">Chat en vivo disponible</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-cta p-5">
+                <h4 class="mb-3">¿Necesitas más información?</h4>
+                <p class="mb-4">Nuestro equipo de soporte está listo para resolver todas tus dudas sobre la
+                    plataforma, reservas, pagos o cualquier aspecto técnico.</p>
+                <button class="btn btn-primary-contact btn-contact">
+                    <i class="fas fa-envelope me-2"></i>Enviar Email
+                </button>
+                <button class="btn btn-outline-contact btn-contact">
+                    <i class="fas fa-phone me-2"></i>Llamar Ahora
+                </button>
+            </div>
+        </div>
         <!-- Fin Contacto Section -->
 
         <!-- Footer -->
@@ -609,6 +618,9 @@ $foto = $_SESSION['foto'] ?? null; // Obtener la foto de la sesión
         </footer>
         <!-- Fin Footer -->
 
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+            crossorigin="anonymous"></script>
 
     </div>
 

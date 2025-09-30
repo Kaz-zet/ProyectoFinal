@@ -5,38 +5,38 @@ $rol = $_SESSION['rol'] ?? null;
 $foto = $_SESSION['foto'] ?? null; // Obtener la foto de la sesión
 
 $reservarmsj = ''; //Se inicia la variable.
-$valoracionmsj= '';
-$ver='';
-$pedir="";
-$calendario="";
+$valoracionmsj = '';
+$ver = '';
+$pedir = "";
+$calendario = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') { //Esto hace q el login sea necesario unicamente cuando se activa algun boton o le pedis algo al servidor, si chusmeas no pasa nada.
-    if (!$rol) {
-        //Acá chusmea si está logueado, osea si tiene algún rol, sino lo manda al login.
-        header("Location: inicioses.php?redirect=" . urlencode($_SERVER['PHP_SELF']));
-        exit;
-    } 
-    
-    if (isset($_POST['reservar'])) {
-        $reservarmsj = "¡Reserva realizada con éxito!";
-    } elseif (isset($_POST['valorar'])) { //Adentro va el nombre del boton, entonces sería, si vos apretas el boton de reservar, te manda un mensaje y en este caso cada uno tiene color.
-        $valoracionmsj = "¡Valoración enviada!";
-    }
-    elseif (isset($_POST['ver'])) { 
-        $ver="¡!";
-    }
-    elseif (isset($_POST['pedir'])) {
-        $pedir = "¡!";
-    }
-    elseif (isset($_POST['calendario'])) { 
-        $calendario = "¡!";
-    }
+  if (!$rol) {
+    //Acá chusmea si está logueado, osea si tiene algún rol, sino lo manda al login.
+    header("Location: inicioses.php?redirect=" . urlencode($_SERVER['PHP_SELF']));
+    exit;
+  }
+
+  if (isset($_POST['reservar'])) {
+    $reservarmsj = "¡Reserva realizada con éxito!";
+  } elseif (isset($_POST['valorar'])) { //Adentro va el nombre del boton, entonces sería, si vos apretas el boton de reservar, te manda un mensaje y en este caso cada uno tiene color.
+    $valoracionmsj = "¡Valoración enviada!";
+  } elseif (isset($_POST['ver'])) {
+    $ver = "¡!";
+  } elseif (isset($_POST['pedir'])) {
+    $pedir = "¡!";
+  } elseif (isset($_POST['calendario'])) {
+    $calendario = "¡!";
+  }
 }
 
 // Redirects después del procesamiento
-if ($ver) header("Location: cancha.php");
-if ($pedir) header("Location: peticion.php");
-if ($calendario) header("Location: calendario.php");
+if ($ver)
+  header("Location: buscador.php");
+if ($pedir)
+  header("Location: peticion.php");
+if ($calendario)
+  header("Location: calendario.php");
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -78,53 +78,57 @@ if ($calendario) header("Location: calendario.php");
                   </li>
                 <?php endif; ?>
                 <?php if ($rol === 'duenio' || $rol === 'admin' || $rol === 'usuario'): ?>
-                <li class="nav-item">
-                  <a class="nav-link mx-lg-2" href="buscador.php">Reservar</a>
-                </li>
-                <?php endif;?>
+                  <li class="nav-item">
+                    <a class="nav-link mx-lg-2" href="buscador.php">Reservar</a>
+                  </li>
+                <?php endif; ?>
                 <li class="nav-item">
                   <a class="nav-link mx-lg-2" href="acerca-de.php">Acerca de</a>
                 </li>
               </ul>
             </div>
           </div>
-          
+
           <!-- Sistema de login/logout integrado -->
           <?php if ($nombre): ?>
             <div class="dropdown">
               <button class="btn p-0 border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <?php if (!empty($foto)): ?>
-                  <img src="uploads/usuarios/<?= htmlspecialchars($foto) ?>" 
-                       alt="Foto de perfil de <?= htmlspecialchars($nombre) ?>" 
-                       class="rounded-circle border border-2 border-white" 
-                       width="40" 
-                       height="40" 
-                       style="object-fit: cover;">
+                  <img src="uploads/usuarios/<?= htmlspecialchars($foto) ?>"
+                    alt="Foto de perfil de <?= htmlspecialchars($nombre) ?>"
+                    class="rounded-circle border border-2 border-white" width="40" height="40" style="object-fit: cover;">
                 <?php else: ?>
-                  <div class="rounded-circle border border-2 border-white d-flex align-items-center justify-content-center bg-secondary text-white" 
-                       style="width: 40px; height: 40px; font-size: 20px;">
+                  <div
+                    class="rounded-circle border border-2 border-white d-flex align-items-center justify-content-center bg-secondary text-white"
+                    style="width: 40px; height: 40px; font-size: 20px;">
                     👤
                   </div>
                 <?php endif; ?>
               </button>
               <ul class="dropdown-menu dropdown-menu-end">
-                <li><h6 class="dropdown-header">¡Hola, <?= htmlspecialchars($nombre) ?>!</h6></li>
-                <li><hr class="dropdown-divider"></li>
+                <li>
+                  <h6 class="dropdown-header">¡Hola, <?= htmlspecialchars($nombre) ?>!</h6>
+                </li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
                 <?php if ($rol === 'usuario'): ?>
                   <li><a class="dropdown-item" href="perfil_padel.php">
-                    <i class="fas fa-user me-2"></i>Editar Perfil
-                  </a></li>
-                  <li><hr class="dropdown-divider"></li>
+                      <i class="fas fa-user me-2"></i>Editar Perfil
+                    </a></li>
+                  <li>
+                    <hr class="dropdown-divider">
+                  </li>
                 <?php endif; ?>
                 <li><a class="dropdown-item text-danger" href="logout.php">
-                  <i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión
-                </a></li>
+                    <i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión
+                  </a></li>
               </ul>
             </div>
           <?php else: ?>
             <a href="inicioses.php" class="login-button btn btn-primary">Login</a>
           <?php endif; ?>
-          
+
           <button class="navbar-toggler pe-0 ms-2" type="button" data-bs-toggle="offcanvas"
             data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -138,17 +142,17 @@ if ($calendario) header("Location: calendario.php");
     <div class="row py-5 mb-5 mt-3" id="inicio">
       <div class="col-12 d-flex flex-column justify-content-center align-items-center text-center">
         <h1 class="text-center-left text-white">
-          Bienvenido <?= htmlspecialchars($nombre ?? 'a CanchApp') ?>!
+          Bienvenido/a <?= htmlspecialchars($nombre ?? 'a CanchApp') ?>!
         </h1>
         <p class="text-center-left text-white">Tu sitio de confianza para reservar o gestionar canchas.</p>
-        
+
         <!-- Botones de acción principales -->
         <div class="mt-3">
           <!-- Visible para todos -->
           <form method="post" class="d-inline">
             <button type="submit" name="ver" class="btn btn-success me-2">Ver Canchas</button>
           </form>
-          
+
           <!-- Solo para usuarios logueados -->
           <?php if ($rol === 'usuario'): ?>
             <form method="post" class="d-inline">
@@ -216,51 +220,51 @@ if ($calendario) header("Location: calendario.php");
 
     <!-- Panel de control para dueños -->
     <?php if ($rol === 'duenio'): ?>
-    <div class="row py-5 px-5 mt-5 bg-primary rounded shadow">
-      <div class="col-12 text-center mb-4">
-        <h2 class="text-white fw-bold mb-3">Panel de Dueño</h2>
-        <p class="text-light fs-5">Administra tus canchas y reservas desde aquí</p>
-      </div>
-      <div class="col-12 d-flex justify-content-center gap-4 flex-wrap">
-        <div class="card shadow-sm" style="width: 20rem;">
-          <div class="card-body text-center">
-            <h5 class="card-title text-primary fw-semibold">Agregar Cancha</h5>
-            <p class="card-text text-secondary">Añade nuevas canchas a tu inventario</p>
-            <a href="dueño.php" class="btn btn-primary w-100">Agregar</a>
+      <div class="row py-5 px-5 mt-5 bg-primary rounded shadow">
+        <div class="col-12 text-center mb-4">
+          <h2 class="text-white fw-bold mb-3">Panel de Dueño</h2>
+          <p class="text-light fs-5">Administra tus canchas y reservas desde aquí</p>
+        </div>
+        <div class="col-12 d-flex justify-content-center gap-4 flex-wrap">
+          <div class="card shadow-sm" style="width: 20rem;">
+            <div class="card-body text-center">
+              <h5 class="card-title text-primary fw-semibold">Agregar Cancha</h5>
+              <p class="card-text text-secondary">Añade nuevas canchas a tu inventario</p>
+              <a href="dueño.php" class="btn btn-primary w-100">Agregar</a>
+            </div>
+          </div>
+          <div class="card shadow-sm" style="width: 20rem;">
+            <div class="card-body text-center">
+              <h5 class="card-title text-success fw-semibold">Gestionar Reservas</h5>
+              <p class="card-text text-secondary">Administra las reservas de tus canchas</p>
+              <a href="gestion.php" class="btn btn-success w-100">Gestionar</a>
+            </div>
           </div>
         </div>
-        <div class="card shadow-sm" style="width: 20rem;">
-          <div class="card-body text-center">
-            <h5 class="card-title text-success fw-semibold">Gestionar Reservas</h5>
-            <p class="card-text text-secondary">Administra las reservas de tus canchas</p>
-            <a href="gestion_reservas.php" class="btn btn-success w-100">Gestionar</a>
-          </div>
-        </div>
       </div>
-    </div>
     <?php endif; ?>
 
     <!-- Mensajes de confirmación -->
     <?php if ($reservarmsj): ?>
-    <div class="row mt-3">
-      <div class="col-12">
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-          <?= $reservarmsj ?>
-          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      <div class="row mt-3">
+        <div class="col-12">
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <?= $reservarmsj ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+          </div>
         </div>
       </div>
-    </div>
     <?php endif; ?>
 
     <?php if ($valoracionmsj): ?>
-    <div class="row mt-3">
-      <div class="col-12">
-        <div class="alert alert-info alert-dismissible fade show" role="alert">
-          <?= $valoracionmsj ?>
-          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      <div class="row mt-3">
+        <div class="col-12">
+          <div class="alert alert-info alert-dismissible fade show" role="alert">
+            <?= $valoracionmsj ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+          </div>
         </div>
       </div>
-    </div>
     <?php endif; ?>
 
     <!-- Footer -->
@@ -296,7 +300,7 @@ if ($calendario) header("Location: calendario.php");
         </div>
       </div>
     </footer>
-  </div>    
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
