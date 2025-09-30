@@ -38,11 +38,11 @@ try {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['accion'] === 'editar') { //Utilizo el mismo filtro que al crear cancha pero en este caso saco su Id, y remplazo los datos utilizando esa ID.
     $id = $_POST['id_cancha'];
     $nombre = trim($_POST['nombre']);
-    $lugar  = trim($_POST['lugar']);
-    $bio  = trim($_POST['bio']);
+    $lugar = trim($_POST['lugar']);
+    $bio = trim($_POST['bio']);
     $precio = trim($_POST['precio']);
 
-    if ($nombre === '' || $lugar === '' || $bio === '' || $precio === '' ) {
+    if ($nombre === '' || $lugar === '' || $bio === '' || $precio === '') {
         $msgError[$id] = "Completa todos los campos.";
     } else {
         try {
@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['accion'] === 'editar') { //
                 $msgOk[$id] = "Cancha editada correctamente.";
 
                 $_SESSION['msgOk'] = "Cancha editada correctamente.";
-                header("Location: ".$_SERVER['PHP_SELF']);
+                header("Location: " . $_SERVER['PHP_SELF']);
                 exit;
             }
         } catch (Throwable $e) {
@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['accion'] === 'editar') { //
 // Cancelar reserva
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) {
     $id_reserva = $_POST['id_reserva'] ?? '';
-    
+
     if (!empty($id_reserva)) {
         try {
             $stmt = $pdo->prepare("
@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
             ");
             $stmt->execute([$id_reserva, $id_duenio]);
             $reserva = $stmt->fetch();
-            
+
             if ($reserva) {
                 $stmt = $pdo->prepare("UPDATE reserva SET estado = 'cancelada' WHERE id_reserva = ?");
                 $stmt->execute([$id_reserva]);
@@ -95,9 +95,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
 }
 
 // Obtener reservas del dueño
-function obtenerreservasduenio($pdo, $id_duenio, $fecha_desde = null, $filtro_estado = 'todas') {
+function obtenerreservasduenio($pdo, $id_duenio, $fecha_desde = null, $filtro_estado = 'todas')
+{
     $fecha_desde = $fecha_desde ?: date('Y-m-d');
-    
+
     $sql = "
         SELECT 
             r.id_reserva,
@@ -118,16 +119,16 @@ function obtenerreservasduenio($pdo, $id_duenio, $fecha_desde = null, $filtro_es
         INNER JOIN usuario u ON r.id_usuario = u.id_usuario
         WHERE c.id_duenio = ? AND r.fecha >= ?
     ";
-    
+
     $params = [$id_duenio, $fecha_desde];
-    
+
     if ($filtro_estado !== 'todas') {
         $sql .= " AND r.estado = ?";
         $params[] = $filtro_estado;
     }
-    
+
     $sql .= " ORDER BY r.fecha ASC, r.hora_inicio ASC";
-    
+
     $stmt = $pdo->prepare($sql);
     $stmt->execute($params);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -139,66 +140,68 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Control - Dueño</title>
-    
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    
+
     <style>
         body {
             background-color: #f8f9fa;
         }
-        
+
         .main-container {
             min-height: 100vh;
         }
-        
+
         .navbar {
             background: linear-gradient(135deg, #3f9c43ff 0%, #52a24bff 100%);
         }
-        
+
         .navbar-brand img {
             filter: brightness(0) invert(1);
         }
-        
+
         .nav-link {
             color: black !important;
             font-weight: 500;
             transition: all 0.3s ease;
         }
-        
-        .nav-link:hover, .nav-link.active {
+
+        .nav-link:hover,
+        .nav-link.active {
             color: #ffd43b !important;
             transform: translateY(-2px);
         }
-        
+
         .hero-section {
             background: linear-gradient(135deg, #3f9c43ff 0%, #52a24bff 100%);
             color: white;
             padding: 3rem 0;
             margin-bottom: 2rem;
         }
-        
+
         .section-card {
             background: white;
             border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             border: none;
             margin-bottom: 2rem;
         }
-        
+
         .section-header {
             background: linear-gradient(135deg, #f8f9fa, #e9ecef);
             border-radius: 15px 15px 0 0;
             padding: 1.5rem;
             border-bottom: 1px solid #dee2e6;
         }
-        
+
         .btn-primary {
             background: linear-gradient(135deg, #3f9c43ff, #52a24bff);
             border: none;
@@ -207,45 +210,45 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
             font-weight: 500;
             transition: all 0.3s ease;
         }
-        
+
         .btn-primary:hover {
             background: linear-gradient(135deg, #35803a, #468a42);
             transform: translateY(-2px);
         }
-        
+
         .btn-warning {
             background: linear-gradient(135deg, #ffc107, #e0a800);
             border: none;
             color: #212529;
             font-weight: 500;
         }
-        
+
         .btn-warning:hover {
             background: linear-gradient(135deg, #e0a800, #d39e00);
             color: #212529;
         }
-        
+
         .btn-danger {
             background: linear-gradient(135deg, #dc3545, #c82333);
             border: none;
         }
-        
+
         .btn-danger:hover {
             background: linear-gradient(135deg, #c82333, #bd2130);
             transform: translateY(-2px);
         }
-        
+
         .alert {
             border: none;
             border-radius: 10px;
             padding: 1rem 1.5rem;
         }
-        
+
         .table {
             border-radius: 10px;
             overflow: hidden;
         }
-        
+
         .table thead th {
             background: #495057;
             color: white;
@@ -253,23 +256,23 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
             padding: 1rem;
             font-weight: 500;
         }
-        
+
         .table tbody td {
             padding: 1rem;
             border-color: #f8f9fa;
             vertical-align: middle;
         }
-        
+
         .table tbody tr:hover {
             background-color: #f8f9fa;
         }
-        
+
         .badge {
             padding: 0.5rem 0.75rem;
             border-radius: 20px;
             font-weight: 500;
         }
-        
+
         .codigo-reserva {
             background: linear-gradient(135deg, #28a745, #20c997);
             color: white;
@@ -279,44 +282,44 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
             letter-spacing: 1px;
             font-family: 'Courier New', monospace;
         }
-        
+
         .cancha-card {
             transition: transform 0.3s ease;
             border: none;
             border-radius: 15px;
             overflow: hidden;
         }
-        
+
         .status-badge {
             font-size: 0.75rem;
             padding: 0.375rem 0.75rem;
         }
-        
+
         .filtros-section {
             background: #f8f9fa;
             padding: 1.5rem;
             border-radius: 10px;
             margin-bottom: 1.5rem;
         }
-        
+
         .nav-tabs .nav-link {
             color: #495057;
             border: none;
             border-radius: 8px 8px 0 0;
             margin-right: 5px;
         }
-        
+
         .nav-tabs .nav-link.active {
             background: linear-gradient(135deg, #3f9c43ff, #52a24bff);
             color: white;
             border: none;
         }
-        
+
         .nav-tabs .nav-link:hover {
             background: #e9ecef;
             border: none;
         }
-        
+
         .nav-tabs .nav-link.active:hover {
             background: linear-gradient(135deg, #3f9c43ff, #52a24bff);
         }
@@ -330,15 +333,19 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
             <div class="col-12">
                 <nav class="navbar navbar-expand-lg">
                     <a class="navbar-brand me-auto" href="#">
-                        <img src="image/icon.png" alt="Logo" width="85" height="60" class="d-inline-block align-text-top">
+                        <img src="image/icon.png" alt="Logo" width="85" height="60"
+                            class="d-inline-block align-text-top">
                     </a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
+                        aria-labelledby="offcanvasNavbarLabel">
                         <div class="offcanvas-header">
                             <h5 class="offcanvas-title" id="offcanvasNavbarLabel">CanchApp</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+                                aria-label="Close"></button>
                         </div>
                         <div class="offcanvas-body">
                             <ul class="navbar-nav justify-content-center flex-grow-1 pe-3">
@@ -380,7 +387,7 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             <?php endif; ?>
-            
+
             <?php if (!empty($error)): ?>
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     <i class="fas fa-exclamation-circle me-2"></i>
@@ -392,12 +399,14 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
             <!-- Tabs Para ver reservas y canchas --------------------------------->
             <ul class="nav nav-tabs mb-4" id="managementTabs" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="courts-tab" data-bs-toggle="tab" data-bs-target="#courts" type="button" role="tab">
+                    <button class="nav-link active" id="courts-tab" data-bs-toggle="tab" data-bs-target="#courts"
+                        type="button" role="tab">
                         <i class="fas fa-tennis-ball me-2"></i>Canchas
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="bookings-tab" data-bs-toggle="tab" data-bs-target="#bookings" type="button" role="tab">
+                    <button class="nav-link" id="bookings-tab" data-bs-toggle="tab" data-bs-target="#bookings"
+                        type="button" role="tab">
                         <i class="fas fa-calendar-alt me-2"></i>Reservas
                     </button>
                 </li>
@@ -442,19 +451,22 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
                                                         <?= htmlspecialchars($cancha['lugar']) ?>
                                                     </p>
                                                     <p class="card-text mb-2">
-                                                        <strong>Precio:</strong> $<?= number_format($cancha['precio'], 0, ',', '.') ?> por hora
+                                                        <strong>Precio:</strong>
+                                                        $<?= number_format($cancha['precio'], 0, ',', '.') ?> por hora
                                                     </p>
                                                     <p class="card-text mb-3">
                                                         <strong>Capacidad:</strong> 4 jugadores
                                                     </p>
-                                                    
+
                                                     <div class="btn-group w-100">
-                                                        <form method="post" action="eliminar_cancha.php" style="display:inline;" onsubmit="return confirm('¿Seguro que querés eliminar esta cancha?');">
-                                                            <input type="hidden" name="borrarcancha" value="<?= (int)$cancha['id_cancha'] ?>">
+                                                        <form method="post" action="eliminar_cancha.php" style="display:inline;"
+                                                            onsubmit="return confirm('¿Seguro que querés eliminar esta cancha?');">
+                                                            <input type="hidden" name="borrarcancha"
+                                                                value="<?= (int) $cancha['id_cancha'] ?>">
                                                             <button type="submit">Borrar</button>
                                                         </form>
                                                         <!--BOTON PARA EDITAR-->
-                        <button onclick="abrirModal(
+                                                        <button onclick="abrirModal(
                         '<?= $cancha['id_cancha'] ?>',
                         '<?= htmlspecialchars($cancha['nombre']) ?>',
                         '<?= htmlspecialchars($cancha['lugar']) ?>',
@@ -463,39 +475,47 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
                         '<?= htmlspecialchars($cancha['foto']) ?>'
                         )">Editar</button>
 
-                        <!--POPUP PARA EDITAR CANCHA-->
-                        <div id="modalEditar" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999;">
-                        <div style="background:#fff; padding:20px; margin:10% auto; width:300px; border-radius:10px;">
-                            <h2>Editar Cancha</h2>
-                            <form method="post">
-                            <input type="hidden" name="id_cancha" id="edit_id">
-                            <input type="text" name="nombre" id="edit_nombre" required><br><br>
-                            <input type="text" name="lugar" id="edit_lugar" required><br><br>
-                            <input type="text" name="bio" id="edit_bio" required><br><br>
-                            <input type="integer" name="precio" id="edit_precio" required><br><br>
-                            <input type="file" name="foto" id="edit_foto"><br><br>
-                            <button type="submit" name="accion" value="editar">Guardar</button>
-                            <button type="button" onclick="cerrarModal()">Cancelar</button>
-                            </form>
-                        </div>
-                        </div>
+                                                        <!--POPUP PARA EDITAR CANCHA-->
+                                                        <div id="modalEditar"
+                                                            style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999;">
+                                                            <div
+                                                                style="background:#fff; padding:20px; margin:10% auto; width:300px; border-radius:10px;">
+                                                                <h2>Editar Cancha</h2>
+                                                                <form method="post">
+                                                                    <input type="hidden" name="id_cancha" id="edit_id">
+                                                                    <input type="text" name="nombre" id="edit_nombre"
+                                                                        required><br><br>
+                                                                    <input type="text" name="lugar" id="edit_lugar"
+                                                                        required><br><br>
+                                                                    <input type="text" name="bio" id="edit_bio"
+                                                                        required><br><br>
+                                                                    <input type="integer" name="precio" id="edit_precio"
+                                                                        required><br><br>
+                                                                    <input type="file" name="foto" id="edit_foto"><br><br>
+                                                                    <button type="submit" name="accion"
+                                                                        value="editar">Guardar</button>
+                                                                    <button type="button"
+                                                                        onclick="cerrarModal()">Cancelar</button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
 
 
-                        <!--SCRIPT PARA EL POPUP-->
-                        <script>
-                        function abrirModal(id, nombre, lugar, bio, precio, foto) {
-                        document.getElementById('modalEditar').style.display = 'block';
-                        document.getElementById('edit_id').value = id;
-                        document.getElementById('edit_nombre').value = nombre;
-                        document.getElementById('edit_lugar').value = lugar;
-                        document.getElementById('edit_bio').value = bio;
-                        document.getElementById('edit_precio').value = precio;
-                        document.getElementById('edit_foto').value = foto;
-                        }
-                        function cerrarModal() {
-                        document.getElementById('modalEditar').style.display = 'none';
-                        }
-                        </script>
+                                                        <!--SCRIPT PARA EL POPUP-->
+                                                        <script>
+                                                            function abrirModal(id, nombre, lugar, bio, precio, foto) {
+                                                                document.getElementById('modalEditar').style.display = 'block';
+                                                                document.getElementById('edit_id').value = id;
+                                                                document.getElementById('edit_nombre').value = nombre;
+                                                                document.getElementById('edit_lugar').value = lugar;
+                                                                document.getElementById('edit_bio').value = bio;
+                                                                document.getElementById('edit_precio').value = precio;
+                                                                document.getElementById('edit_foto').value = foto;
+                                                            }
+                                                            function cerrarModal() {
+                                                                document.getElementById('modalEditar').style.display = 'none';
+                                                            }
+                                                        </script>
                                                     </div>
                                                 </div>
                                             </div>
@@ -531,13 +551,16 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
                                 <div class="row align-items-end">
                                     <div class="col-md-3">
                                         <label for="fechaDesde" class="form-label">Desde:</label>
-                                        <input type="date" class="form-control" id="fechaDesde" name="desde" value="<?= $_GET['desde'] ?? date('Y-m-d') ?>">
+                                        <input type="date" class="form-control" id="fechaDesde" name="desde"
+                                            value="<?= $_GET['desde'] ?? date('Y-m-d') ?>">
                                     </div>
                                     <div class="col-md-3">
                                         <label for="estadoFiltro" class="form-label">Estado:</label>
                                         <select class="form-select" id="estadoFiltro" name="estado">
-                                            <option value="todas" <?= $filtro_estado === 'todas' ? 'selected' : '' ?>>Todas</option>
-                                            <option value="activa" <?= $filtro_estado === 'activa' ? 'selected' : '' ?>>Activas</option>
+                                            <option value="todas" <?= $filtro_estado === 'todas' ? 'selected' : '' ?>>Todas
+                                            </option>
+                                            <option value="activa" <?= $filtro_estado === 'activa' ? 'selected' : '' ?>>
+                                                Activas</option>
                                             <option value="cancelada" <?= $filtro_estado === 'cancelada' ? 'selected' : '' ?>>Canceladas</option>
                                         </select>
                                     </div>
@@ -568,23 +591,27 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
                                             <?php foreach ($reservas as $reserva): ?>
                                                 <tr>
                                                     <td>
-                                                        <span class="codigo-reserva"><?= htmlspecialchars($reserva['codigo_reserva']) ?></span>
+                                                        <span
+                                                            class="codigo-reserva"><?= htmlspecialchars($reserva['codigo_reserva']) ?></span>
                                                     </td>
                                                     <td>
                                                         <strong><?= htmlspecialchars($reserva['cancha_nombre']) ?></strong><br>
-                                                        <small class="text-muted"><?= htmlspecialchars($reserva['cancha_lugar']) ?></small>
+                                                        <small
+                                                            class="text-muted"><?= htmlspecialchars($reserva['cancha_lugar']) ?></small>
                                                     </td>
                                                     <td>
                                                         <strong><?= htmlspecialchars($reserva['usuario_nombre']) ?></strong><br>
-                                                        <small class="text-muted"><?= htmlspecialchars($reserva['usuario_email']) ?></small>
+                                                        <small
+                                                            class="text-muted"><?= htmlspecialchars($reserva['usuario_email']) ?></small>
                                                     </td>
                                                     <td><?= date('d/m/Y', strtotime($reserva['fecha'])) ?></td>
                                                     <td>
-                                                        <?= date('H:i', strtotime($reserva['hora_inicio'])) ?> - 
+                                                        <?= date('H:i', strtotime($reserva['hora_inicio'])) ?> -
                                                         <?= date('H:i', strtotime($reserva['hora_final'])) ?>
                                                     </td>
                                                     <td>
-                                                        <span class="badge bg-info"><?= $reserva['espacios_reservados'] ?>/4</span>
+                                                        <span
+                                                            class="badge bg-info"><?= $reserva['espacios_reservados'] ?>/4</span>
                                                     </td>
                                                     <td>
                                                         <?php if ($reserva['estado'] === 'activa'): ?>
@@ -595,9 +622,12 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
                                                     </td>
                                                     <td>
                                                         <?php if ($reserva['estado'] === 'activa'): ?>
-                                                            <form method="POST" style="display: inline;" onsubmit="return confirm('¿Estás seguro de cancelar esta reserva?')">
-                                                                <input type="hidden" name="id_reserva" value="<?= $reserva['id_reserva'] ?>">
-                                                                <button type="submit" name="cancelar_reserva" class="btn btn-danger btn-sm">
+                                                            <form method="POST" style="display: inline;"
+                                                                onsubmit="return confirm('¿Estás seguro de cancelar esta reserva?')">
+                                                                <input type="hidden" name="id_reserva"
+                                                                    value="<?= $reserva['id_reserva'] ?>">
+                                                                <button type="submit" name="cancelar_reserva"
+                                                                    class="btn btn-danger btn-sm">
                                                                     <i class="fas fa-times me-1"></i>Cancelar
                                                                 </button>
                                                             </form>
@@ -658,24 +688,25 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
+
     <script>
         function filtrarReservas() {
             const fechaDesde = document.getElementById('fechaDesde').value;
             const estado = document.getElementById('estadoFiltro').value;
-            
+
             let url = window.location.pathname + '?';
             const params = [];
-            
+
             if (fechaDesde) {
                 params.push('desde=' + encodeURIComponent(fechaDesde));
             }
             if (estado) {
                 params.push('estado=' + encodeURIComponent(estado));
             }
-            
+
             window.location.href = url + params.join('&');
         }
     </script>
 </body>
+
 </html>
