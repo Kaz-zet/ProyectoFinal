@@ -16,7 +16,6 @@ try {
     $stmt = $pdo->prepare("SELECT * FROM usuario WHERE id_usuario = ?");
     $stmt->execute([$id_usuario]);
     $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
-    
     if (!$usuario) {
         die("Usuario no encontrado.");
     }
@@ -27,7 +26,6 @@ try {
 // CANCELAR RESERVA
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) {
     $id_reserva = $_POST['id_reserva'] ?? '';
-    
     if (!empty($id_reserva)) {
         try {
             $stmt = $pdo->prepare("
@@ -36,16 +34,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
             ");
             $stmt->execute([$id_reserva, $id_usuario]);
             $reserva = $stmt->fetch();
-            
             if ($reserva) {
                 $fecha_hora_reserva = $reserva['fecha'] . ' ' . $reserva['hora_inicio'];
                 $ts_reserva = strtotime($fecha_hora_reserva);
                 $ts_actual = time();
-                
+
                 if ($ts_reserva > $ts_actual) {
                     $stmt = $pdo->prepare("UPDATE reserva SET estado = 'cancelada' WHERE id_reserva = ?");
                     $stmt->execute([$id_reserva]);
-                    
+
                     $msg = "Reserva cancelada exitosamente. Código: " . $reserva['codigo_reserva'];
                 } else {
                     $error = "No puedes cancelar una reserva que ya comenzó o pasó.";
@@ -73,7 +70,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['actualizar_datos'])) 
         try {
             $stmt = $pdo->prepare("SELECT id_usuario FROM usuario WHERE email = ? AND id_usuario != ?");
             $stmt->execute([$email, $id_usuario]);
-            
             if ($stmt->fetch()) {
                 $error = 'Este email ya está en uso por otro usuario.';
             } else {
@@ -82,7 +78,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['actualizar_datos'])) 
                 if (isset($_FILES['foto']) && $_FILES['foto']['error'] === 0) {
                     $allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
                     $maxSize = 5 * 1024 * 1024;
-                    
                     if (!in_array($_FILES['foto']['type'], $allowedTypes)) {
                         $error = 'Solo se permiten archivos JPG, JPEG y PNG.';
                     } elseif ($_FILES['foto']['size'] > $maxSize) {
@@ -91,15 +86,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['actualizar_datos'])) 
                         if (!file_exists('uploads/usuarios')) {
                             mkdir('uploads/usuarios', 0777, true);
                         }
-                        
+
                         if ($usuario['foto'] && file_exists('uploads/usuarios/' . $usuario['foto'])) {
                             unlink('uploads/usuarios/' . $usuario['foto']);
                         }
-                        
+
                         $extension = pathinfo($_FILES['foto']['name'], PATHINFO_EXTENSION);
                         $filename = 'usuario_' . $id_usuario . '_' . time() . '.' . $extension;
                         $uploadPath = 'uploads/usuarios/' . $filename;
-                        
+
                         if (move_uploaded_file($_FILES['foto']['tmp_name'], $uploadPath)) {
                             $foto_final = $filename;
                         } else {
@@ -115,15 +110,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['actualizar_datos'])) 
                         WHERE id_usuario = ?
                     ");
                     $stmt->execute([$nombre, $email, $telefono, $foto_final, $id_usuario]);
-                    
+
                     $_SESSION['nombre'] = $nombre;
-                    
+
                     // Recargar datos del usuario
                     $usuario['nombre'] = $nombre;
                     $usuario['email'] = $email;
                     $usuario['telefono'] = $telefono;
                     $usuario['foto'] = $foto_final;
-                    
                     $msg = 'Datos actualizados correctamente.';
                 }
             }
@@ -149,7 +143,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cambiar_password'])) 
         try {
             $stmt = $pdo->prepare("UPDATE usuario SET contrasena = ? WHERE id_usuario = ?");
             $stmt->execute([$nueva_password, $id_usuario]);
-            
             $usuario['contrasena'] = $nueva_password;
             $msg = 'Contraseña cambiada correctamente.';
         } catch (PDOException $e) {
@@ -189,16 +182,16 @@ try {
     ");
     $stmt->execute([$id_usuario]);
     $reservas = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
+
     // Separar reservas próximas y historial
-    $reservas_proximas = array_filter($reservas, function($r) {
+    $reservas_proximas = array_filter($reservas, function ($r) {
         return $r['estado'] === 'activa' && ($r['estado_calculado'] === 'confirmada' || $r['estado_calculado'] === 'hoy');
     });
-    
-    $historial = array_filter($reservas, function($r) {
+
+    $historial = array_filter($reservas, function ($r) {
         return $r['estado_calculado'] === 'completado' || $r['estado'] === 'cancelada';
     });
-    
+
 } catch (PDOException $e) {
     $reservas_proximas = [];
     $historial = [];
@@ -228,7 +221,7 @@ try {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        .color-header-bg{
+        .color-header-bg {
             background: linear-gradient(135deg, var(--padel-primary) 0%, var(--padel-secondary) 100%);
         }
 
@@ -351,7 +344,7 @@ try {
             height: 120px;
             border-radius: 50%;
             border: 4px solid white;
-            background: rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.2);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -362,26 +355,28 @@ try {
 </head>
 
 <body>
-    <div class="container-fluid p-2 d-flex-justify-content-center bg-dark" style="background-image: url('image/padel-fondo.jpg'); background-size: cover; background-repeat: no-repeat;">
+    <div class="container-fluid p-2 d-flex-justify-content-center bg-dark"
+        style="background-image: url('image/padel-fondo.jpg'); background-size: cover; background-repeat: no-repeat;">
         <div class="color-header-bg">
             <!-- Header del Perfil -->
             <div class="profile-header">
                 <div class="container">
                     <div class="row align-items-center">
                         <div class="col-md-9">
-                            <button class="btn btn-dark" onclick="history.back()">
-                            ← Volver 
-                            </button>
                             <h2 class="mb-2"><?= htmlspecialchars($usuario['nombre']) ?></h2>
-                            <p class="mb-1"><i class="fas fa-envelope me-2"></i><?= htmlspecialchars($usuario['email']) ?></p>
+                            <p class="mb-1"><i
+                                    class="fas fa-envelope me-2"></i><?= htmlspecialchars($usuario['email']) ?></p>
                             <?php if ($usuario['telefono']): ?>
-                            <p class="mb-1"><i class="fas fa-phone me-2"></i><?= htmlspecialchars($usuario['telefono']) ?></p>
+                                <p class="mb-1"><i
+                                        class="fas fa-phone me-2"></i><?= htmlspecialchars($usuario['telefono']) ?></p>
                             <?php endif; ?>
-                            <p class="mb-0"><i class="fas fa-calendar me-2"></i>Miembro desde el <?= date('d \d\e F Y', strtotime($usuario['fecha_registro'])) ?></p>
+                            <p class="mb-0"><i class="fas fa-calendar me-2"></i>Miembro desde el
+                                <?= date('d \d\e F Y', strtotime($usuario['fecha_registro'])) ?></p>
                         </div>
                         <div class="col-md-3 text-center">
                             <?php if (!empty($usuario['foto'])): ?>
-                                <img src="uploads/usuarios/<?= htmlspecialchars($usuario['foto']) ?>" alt="Avatar" class="profile-avatar">
+                                <img src="uploads/usuarios/<?= htmlspecialchars($usuario['foto']) ?>" alt="Avatar"
+                                    class="profile-avatar">
                             <?php else: ?>
                                 <div class="avatar-placeholder">👤</div>
                             <?php endif; ?>
@@ -399,7 +394,6 @@ try {
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             <?php endif; ?>
-            
             <?php if (!empty($error)): ?>
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     <?= htmlspecialchars($error) ?>
@@ -438,7 +432,8 @@ try {
                                 <div class="col-lg-12">
                                     <div class="card">
                                         <div class="card-header">
-                                            <h5 class="mb-0"><i class="fas fa-calendar-alt me-2"></i>Próximas Reservas</h5>
+                                            <h5 class="mb-0"><i class="fas fa-calendar-alt me-2"></i>Próximas Reservas
+                                            </h5>
                                         </div>
                                         <div class="card-body">
                                             <?php if (!empty($reservas_proximas)): ?>
@@ -446,31 +441,41 @@ try {
                                                     <div class="reservation-item">
                                                         <div class="row align-items-center">
                                                             <div class="col-md-4">
-                                                                <h6 class="mb-1"><?= htmlspecialchars($reserva['cancha_nombre']) ?></h6>
+                                                                <h6 class="mb-1">
+                                                                    <?= htmlspecialchars($reserva['cancha_nombre']) ?></h6>
                                                                 <p class="text-muted mb-1">
-                                                                    <i class="fas fa-calendar me-1"></i><?= date('l, d M Y', strtotime($reserva['fecha'])) ?>
-                                                                    <i class="fas fa-clock ms-3 me-1"></i><?= substr($reserva['hora_inicio'], 0, 5) ?> - <?= substr($reserva['hora_final'], 0, 5) ?>
+                                                                    <i
+                                                                        class="fas fa-calendar me-1"></i><?= date('l, d M Y', strtotime($reserva['fecha'])) ?>
+                                                                    <i
+                                                                        class="fas fa-clock ms-3 me-1"></i><?= substr($reserva['hora_inicio'], 0, 5) ?>
+                                                                    - <?= substr($reserva['hora_final'], 0, 5) ?>
                                                                 </p>
                                                                 <small class="text-muted">
-                                                                    <i class="fas fa-map-marker-alt me-1"></i><?= htmlspecialchars($reserva['cancha_lugar']) ?>
+                                                                    <i
+                                                                        class="fas fa-map-marker-alt me-1"></i><?= htmlspecialchars($reserva['cancha_lugar']) ?>
                                                                 </small>
                                                             </div>
                                                             <div class="col-md-4 text-center">
                                                                 <h6 class="mb-1">Código de Reserva</h6>
-                                                                <span class="codigo-reserva"><?= htmlspecialchars($reserva['codigo_reserva']) ?></span>
-                                                                <p class="text-muted mt-2 mb-0">Espacios: <?= $reserva['espacios_reservados'] ?>/4</p>
+                                                                <span
+                                                                    class="codigo-reserva"><?= htmlspecialchars($reserva['codigo_reserva']) ?></span>
+                                                                <p class="text-muted mt-2 mb-0">Espacios:
+                                                                    <?= $reserva['espacios_reservados'] ?>/4</p>
                                                             </div>
                                                             <div class="col-md-4 text-end">
                                                                 <?php
                                                                 $estado_class = $reserva['estado_calculado'] === 'hoy' ? 'status-pending' : 'status-confirmed';
                                                                 $estado_text = $reserva['estado_calculado'] === 'hoy' ? 'Hoy' : 'Confirmada';
                                                                 ?>
-                                                                <span class="status-badge <?= $estado_class ?> mb-2 d-block"><?= $estado_text ?></span>
+                                                                <span
+                                                                    class="status-badge <?= $estado_class ?> mb-2 d-block"><?= $estado_text ?></span>
                                                                 <?php if ($reserva['estado_calculado'] === 'confirmada'): ?>
-                                                                    <form method="post" style="display: inline;" 
-                                                                          onsubmit="return confirm('¿Estás seguro de que quieres cancelar esta reserva?');">
-                                                                        <input type="hidden" name="id_reserva" value="<?= $reserva['id_reserva'] ?>">
-                                                                        <button type="submit" name="cancelar_reserva" class="btn btn-sm btn-outline-danger">Cancelar</button>
+                                                                    <form method="post" style="display: inline;"
+                                                                        onsubmit="return confirm('¿Estás seguro de que quieres cancelar esta reserva?');">
+                                                                        <input type="hidden" name="id_reserva"
+                                                                            value="<?= $reserva['id_reserva'] ?>">
+                                                                        <button type="submit" name="cancelar_reserva"
+                                                                            class="btn btn-sm btn-outline-danger">Cancelar</button>
                                                                     </form>
                                                                 <?php endif; ?>
                                                             </div>
@@ -497,22 +502,26 @@ try {
                                 <div class="col-lg-8">
                                     <div class="card">
                                         <div class="card-header">
-                                            <h5 class="mb-0"><i class="fas fa-user-edit me-2"></i>Información Personal</h5>
+                                            <h5 class="mb-0"><i class="fas fa-user-edit me-2"></i>Información Personal
+                                            </h5>
                                         </div>
                                         <div class="card-body">
                                             <form method="POST" enctype="multipart/form-data">
                                                 <div class="row">
                                                     <div class="col-12 mb-3">
                                                         <label class="form-label">Foto de Perfil</label>
-                                                        <input type="file" name="foto" class="form-control" accept="image/*">
-                                                        <small class="text-muted">Formatos: JPG, JPEG, PNG. Máximo 5MB.</small>
+                                                        <input type="file" name="foto" class="form-control"
+                                                            accept="image/*">
+                                                        <small class="text-muted">Formatos: JPG, JPEG, PNG. Máximo
+                                                            5MB.</small>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-6 mb-3">
                                                         <label class="form-label">Nombre</label>
-                                                        <input type="text" name="nombre" class="form-control" 
-                                                               value="<?= htmlspecialchars($usuario['nombre']) ?>" required>
+                                                        <input type="text" name="nombre" class="form-control"
+                                                            value="<?= htmlspecialchars($usuario['nombre']) ?>"
+                                                            required>
                                                     </div>
                                                     <div class="col-md-6 mb-3">
                                                         <label class="form-label">Email</label>
@@ -523,8 +532,8 @@ try {
                                                 <div class="row">
                                                     <div class="col-md-6 mb-3">
                                                         <label class="form-label">Teléfono</label>
-                                                        <input type="tel" name="telefono" class="form-control" 
-                                                               value="<?= htmlspecialchars($usuario['telefono'] ?? '') ?>">
+                                                        <input type="tel" name="telefono" class="form-control"
+                                                            value="<?= htmlspecialchars($usuario['telefono'] ?? '') ?>">
                                                     </div>
                                                 </div>
                                                 <button type="submit" name="actualizar_datos" class="btn btn-primary">
@@ -544,17 +553,21 @@ try {
                                             <form method="POST">
                                                 <div class="mb-3">
                                                     <label class="form-label">Contraseña Actual</label>
-                                                    <input type="password" name="password_actual" class="form-control" required>
+                                                    <input type="password" name="password_actual" class="form-control"
+                                                        required>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label class="form-label">Nueva Contraseña</label>
-                                                    <input type="password" name="nueva_password" class="form-control" required>
+                                                    <input type="password" name="nueva_password" class="form-control"
+                                                        required>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label class="form-label">Confirmar Contraseña</label>
-                                                    <input type="password" name="confirmar_password" class="form-control" required>
+                                                    <input type="password" name="confirmar_password"
+                                                        class="form-control" required>
                                                 </div>
-                                                <button type="submit" name="cambiar_password" class="btn btn-primary w-100">
+                                                <button type="submit" name="cambiar_password"
+                                                    class="btn btn-primary w-100">
                                                     Cambiar Contraseña
                                                 </button>
                                             </form>
@@ -578,21 +591,28 @@ try {
                                                     <div class="col-md-8">
                                                         <h6 class="mb-1"><?= htmlspecialchars($reserva['cancha_nombre']) ?></h6>
                                                         <p class="text-muted mb-1">
-                                                            <i class="fas fa-calendar me-1"></i><?= date('l, d M Y', strtotime($reserva['fecha'])) ?>
-                                                            <i class="fas fa-clock ms-3 me-1"></i><?= substr($reserva['hora_inicio'], 0, 5) ?> - <?= substr($reserva['hora_final'], 0, 5) ?>
+                                                            <i
+                                                                class="fas fa-calendar me-1"></i><?= date('l, d M Y', strtotime($reserva['fecha'])) ?>
+                                                            <i
+                                                                class="fas fa-clock ms-3 me-1"></i><?= substr($reserva['hora_inicio'], 0, 5) ?>
+                                                            - <?= substr($reserva['hora_final'], 0, 5) ?>
                                                         </p>
                                                         <small class="text-muted">
-                                                            <i class="fas fa-map-marker-alt me-1"></i><?= htmlspecialchars($reserva['cancha_lugar']) ?>
-                                                            <span class="ms-3">Espacios: <?= $reserva['espacios_reservados'] ?>/4</span>
+                                                            <i
+                                                                class="fas fa-map-marker-alt me-1"></i><?= htmlspecialchars($reserva['cancha_lugar']) ?>
+                                                            <span class="ms-3">Espacios:
+                                                                <?= $reserva['espacios_reservados'] ?>/4</span>
                                                         </small>
                                                     </div>
                                                     <div class="col-md-4 text-end">
                                                         <?php if ($reserva['estado'] === 'cancelada'): ?>
                                                             <span class="badge bg-danger mb-1">Cancelado</span>
-                                                            <div class="text-muted small">Código: <?= htmlspecialchars($reserva['codigo_reserva']) ?></div>
+                                                            <div class="text-muted small">Código:
+                                                                <?= htmlspecialchars($reserva['codigo_reserva']) ?></div>
                                                         <?php else: ?>
                                                             <span class="badge bg-success mb-1">Completado</span>
-                                                            <div class="text-muted small">$<?= number_format($reserva['precio']) ?></div>
+                                                            <div class="text-muted small">$<?= number_format($reserva['precio']) ?>
+                                                            </div>
                                                         <?php endif; ?>
                                                     </div>
                                                 </div>
@@ -602,7 +622,8 @@ try {
                                         <div class="text-center py-5">
                                             <i class="fas fa-history fa-3x text-muted mb-3"></i>
                                             <h5>No hay historial aún</h5>
-                                            <p class="text-muted">Tu historial de partidos aparecerá aquí una vez que completes tus primeras reservas.</p>
+                                            <p class="text-muted">Tu historial de partidos aparecerá aquí una vez que
+                                                completes tus primeras reservas.</p>
                                         </div>
                                     <?php endif; ?>
                                 </div>
@@ -617,9 +638,9 @@ try {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script>
         // Auto-dismiss alerts after 5 seconds
-        setTimeout(function() {
+        setTimeout(function () {
             var alerts = document.querySelectorAll('.alert');
-            alerts.forEach(function(alert) {
+            alerts.forEach(function (alert) {
                 var bsAlert = new bootstrap.Alert(alert);
                 bsAlert.close();
             });

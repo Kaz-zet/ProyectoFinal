@@ -2,13 +2,6 @@
 session_start();
 require_once 'conexiones/conDB.php';
 
-$nombre = $_SESSION['nombre'] ?? null; //Si existe el nombre y rol que lo asigne, sino q no ponga nada. Asi la gente sin iniciar sesion puede entrar.
-$rol = $_SESSION['rol'] ?? null;
-$foto = $_SESSION['foto'] ?? null; // Obtener la foto de la sesión
-$idduenio = $_SESSION['id'] ?? null; //Creo variable para sacar la ID
-
-$id_usuario = $_SESSION['id'] ?? null;
-
 if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'duenio') {
     die("Solo los dueños pueden acceder a esta página.");
 }
@@ -16,7 +9,6 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'duenio') {
 $id_duenio = $_SESSION['id'];
 $msg = '';
 $error = '';
-$accion = '';
 
 // Obtener canchas del dueño
 try {
@@ -153,7 +145,6 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Control - Dueño</title>
-    <link rel="stylesheet" href="style.css">
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -162,21 +153,29 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
 
     <style>
         body {
-            background-color: #000000ff;
+            background-color: #f8f9fa;
         }
 
         .main-container {
             min-height: 100vh;
         }
 
-        .nav-link-2 {
+        .navbar {
+            background: linear-gradient(135deg, #3f9c43ff 0%, #52a24bff 100%);
+        }
+
+        .navbar-brand img {
+            filter: brightness(0) invert(1);
+        }
+
+        .nav-link {
             color: black !important;
             font-weight: 500;
             transition: all 0.3s ease;
         }
 
-        .nav-link-2:hover,
-        .nav-link-2.active {
+        .nav-link:hover,
+        .nav-link.active {
             color: #ffd43b !important;
             transform: translateY(-2px);
         }
@@ -303,34 +302,33 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
             margin-bottom: 1.5rem;
         }
 
-        .nav-tabs .nav-link-2 {
+        .nav-tabs .nav-link {
             color: #495057;
             border: none;
             border-radius: 8px 8px 0 0;
             margin-right: 5px;
         }
 
-        .nav-tabs .nav-link-2.active {
+        .nav-tabs .nav-link.active {
             background: linear-gradient(135deg, #3f9c43ff, #52a24bff);
             color: white;
             border: none;
         }
 
-        .nav-tabs .nav-link-2:hover {
+        .nav-tabs .nav-link:hover {
             background: #e9ecef;
             border: none;
         }
 
-        .nav-tabs .nav-link-2.active:hover {
+        .nav-tabs .nav-link.active:hover {
             background: linear-gradient(135deg, #3f9c43ff, #52a24bff);
         }
     </style>
 </head>
 
 <body>
-    <div class="container-fluid p-2 main-container">
+    <div class="container-fluid main-container">
         <!-- Navbar -->
-
         <div class="row" id="navbar">
             <div class="col-12">
                 <nav class="navbar navbar-expand-lg">
@@ -338,7 +336,10 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
                         <img src="image/icon.png" alt="Logo" width="85" height="60"
                             class="d-inline-block align-text-top">
                     </a>
-                   
+                    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
                     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
                         aria-labelledby="offcanvasNavbarLabel">
                         <div class="offcanvas-header">
@@ -349,7 +350,7 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
                         <div class="offcanvas-body">
                             <ul class="navbar-nav justify-content-center flex-grow-1 pe-3">
                                 <li class="nav-item">
-                                    <a class="nav-link mx-lg-2" href="index.php">Inicio</a>
+                                    <a class="nav-link mx-lg-2" href="index.php">Index</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link mx-lg-2 active" aria-current="page">Gestión</a>
@@ -363,50 +364,6 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
                             </ul>
                         </div>
                     </div>
-                    <?php if ($nombre): ?>
-                        <div class="dropdown">
-                            <button class="btn p-0 border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <?php if (!empty($foto)): ?>
-                                    <img src="uploads/usuarios/<?= htmlspecialchars($foto) ?>"
-                                        alt="Foto de perfil de <?= htmlspecialchars($nombre) ?>"
-                                        class="rounded-circle border border-2 border-white" width="40" height="40"
-                                        style="object-fit: cover;">
-                                <?php else: ?>
-                                    <div class="rounded-circle border border-2 border-white d-flex align-items-center justify-content-center bg-secondary text-white"
-                                        style="width: 40px; height: 40px; font-size: 20px;">
-                                        👤
-                                    </div>
-                                <?php endif; ?>
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-end">
-                                <li>
-                                    <h6 class="dropdown-header">¡Hola, <?= htmlspecialchars($nombre) ?>!</h6>
-                                </li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <?php if ($rol === 'usuario'): ?>
-                                    <li><a class="dropdown-item" href="perfil_padel.php">
-                                            <i class="fas fa-user me-2"></i>Editar Perfil
-                                        </a></li>
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
-                                <?php endif; ?>
-                                <li><a class="dropdown-item text-danger" href="logout.php">
-                                        <i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión
-                                    </a></li>
-                            </ul>
-                        </div>
-                    <?php else: ?>
-                        <a href="inicioses.php" class="login-button btn btn-primary">Login</a>
-                    <?php endif; ?>
-
-                    <button class="navbar-toggler pe-0 ms-2" type="button" data-bs-toggle="offcanvas"
-                        data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar"
-                        aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
                 </nav>
             </div>
         </div>
@@ -442,13 +399,13 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
             <!-- Tabs Para ver reservas y canchas --------------------------------->
             <ul class="nav nav-tabs mb-4" id="managementTabs" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link-2 active" id="courts-tab" data-bs-toggle="tab" data-bs-target="#courts"
+                    <button class="nav-link active" id="courts-tab" data-bs-toggle="tab" data-bs-target="#courts"
                         type="button" role="tab">
                         <i class="fas fa-tennis-ball me-2"></i>Canchas
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link-2" id="bookings-tab" data-bs-toggle="tab" data-bs-target="#bookings"
+                    <button class="nav-link" id="bookings-tab" data-bs-toggle="tab" data-bs-target="#bookings"
                         type="button" role="tab">
                         <i class="fas fa-calendar-alt me-2"></i>Reservas
                     </button>
