@@ -1,0 +1,86 @@
+.grid-contenedor {
+display: grid;
+grid-template-columns: 1fr 2fr 1fr;
+grid-template-rows: 100px 200px 100px;
+grid-template-areas:
+"header header header"
+"nav main aside"
+"maing maing maing"
+"footer footer footer";
+grid-gap: 10px ;
+background-color: gray;
+}
+.header {
+  grid-area: header;
+  background-color: green;
+}
+.nav {
+  grid-area: nav;
+}
+.main {
+  grid-area: main;
+}
+.maing {
+  grid-area: maing;
+}
+.aside {
+  grid-area: aside;
+}
+.footer {
+  grid-area: footer;
+  background-color: blue;
+}
+.grid-contenedor2 {
+display: grid;
+grid-template-columns: 1fr 2fr 1fr;
+grid-template-rows: 100px 200px 100px;
+grid-template-areas:
+"header header header"
+"usua usua usua"
+"des des des"
+"footer footer footer";
+grid-gap: 10px ;
+background-color: gray;
+}
+.header {
+  grid-area: header;
+  background-color: green;
+}
+.usua {
+  grid-area: usua;
+}
+.des {
+  grid-area: des;
+}
+.footer {
+  grid-area: footer;
+  background-color: blue;
+}
+.grid-contenedor3 {
+display: grid;
+grid-template-columns: 1fr 2fr;
+grid-template-rows: 100px 200px;
+grid-template-areas:
+"header header"
+"descipcion imgc"
+"fotos fotos"
+"footer footer";
+grid-gap: 10px ;
+background-color: gray;
+}
+.header {
+  grid-area: header;
+  background-color: green;
+}
+.imgc {
+  grid-area: img;
+}
+.descipcion {
+  grid-area: descripcion;
+}
+.footer {
+  grid-area: footer;
+  background-color: blue;
+}
+
+
