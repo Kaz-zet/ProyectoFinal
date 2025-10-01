@@ -88,14 +88,14 @@ if ($calendario)
               </ul>
             </div>
           </div>
-
+                <!-- Skibidi Toilet-->
           <!-- Sistema de login/logout integrado -->
           <?php if ($nombre): ?>
             <div class="dropdown">
               <button class="btn p-0 border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <?php if (!empty($foto)): ?>
                   <img src="uploads/usuarios/<?= htmlspecialchars($foto) ?>"
-                    alt="Foto de perfil de <?= htmlspecialchars($nombre) ?>"
+                    alt="Avatar" class="profile-avatar"
                     class="rounded-circle border border-2 border-white" width="40" height="40" style="object-fit: cover;">
                 <?php else: ?>
                   <div

@@ -11,7 +11,7 @@ $id_usuario = $_SESSION['id'] ?? null;
 
 //PARA EDITAR CANCHA!!
 
-$msgError = [];
+$msgError = []; //Se usan cuando querés editar una cancha, si hay error, lo guarda en este array.
 $msgOk = [];
 
 //AGREGAR A FAVORITOSS LA CANCHA--------------------------------------------------------------------
