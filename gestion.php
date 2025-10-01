@@ -43,7 +43,7 @@ try {
 
 //EDITAR CANCHAS!!
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['accion'] === 'editar') { //Utilizo el mismo filtro que al crear cancha pero en este caso saco su Id, y remplazo los datos utilizando esa ID.
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['accion'] ?? '') === 'editar') { //Utilizo el mismo filtro que al crear cancha pero en este caso saco su Id, y remplazo los datos utilizando esa ID.
     $id = $_POST['id_cancha'];
     $nombre = trim($_POST['nombre']);
     $lugar = trim($_POST['lugar']);

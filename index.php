@@ -2,7 +2,23 @@
 session_start();
 $nombre = $_SESSION['nombre'] ?? null; //Si existe el nombre y rol que lo asigne, sino q no ponga nada. Asi la gente sin iniciar sesion puede entrar.
 $rol = $_SESSION['rol'] ?? null;
-$foto = $_SESSION['foto'] ?? null; // Obtener la foto de la sesión
+$foto = null; // Obtener la foto de la sesión
+
+//---------------FOTO DE PERFIL----------------------------------------------
+if ($nombre) {
+    require_once 'conexiones/conDB.php';
+    try {
+        $stmt = $pdo->prepare("SELECT foto FROM usuario WHERE nombre = ?");
+        $stmt->execute([$nombre]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($row && !empty($row['foto'])) {
+            $foto = $row['foto'];
+        }
+    } catch (PDOException $e) { 
+        error_log("Error fetching foto: " . $e->getMessage());
+    }
+}
+//----------------------------------------------------------------
 
 $reservarmsj = ''; //Se inicia la variable.
 $valoracionmsj = '';
@@ -93,15 +109,15 @@ if ($calendario)
           <?php if ($nombre): ?>
             <div class="dropdown">
               <button class="btn p-0 border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <?php if (!empty($foto)): ?>
+                <?php if ($foto): ?>
                   <img src="uploads/usuarios/<?= htmlspecialchars($foto) ?>"
                     alt="Foto de perfil de <?= htmlspecialchars($nombre) ?>"
                     class="rounded-circle border border-2 border-white" width="40" height="40" style="object-fit: cover;">
                 <?php else: ?>
                   <div
-                    class="rounded-circle border border-2 border-white d-flex align-items-center justify-content-center bg-secondary text-white"
-                    style="width: 40px; height: 40px; font-size: 20px;">
-                    👤
+                    class="rounded-circle border border-2 border-white d-flex align-items-center justify-content-center bg-primary text-white"
+                    style="width: 40px; height: 40px; font-size: 16px; font-weight: bold;">
+                    <?= strtoupper(substr($nombre, 0, 1)) ?>
                   </div>
                 <?php endif; ?>
               </button>

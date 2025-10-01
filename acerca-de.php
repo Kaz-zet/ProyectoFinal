@@ -4,6 +4,23 @@ require_once 'conexiones/conDB.php';
 $nombre = $_SESSION['nombre'] ?? null; //Si existe el nombre y rol que lo asigne, sino q no ponga nada. Asi la gente sin iniciar sesion puede entrar.
 $rol = $_SESSION['rol'] ?? null;
 $foto = $_SESSION['foto'] ?? null; // Obtener la foto de la sesión
+
+//---------------FOTO DE PERFIL----------------------------------------------
+if ($nombre) {
+    require_once 'conexiones/conDB.php';
+    try {
+        $stmt = $pdo->prepare("SELECT foto FROM usuario WHERE nombre = ?");
+        $stmt->execute([$nombre]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($row && !empty($row['foto'])) {
+            $foto = $row['foto'];
+        }
+    } catch (PDOException $e) { 
+        error_log("Error fetching foto: " . $e->getMessage());
+    }
+}
+//----------------------------------------------------------------
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

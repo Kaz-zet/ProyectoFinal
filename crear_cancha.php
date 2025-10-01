@@ -113,7 +113,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($resultado) {
                     $msg = 'Cancha creada exitosamente!';
 
-                    // Easter eggs
+
+
+//---------------------------------Easter eggs---------------------------------------------------------------------
                     $easterEggs = [
                         'Vegetta|777' => [
                             'color' => '#6a0dad',
@@ -136,6 +138,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     if (isset($easterEggs[$key])) {
                         $easterEggTrigger = $easterEggs[$key];
                     }
+//--------------------------------------------------------------------------------------------------------------------------
+
+
                 } else {
                     $error = 'Error al crear la cancha en la base de datos.';
                 }
