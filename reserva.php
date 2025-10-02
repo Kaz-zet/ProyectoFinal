@@ -9,6 +9,7 @@ $rol = $_SESSION['rol'] ?? null;
 $msg = '';
 $error = '';
 
+
 if (!$id_usuario) {
     header("Location: login.php");
     exit;

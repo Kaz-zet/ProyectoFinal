@@ -10,6 +10,22 @@ $id_usuario = $_SESSION['id'] ?? null;
 $msg = '';
 $error = '';
 
+//---------------FOTO DE PERFIL----------------------------------------------
+if ($nombre) {
+    require_once 'conexiones/conDB.php';
+    try {
+        $stmt = $pdo->prepare("SELECT foto FROM usuario WHERE nombre = ?");
+        $stmt->execute([$nombre]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($row && !empty($row['foto'])) {
+            $foto = $row['foto'];
+        }
+    } catch (PDOException $e) { 
+        error_log("Error fetching foto: " . $e->getMessage());
+    }
+}
+//----------------------------------------------------------------
+
 // Sacamos ID de cancha
 $id_cancha = $_GET['id'] ?? null;
 
@@ -79,7 +95,7 @@ function verificarDisponibilidad($reservas, $hora, $fecha_mostrar, $espacios_tot
         }
     }
 
-    // Contar espacios ocupados en este horario
+    //Contar espacios ocupados en este horario
     foreach ($reservas as $reserva) {
         $r_inicio = substr($reserva['hora_inicio'], 0, 5);
         $r_final  = substr($reserva['hora_final'], 0, 5);
@@ -318,6 +334,8 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
 
 <body>
     <div class="container-fluid text-light p-2">
+
+    
 <!-- Navbar -->
     <div class="row" id="navbar">
       <div class="col-12">
@@ -592,6 +610,13 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
             </div>
         </div>
         <?php endif; ?>
+        <div>
+
+        <!--proximas valoraciones y comentarios------------------------>
+            <h1 class="text-center mb-4">VALORACIONES (no hecho)</h1>
+
+
+        </div>
 
         <!-- Footer -->
         <footer class="mt-5">
