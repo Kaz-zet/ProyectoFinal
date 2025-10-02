@@ -205,7 +205,7 @@ $foto = $_SESSION['foto'] ?? null; // Obtener la foto de la sesión
     <div class="container-fluid p-2 bg-light">
 
         <!-- Header Section -->
-        <section class="text-center text-white d-flex flex-column"> a
+        <section class="text-center text-white d-flex flex-column">
             <!-- Navbar -->
             <div class="row" id="navbar">
                 <div class="col-12">
