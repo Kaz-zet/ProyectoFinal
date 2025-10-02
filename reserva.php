@@ -26,6 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar_reserva']))
     $telefono = trim($_POST['telefono'] ?? '');
     $observaciones = trim($_POST['observaciones'] ?? '');
     $espacios = (int)($_POST['espacios'] ?? 1);
+    $categoria = $_SESSION['categoria'] ?? '';
     
     if (empty($id_cancha) || empty($fecha) || empty($hora_inicio) || empty($nombre) || empty($telefono) || $espacios < 1 || $espacios > 4) {
         $error = "Por favor completa todos los campos obligatorios. Los espacios deben ser entre 1 y 4.";
@@ -448,7 +449,7 @@ if ($id_cancha && $fecha && $hora_inicio) {
                     
                     <div class="mb-4">
                         <label for="nombre" class="form-label">Tu Nombre <span style="color: #dc3545;">*</span></label>
-                        <input type="text" name="nombre" class="form-control neumorphic-input" required id="nombre" placeholder="Nombre completo" value="<?= isset($_POST['nombre']) ? htmlspecialchars($_POST['nombre']) : '' ?>">
+                        <input type="text" name="nombre" class="form-control neumorphic-input" required id="nombre" placeholder="Nombre completo" value="<?= isset($_SESSION['nombre']) ? htmlspecialchars($_SESSION['nombre']) : '' ?>">
                     </div>
                     
                     <div class="mb-4">
