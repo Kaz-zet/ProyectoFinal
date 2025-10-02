@@ -264,9 +264,9 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
                     class="rounded-circle border border-2 border-white" width="40" height="40" style="object-fit: cover;">
                 <?php else: ?>
                   <div
-                    class="rounded-circle border border-2 border-white d-flex align-items-center justify-content-center bg-secondary text-white"
-                    style="width: 40px; height: 40px; font-size: 20px;">
-                    👤
+                    class="rounded-circle border border-2 border-white d-flex align-items-center justify-content-center bg-primary text-white"
+                    style="width: 40px; height: 40px; font-size: 16px; font-weight: bold;">
+                    <?= strtoupper(substr($nombre, 0, 1)) ?>
                   </div>
                 <?php endif; ?>
               </button>

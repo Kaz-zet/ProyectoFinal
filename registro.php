@@ -17,12 +17,15 @@ if ($_POST) {
     $contraseña = $_POST['contraseña'];
     $repetir_contraseña = $_POST['repetir_contraseña'];
     $telefono = trim($_POST['telefono'] ?? '');
+    $categoria = intval($_POST['categoria'] ?? 0);
     
     // Validaciones
-    if (empty($nombre) || empty($email) || empty($contraseña) || empty($repetir_contraseña)) {
+    if (empty($nombre) || empty($email) || empty($contraseña) || empty($repetir_contraseña) || empty($categoria)) {
         $error_message = 'Por favor, complete todos los campos obligatorios.';
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error_message = 'Por favor, ingrese un email válido.';
+    } elseif ($categoria < 1 || $categoria > 7) {
+        $error_message = 'Categoría inválida.';
     } elseif (strlen($contraseña) < 6) {
         $error_message = 'La contraseña debe tener al menos 6 caracteres.';
     } elseif ($contraseña !== $repetir_contraseña) {
@@ -37,9 +40,9 @@ if ($_POST) {
                 $error_message = 'Este email ya está registrado.';
             } else {
                 // Inserta nuevo usuario
-                $stmt = $pdo->prepare("INSERT INTO usuario (nombre, email, contrasena, telefono, fecha_registro) VALUES (?, ?, ?, ?, NOW())");
+                $stmt = $pdo->prepare("INSERT INTO usuario (nombre, email, contrasena, telefono, categoria, fecha_registro) VALUES (?, ?, ?, ?, ?, NOW())");
                 
-                if ($stmt->execute([$nombre, $email, $contraseña, $telefono])) {
+                if ($stmt->execute([$nombre, $email, $contraseña, $telefono, $categoria])) {
                     $success_message = 'Usuario registrado exitosamente. <a href="inicioses.php">Iniciar sesión</a>';
                     
                     // Limpia campos del formulario
@@ -170,11 +173,39 @@ if ($_POST) {
             <label for="telefono" class="form-label">Teléfono</label>
             <input type="text" name="telefono" class="form-control neumorphic-input" id="telefono" placeholder="Ingrese su teléfono" value="<?php echo isset($_POST['telefono']) ? htmlspecialchars($_POST['telefono']) : ''; ?>">
           </div>
+
+
+        <!--BRAD, acá tenés un pop over, funciona de forma que cuando te vas a registrar
+        y querés elegir categoría, toques en un lugar donde te explique que es, pq capaz q la persona no sabe
+        Está muy feo, si podés hacerlo lindo :) -->
+          <div class="mb-4">
+            <label for="categoria" class="form-label">Categoría *
+
+            <button type="button" class="btn-sm btn-outline-info rounded-circle"  
+              data-bs-toggle="popover" 
+              title="¿Qué son las categorías?" 
+              data-bs-content="Las categorías van del 1 al 7 y representan tu nivel de juego. 1 es principiante y 7 es avanzado. (No te preocupes, mas tarde se puede cambiar)">
+              i
+            </button>
+
+            </label>
+            <select  class="form-control neumorphic-input" id="categoria" name="categoria" required>
+              <option value="">Selecciona tu categoría</option>
+              <option value="1">Categoría 1</option>
+              <option value="2">Categoría 2</option>
+              <option value="3">Categoría 3</option>
+              <option value="4">Categoría 4</option>
+              <option value="5">Categoría 5</option>
+              <option value="6">Categoría 6</option>
+              <option value="7">Categoría 7</option>
+            </select>
+          </div>
+
           <div class="mb-4">
             <label for="contraseña" class="form-label">Contraseña *</label>
             <input type="password" name="contraseña" class="form-control neumorphic-input" required id="contraseña" placeholder="Ingrese su contraseña" minlength="6">
             <div class="password-match mt-1" style="font-size: 0.8em; color: #666;">Mínimo 6 caracteres</div>
-          </div>
+          </div>      
           <div class="mb-4">
             <label for="repetir_contraseña" class="form-label">Repetir Contraseña *</label>
             <input type="password" name="repetir_contraseña" class="form-control neumorphic-input" required id="repetir_contraseña" placeholder="Repita su contraseña">
@@ -231,6 +262,7 @@ if ($_POST) {
     integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
     crossorigin="anonymous"></script>
 
+        <!--SCRIPT PARA EL MATCHEO DE CONTRASEÑASS!!-->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const password = document.getElementById('contraseña');
@@ -260,6 +292,19 @@ document.addEventListener('DOMContentLoaded', function() {
     password.addEventListener('input', validatePasswords);
     repeatPassword.addEventListener('input', validatePasswords);
 });
+
+
 </script>
+
+<!--Script para los detalles de la categoría!!---------------------------->
+<script>
+  document.addEventListener("DOMContentLoaded", function(){
+    var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+    var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+      return new bootstrap.Popover(popoverTriggerEl)
+    })
+  });
+</script>
+
 </body>
 </html>

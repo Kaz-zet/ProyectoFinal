@@ -64,6 +64,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['actualizar_datos'])) 
     $nombre = trim($_POST['nombre'] ?? '');
     $email = trim($_POST['email'] ?? '');
     $telefono = trim($_POST['telefono'] ?? '');
+    $categoria = intval($_POST['categoria'] ?? 0);
+
 
     if ($nombre === '' || $email === '') {
         $error = 'El nombre y email son obligatorios.';
@@ -111,10 +113,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['actualizar_datos'])) 
                 if (empty($error)) {
                     $stmt = $pdo->prepare("
                         UPDATE usuario 
-                        SET nombre = ?, email = ?, telefono = ?, foto = ?
+                        SET nombre = ?, email = ?, telefono = ?, foto = ?, categoria = ?
                         WHERE id_usuario = ?
                     ");
-                    $stmt->execute([$nombre, $email, $telefono, $foto_final, $id_usuario]);
+                    $stmt->execute([$nombre, $email, $telefono, $foto_final, $categoria, $id_usuario]);
                     
                     $_SESSION['nombre'] = $nombre;
                     
@@ -123,6 +125,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['actualizar_datos'])) 
                     $usuario['email'] = $email;
                     $usuario['telefono'] = $telefono;
                     $usuario['foto'] = $foto_final;
+                    $usuario['categoria'] = $categoria;
                     
                     $msg = 'Datos actualizados correctamente.';
                 }
@@ -383,7 +386,11 @@ try {
                             <?php if (!empty($usuario['foto'])): ?>
                                 <img src="uploads/usuarios/<?= htmlspecialchars($usuario['foto']) ?>" alt="Avatar" class="profile-avatar">
                             <?php else: ?>
-                                <div class="avatar-placeholder">👤</div>
+                                <div
+                                    alt="Avatar" class="profile-avatar border-white d-flex align-items-center justify-content-center bg-primary text-white"
+                                    style="font-size: 16px; font-weight: bold;">
+                                    <?= strtoupper(substr($usuario['nombre'], 0, 1)) ?>
+                                </div>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -527,6 +534,22 @@ try {
                                                                value="<?= htmlspecialchars($usuario['telefono'] ?? '') ?>">
                                                     </div>
                                                 </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6 mb-3">
+                                                        <label class="form-label">Categoría</label>
+                                                        <select class="form-control neumorphic-input" id="categoria" name="categoria" required>
+                                                        <option value="1" <?= ($usuario['categoria'] == 1) ? 'selected' : '' ?>>Categoría 1</option>
+                                                        <option value="2" <?= ($usuario['categoria'] == 2) ? 'selected' : '' ?>>Categoría 2</option>
+                                                        <option value="3" <?= ($usuario['categoria'] == 3) ? 'selected' : '' ?>>Categoría 3</option>
+                                                        <option value="4" <?= ($usuario['categoria'] == 4) ? 'selected' : '' ?>>Categoría 4</option>
+                                                        <option value="5" <?= ($usuario['categoria'] == 5) ? 'selected' : '' ?>>Categoría 5</option>
+                                                        <option value="6" <?= ($usuario['categoria'] == 6) ? 'selected' : '' ?>>Categoría 6</option>
+                                                        <option value="7" <?= ($usuario['categoria'] == 7) ? 'selected' : '' ?>>Categoría 7</option>
+                                                        </select>     
+                                                    </div>
+                                                </div>
+
                                                 <button type="submit" name="actualizar_datos" class="btn btn-primary">
                                                     <i class="fas fa-save me-2"></i>Guardar Cambios
                                                 </button>
