@@ -9,10 +9,19 @@ $rol = $_SESSION['rol'] ?? null;
 $msg = '';
 $error = '';
 
-
 if (!$id_usuario) {
     header("Location: login.php");
     exit;
+}
+
+// Se obtienen los datos del usuario logueado
+$usuario_data = null;
+try {
+    $stmt = $pdo->prepare("SELECT nombre, telefono, categoria FROM usuario WHERE id_usuario = ?");
+    $stmt->execute([$id_usuario]);
+    $usuario_data = $stmt->fetch(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    $error = "Error al cargar datos del usuario.";
 }
 
 // Obtener datos del formulario
@@ -26,7 +35,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar_reserva']))
     $telefono = trim($_POST['telefono'] ?? '');
     $observaciones = trim($_POST['observaciones'] ?? '');
     $espacios = (int)($_POST['espacios'] ?? 1);
+<<<<<<< Updated upstream
     $categoria = $_SESSION['categoria'] ?? '';
+=======
+    $categoria = (int)($_POST['categoria'] ?? 1);
+>>>>>>> Stashed changes
     
     if (empty($id_cancha) || empty($fecha) || empty($hora_inicio) || empty($nombre) || empty($telefono) || $espacios < 1 || $espacios > 4) {
         $error = "Por favor completa todos los campos obligatorios. Los espacios deben ser entre 1 y 4.";
@@ -65,9 +78,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar_reserva']))
                     $hora_inicio, $hora_final
                 ]);
                 
-                $espacios_ocupados = (int)$stmt->fetchColumn();
+                $resultado_espacios = $stmt->fetch(PDO::FETCH_ASSOC);
+                $espacios_ocupados = (int)$resultado_espacios['espacios_ocupados'];
                 $espacios_disponibles = 4 - $espacios_ocupados;
                 
+                // NUEVO: Verificar si hay reservas existentes y obtener su categoría
+                $categoria_horario = null;
+                if ($espacios_ocupados > 0) {
+                    $stmt = $pdo->prepare("
+                        SELECT categoria 
+                        FROM reserva 
+                        WHERE id_cancha = ? AND fecha = ? AND estado = 'activa'
+                        AND (
+                            (hora_inicio <= ? AND hora_final > ?) 
+                            OR
+                            (hora_inicio < ? AND hora_final >= ?)
+                            OR
+                            (hora_inicio >= ? AND hora_final <= ?)
+                        )
+                        LIMIT 1
+                    ");
+                    $stmt->execute([
+                        $id_cancha, $fecha, 
+                        $hora_inicio, $hora_inicio,
+                        $hora_final, $hora_final,
+                        $hora_inicio, $hora_final
+                    ]);
+                    $categoria_horario = $stmt->fetchColumn();
+                    
+                    // Validar que la categoría del usuario coincida
+                    if ($categoria_horario && $categoria != $categoria_horario) {
+                        $error = "No puedes unirte a este horario. Las reservas existentes son de Categoría {$categoria_horario} y tu categoría es {$categoria}. Solo puedes reservar con jugadores de tu misma categoría.";
+                    }
+                }
                 // Verificar si hay suficientes espacios disponibles
                 if ($espacios > $espacios_disponibles) {
                     if ($espacios_disponibles === 0) {
@@ -75,6 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar_reserva']))
                     } else {
                         $error = "Solo quedan {$espacios_disponibles} espacios disponibles en este horario. Reduce tu reserva a {$espacios_disponibles} espacios o menos.";
                     }
+                } elseif (!empty($error)) {
                 } else {
                     // Generar código único de 6 caracteres
                     do {
@@ -83,12 +127,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar_reserva']))
                         $stmt->execute([$codigo]);
                     } while ($stmt->fetchColumn() > 0);
                     
-                    // Crear la reserva
+                    // Se crea la reserva
                     $stmt = $pdo->prepare("
-                        INSERT INTO reserva (codigo_reserva, fecha, hora_inicio, hora_final, id_usuario, id_cancha, espacios_reservados, telefono, observaciones, estado) 
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'activa')
+                        INSERT INTO reserva (codigo_reserva, fecha, hora_inicio, hora_final, id_usuario, id_cancha, espacios_reservados, telefono, observaciones, categoria, estado) 
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'activa')
                     ");
-                    $stmt->execute([$codigo, $fecha, $hora_inicio, $hora_final, $id_usuario, $id_cancha, $espacios, $telefono, $observaciones]);
+                    $stmt->execute([$codigo, $fecha, $hora_inicio, $hora_final, $id_usuario, $id_cancha, $espacios, $telefono, $observaciones, $categoria]);
                     
                     // Obtener nombre de la cancha
                     $stmt = $pdo->prepare("SELECT nombre FROM cancha WHERE id_cancha = ?");
@@ -219,6 +263,7 @@ if ($id_cancha && $fecha && $hora_inicio) {
           border: none;
           outline: none;
         }
+
         .neumorphic-btn {
           margin-top: 15px;
           background-color: var(--bg-color);
@@ -428,7 +473,7 @@ if ($id_cancha && $fecha && $hora_inicio) {
                     <div class="espacios-visual">
                         <?php for ($i = 1; $i <= 4; $i++): ?>
                             <div class="espacio-visual <?= $i <= $espacios_ocupados_actual ? 'espacio-ocupado' : 'espacio-disponible' ?>">
-                                <?= $i <= $espacios_ocupados_actual ? '' : '◯' ?>
+                                <?= $i <= $espacios_ocupados_actual ? '✕' : '◯' ?>
                             </div>
                         <?php endfor; ?>
                     </div>
@@ -437,6 +482,40 @@ if ($id_cancha && $fecha && $hora_inicio) {
                         <div style="font-size: 13px; color: var(--main-color); margin-top: 8px;">
                             <strong>Ya reservado por:</strong> <?= htmlspecialchars($reservas_existentes) ?>
                         </div>
+                        <?php 
+                        // Mostrar la categoria del horario reservado
+                        $stmt = $pdo->prepare("
+                            SELECT categoria 
+                            FROM reserva 
+                            WHERE id_cancha = ? AND fecha = ? AND estado = 'activa'
+                            AND (
+                                (hora_inicio <= ? AND hora_final > ?) 
+                                OR
+                                (hora_inicio < ? AND hora_final >= ?)
+                                OR
+                                (hora_inicio >= ? AND hora_final <= ?)
+                            )
+                            LIMIT 1
+                        ");
+                        $stmt->execute([
+                            $id_cancha, $fecha, 
+                            $hora_inicio, $hora_inicio,
+                            $hora_final, $hora_final,
+                            $hora_inicio, $hora_final
+                        ]);
+                        $cat_horario = $stmt->fetchColumn();
+                        
+                        if ($cat_horario && $cat_horario != $usuario_data['categoria']): ?>
+                            <div style="background: #dc3545; color: white; padding: 10px; border-radius: 8px; margin-top: 10px; font-size: 14px;">
+                                <strong>Atención:</strong> Este horario es para Categoría <?= $cat_horario ?>.
+                                Tu categoría es <?= $usuario_data['categoria'] ?? 1 ?>.
+                                Solo puedes reservar con jugadores de tu misma categoría.
+                            </div>
+                        <?php elseif ($cat_horario): ?>
+                            <div style="background: #28a745; color: white; padding: 10px; border-radius: 8px; margin-top: 10px; font-size: 14px;">
+                                Este horario es Categoría <?= $cat_horario ?>. Puedes unirte a este grupo.
+                            </div>
+                        <?php endif; ?>
                     <?php endif; ?>
                 </div>
                 
@@ -449,12 +528,31 @@ if ($id_cancha && $fecha && $hora_inicio) {
                     
                     <div class="mb-4">
                         <label for="nombre" class="form-label">Tu Nombre <span style="color: #dc3545;">*</span></label>
+<<<<<<< Updated upstream
                         <input type="text" name="nombre" class="form-control neumorphic-input" required id="nombre" placeholder="Nombre completo" value="<?= isset($_SESSION['nombre']) ? htmlspecialchars($_SESSION['nombre']) : '' ?>">
+=======
+                        <input type="text" name="nombre" class="form-control neumorphic-input" required id="nombre" 
+                               placeholder="Nombre completo" 
+                               value="<?= htmlspecialchars($usuario_data['nombre'] ?? '') ?>">
+>>>>>>> Stashed changes
                     </div>
                     
                     <div class="mb-4">
                         <label for="telefono" class="form-label">Teléfono <span style="color: #dc3545;">*</span></label>
-                        <input type="tel" name="telefono" class="form-control neumorphic-input" required id="telefono" placeholder="Ej: +54 9 11 1234-5678" value="<?= isset($_POST['telefono']) ? htmlspecialchars($_POST['telefono']) : '' ?>">
+                        <input type="tel" name="telefono" class="form-control neumorphic-input" required id="telefono" 
+                               placeholder="Ej: +54 9 11 1234-5678" 
+                               value="<?= htmlspecialchars($usuario_data['telefono'] ?? '') ?>">
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="categoria" class="form-label">Tu Categoría <span style="color: #dc3545;">*</span></label>
+                        <select name="categoria" class="form-control neumorphic-select" required id="categoria">
+                            <?php for ($i = 1; $i <= 7; $i++): ?>
+                                <option value="<?= $i ?>" <?= ($usuario_data['categoria'] ?? 1) == $i ? 'selected' : '' ?>>
+                                    Categoría <?= $i ?>
+                                </option>
+                            <?php endfor; ?>
+                        </select>
                     </div>
                     
                     <div class="mb-4">

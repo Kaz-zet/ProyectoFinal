@@ -1,9 +1,9 @@
 <?php
 session_start();
 require_once 'conexiones/conDB.php';
-$nombre = $_SESSION['nombre'] ?? null; //Si existe el nombre y rol que lo asigne, sino q no ponga nada. Asi la gente sin iniciar sesion puede entrar.
+$nombre = $_SESSION['nombre'] ?? null;
 $rol = $_SESSION['rol'] ?? null;
-$foto = $_SESSION['foto'] ?? null; // Obtener la foto de la sesión
+$foto = $_SESSION['foto'] ?? null;
 date_default_timezone_set('America/Argentina/Buenos_Aires');
 
 $id_usuario = $_SESSION['id'] ?? null;
@@ -24,6 +24,18 @@ if ($nombre) {
         error_log("Error fetching foto: " . $e->getMessage());
     }
 }
+
+// Obtener categoría del usuario logueado
+$categoria_usuario = null;
+if ($id_usuario) {
+    try {
+        $stmt = $pdo->prepare("SELECT categoria FROM usuario WHERE id_usuario = ?");
+        $stmt->execute([$id_usuario]);
+        $categoria_usuario = $stmt->fetchColumn();
+    } catch (PDOException $e) {
+        error_log("Error fetching categoria: " . $e->getMessage());
+    }
+}
 //----------------------------------------------------------------
 
 // Sacamos ID de cancha
@@ -31,7 +43,7 @@ $id_cancha = $_GET['id'] ?? null;
 
 $fecha_mostrar = $_GET['fecha'] ?? date('Y-m-d');
 
-// Sacamos datos medaunte esa ID
+// Sacamos datos mediante esa ID
 if ($id_cancha) {
     try {
         $stmt = $pdo->prepare("
@@ -57,10 +69,10 @@ if ($id_cancha) {
     exit;
 }
 
-// Se generan reservaciones para horario y dia especifico
+// Generar reservas
 function obtenerreservas($pdo, $id_cancha, $fecha) {
     $stmt = $pdo->prepare("
-        SELECT r.*, u.nombre as usuario_nombre 
+        SELECT r.*, u.nombre as usuario_nombre, r.categoria as categoria_reserva
         FROM reserva r 
         INNER JOIN usuario u ON r.id_usuario = u.id_usuario 
         WHERE r.id_cancha = ? AND r.fecha = ? AND r.estado = 'activa'
@@ -70,7 +82,7 @@ function obtenerreservas($pdo, $id_cancha, $fecha) {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-// Se crean llos horarios disponisbles
+// Se crean los horarios disponibles
 function generarhorarios() {
     $horarios = [];
     for ($h = 8; $h <= 22; $h++) {
@@ -79,11 +91,12 @@ function generarhorarios() {
     return $horarios;
 }
 
-// Se fija si el luggar está ocupado y los espacios.
+// Verificar disponibilidad del horario
 function verificarDisponibilidad($reservas, $hora, $fecha_mostrar, $espacios_total = 4) {
     $hora_fin = date('H:i', strtotime($hora . ' +1 hour'));
     $espacios_ocupados = 0;
     $reservas_en_horario = [];
+    $categoria_horario = null;
 
     // Verificar si la fecha es hoy y la hora ya pasó
     if ($fecha_mostrar === date('Y-m-d')) {
@@ -95,7 +108,7 @@ function verificarDisponibilidad($reservas, $hora, $fecha_mostrar, $espacios_tot
         }
     }
 
-    //Contar espacios ocupados en este horario
+    // Contar espacios ocupados en este horario
     foreach ($reservas as $reserva) {
         $r_inicio = substr($reserva['hora_inicio'], 0, 5);
         $r_final  = substr($reserva['hora_final'], 0, 5);
@@ -108,10 +121,17 @@ function verificarDisponibilidad($reservas, $hora, $fecha_mostrar, $espacios_tot
         ) {
             $espacios_reservados = $reserva['espacios_reservados'] ?? 1;
             $espacios_ocupados += $espacios_reservados;
+            
+            // La primera reserva define la categoría del horario. x ej, si la primera reserva es categoria 2, solo los usuarios de categoria 2 podran reservar
+            if ($categoria_horario === null) {
+                $categoria_horario = $reserva['categoria_reserva'];
+            }
+            
             $reservas_en_horario[] = [
                 'usuario' => $reserva['usuario_nombre'],
                 'espacios' => $espacios_reservados,
-                'jugadores' => $reserva['jugadores_reservados'] ?? 1
+                'jugadores' => $reserva['jugadores_reservados'] ?? 1,
+                'categoria' => $reserva['categoria_reserva']
             ];
         }
     }
@@ -124,26 +144,29 @@ function verificarDisponibilidad($reservas, $hora, $fecha_mostrar, $espacios_tot
             'tipo' => 'ocupado',
             'espacios_disponibles' => 0,
             'espacios_ocupados' => $espacios_ocupados,
-            'reservas' => $reservas_en_horario
+            'reservas' => $reservas_en_horario,
+            'categoria_requerida' => $categoria_horario
         ];
     } elseif ($espacios_disponibles < $espacios_total) {
         return [
             'tipo' => 'parcial',
             'espacios_disponibles' => $espacios_disponibles,
             'espacios_ocupados' => $espacios_ocupados,
-            'reservas' => $reservas_en_horario
+            'reservas' => $reservas_en_horario,
+            'categoria_requerida' => $categoria_horario
         ];
     } else {
         return [
             'tipo' => 'disponible',
             'espacios_disponibles' => $espacios_disponibles,
             'espacios_ocupados' => 0,
-            'reservas' => []
+            'reservas' => [],
+            'categoria_requerida' => null
         ];
     }
 }
 
-//Pasa de ingles a españolds
+// Pasa de ingles a español
 function diasespanol($dia_ingles) {
     $dias = [
         'Mon' => 'Lun',
@@ -167,7 +190,7 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reservar Cancha - CanchApp</title>
-    <!-- Bootstrap 5 CSS -->
+    <!--Bootstrap 5 CSS-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <style>
@@ -208,11 +231,17 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
             color: #000;
         }
         
-        .time-slot.parcial:hover {
+        .time-slot.parcial:hover:not(.bloqueado) {
             background-color: #e0a800;
             transform: translateY(-2px);
             color: #000;
             text-decoration: none;
+        }
+              
+        .time-slot.bloqueado {
+            opacity: 0.6;
+            cursor: not-allowed;
+            position: relative;
         }
         
         .time-slot.ocupado {
@@ -393,12 +422,12 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
                 <li><hr class="dropdown-divider"></li>
                 <?php if ($rol === 'usuario'): ?>
                   <li><a class="dropdown-item" href="perfil_padel.php">
-                    <i class="fas fa-user me-2"></i>Editar Perfil
+                    Editar Perfil
                   </a></li>
                   <li><hr class="dropdown-divider"></li>
                 <?php endif; ?>
                 <li><a class="dropdown-item text-danger" href="logout.php">
-                  <i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión
+                  Cerrar Sesión
                 </a></li>
               </ul>
             </div>
@@ -415,7 +444,7 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
     </div>
     <!-- Fin Navbar -->
 
-        <!-- Mensage de error u success -->
+        <!-- Mensaje de error u success -->
         <?php if (!empty($msg)): ?>
             <div class="row mt-3">
                 <div class="col-12">
@@ -457,7 +486,7 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
             </div>
         </div>
 
-        <!--Informacoion de la cancha -->
+        <!-- Información de la cancha -->
         <div class="row mt-4">
             <div class="col-12">
                 <div class="text-center">
@@ -537,7 +566,7 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
                     </div>
                 </div>
 
-                <!--Horas disponivles -->
+                <!-- Horas disponibles -->
                 <div class="row g-3" id="timeSlots">
                     <?php foreach ($horarios as $hora): ?>
                         <?php 
@@ -557,26 +586,38 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
                                     <div class="fs-5 fw-bold"><?= $hora ?></div>
                                     <div class="small">
                                         Completamente ocupado<br>
-                                        <?= count($disponibilidad['reservas']) ?> reserva(s) activa(s)
+                                        <?php if ($disponibilidad['categoria_requerida']): ?>
+                                            <span class="categoria-badge">Cat. <?= $disponibilidad['categoria_requerida'] ?></span>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                                 
                             <?php elseif ($disponibilidad['tipo'] === 'parcial'): ?>
-                                <?php if ($id_usuario): ?>
+                                <?php 
+                                $puede_reservar = ($categoria_usuario == $disponibilidad['categoria_requerida']);
+                                ?>
+                                
+                                <?php if ($id_usuario && $puede_reservar): ?>
                                     <a href="reserva.php?id_cancha=<?= $id_cancha ?>&fecha=<?= $fecha_mostrar ?>&hora_inicio=<?= $hora ?>" 
                                        class="time-slot parcial">
                                         <div class="fs-5 fw-bold"><?= $hora ?></div>
                                         <div class="small">
-                                            <?= $disponibilidad['espacios_disponibles'] ?> espacio(s) disponible(s)<br>
-                                            <?= $disponibilidad['espacios_ocupados'] ?> espacio(s) ocupado(s)
+                                            <?= $disponibilidad['espacios_disponibles'] ?> espacio(s) disponible(s)
+                                            <br>
+                                            Categoria <?= $disponibilidad['categoria_requerida'] ?>
                                         </div>
                                     </a>
                                 <?php else: ?>
-                                    <div class="time-slot parcial">
+                                    <div class="time-slot parcial bloqueado">
                                         <div class="fs-5 fw-bold"><?= $hora ?></div>
                                         <div class="small">
-                                            <?= $disponibilidad['espacios_disponibles'] ?> espacio(s) disponible(s)<br>
-                                            <?= $disponibilidad['espacios_ocupados'] ?> espacio(s) ocupado(s)
+                                            <?php if ($id_usuario): ?>
+                                                Solo Categoría <?= $disponibilidad['categoria_requerida'] ?><br>
+                                                <span style="font-size: 10px;">(Tu cat: <?= $categoria_usuario ?>)</span>
+                                            <?php else: ?>
+                                                <?= $disponibilidad['espacios_disponibles'] ?> espacio(s) disponible(s)
+                                                <span class="categoria-badge">Cat. <?= $disponibilidad['categoria_requerida'] ?></span>
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                 <?php endif; ?>
@@ -613,7 +654,7 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
         <?php endif; ?>
         <div>
 
-        <!--proximas valoraciones y comentarios------------------------>
+        <!-- proximas valoraciones y comentarios -->
             <h1 class="text-center mb-4">VALORACIONES (no hecho)</h1>
 
 
