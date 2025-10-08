@@ -35,11 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar_reserva']))
     $telefono = trim($_POST['telefono'] ?? '');
     $observaciones = trim($_POST['observaciones'] ?? '');
     $espacios = (int)($_POST['espacios'] ?? 1);
-<<<<<<< Updated upstream
-    $categoria = $_SESSION['categoria'] ?? '';
-=======
     $categoria = (int)($_POST['categoria'] ?? 1);
->>>>>>> Stashed changes
     
     if (empty($id_cancha) || empty($fecha) || empty($hora_inicio) || empty($nombre) || empty($telefono) || $espacios < 1 || $espacios > 4) {
         $error = "Por favor completa todos los campos obligatorios. Los espacios deben ser entre 1 y 4.";

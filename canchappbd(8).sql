@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 02, 2025 at 10:21 PM
+-- Generation Time: Oct 09, 2025 at 12:31 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -106,6 +106,13 @@ CREATE TABLE `favoritos` (
   `fecha_agregado` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `favoritos`
+--
+
+INSERT INTO `favoritos` (`id_favorito`, `id_usuario`, `id_cancha`, `fecha_agregado`) VALUES
+(39, 10, 73, '2025-10-08 22:20:13');
+
 -- --------------------------------------------------------
 
 --
@@ -199,7 +206,8 @@ INSERT INTO `usuario` (`id_usuario`, `nombre`, `email`, `contrasena`, `foto`, `t
 (6, 'Z', 'Z@gmail.com', '123', 'usuario_6_1757790994.jpg', NULL, '2025-09-17 14:54:27', 0, ''),
 (7, 'f', 'f@gmail.com', '123', NULL, NULL, '2025-09-17 14:54:27', 0, ''),
 (8, 'c', 'c@gmail.com', '123456', 'usuario_8_1759322651.png', '12345', '2025-10-01 12:32:55', 0, ''),
-(9, 'Pa', 'pa@gmail.com', '123456', 'usuario_9_1759415133.png', '12345', '2025-10-02 13:56:50', 5, '');
+(9, 'Pa', 'pa@gmail.com', '123456', 'usuario_9_1759415133.png', '12345', '2025-10-02 13:56:50', 3, 'SinPreferencia'),
+(10, 'AAA', 'AAA@GMAIL.COM', '123456', 'usuario_10_1759961830.jpg', '1234124', '2025-10-08 22:16:22', 1, 'Derecha');
 
 -- --------------------------------------------------------
 
@@ -212,16 +220,21 @@ CREATE TABLE `valoracion` (
   `valor` int(10) NOT NULL,
   `comentario` text NOT NULL,
   `id_usuario` int(11) NOT NULL,
-  `id_cancha` int(11) NOT NULL
+  `id_cancha` int(11) NOT NULL,
+  `fecha` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `valoracion`
 --
 
-INSERT INTO `valoracion` (`id_valoracion`, `valor`, `comentario`, `id_usuario`, `id_cancha`) VALUES
-(2, 4, 'Muy buena gestion!', 6, 74),
-(3, 5, 'Excelente todo, desde la cancha hasta la gestion', 7, 74);
+INSERT INTO `valoracion` (`id_valoracion`, `valor`, `comentario`, `id_usuario`, `id_cancha`, `fecha`) VALUES
+(2, 4, 'Muy buena gestion!', 6, 74, '2025-10-08 18:33:51'),
+(3, 5, 'Excelente todo, desde la cancha hasta la gestion', 7, 74, '2025-10-08 18:33:51'),
+(8, 3, 'Anasheii', 9, 78, '2025-10-08 20:41:55'),
+(9, 4, 'Cbum sos re lindaaa', 2, 78, '2025-10-08 22:18:16'),
+(10, 5, 'Tung tung tung sahurr\r\nBallerina Capuccina\r\nTrulinero Truliccina', 10, 78, '2025-10-08 22:20:05'),
+(11, 5, 'Ww against k6 xddd', 10, 73, '2025-10-08 22:20:32');
 
 -- --------------------------------------------------------
 
@@ -297,7 +310,8 @@ ALTER TABLE `usuario`
 --
 ALTER TABLE `valoracion`
   ADD PRIMARY KEY (`id_valoracion`),
-  ADD UNIQUE KEY `id_usuario` (`id_usuario`,`id_cancha`);
+  ADD UNIQUE KEY `id_usuario` (`id_usuario`,`id_cancha`),
+  ADD UNIQUE KEY `id_usuario_2` (`id_usuario`,`id_cancha`);
 
 --
 -- Indexes for table `verificacion`
@@ -331,7 +345,7 @@ ALTER TABLE `duenio`
 -- AUTO_INCREMENT for table `favoritos`
 --
 ALTER TABLE `favoritos`
-  MODIFY `id_favorito` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id_favorito` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `reserva`
@@ -343,13 +357,13 @@ ALTER TABLE `reserva`
 -- AUTO_INCREMENT for table `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `valoracion`
 --
 ALTER TABLE `valoracion`
-  MODIFY `id_valoracion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_valoracion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `verificacion`
