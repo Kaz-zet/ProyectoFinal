@@ -219,8 +219,7 @@ if ($nombre) {
 </head>
 
 <body>
-    <div class="container-fluid p-2 bg-light">
-
+    <div class="container-fluid p-0 m-0 bg-light">
         <!-- Header Section -->
         <section class="text-center text-white d-flex flex-column">
             <!-- Navbar -->
@@ -229,7 +228,7 @@ if ($nombre) {
                     <nav class="navbar navbar-expand-lg">
                         <a class="navbar-brand me-auto" href="#">
                             <img src="image/icon.png" alt="Logo" width="85" height="60"
-                                class="d-inline-block align-text-top">
+                                class="d-inline-block align-text-top pos">
                         </a>
                         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
                             aria-labelledby="offcanvasNavbarLabel">

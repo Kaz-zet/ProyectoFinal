@@ -221,7 +221,7 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
 </head>
 
 <body>
-  <div class="container-fluid p-2">
+  <div class="container-fluid p-0 m-0">
     <!-- Navbar -->
     <div class="row" id="navbar">
       <div class="col-12">
