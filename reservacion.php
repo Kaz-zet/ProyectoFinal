@@ -435,7 +435,7 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
         <!-- Volver -->
         <div class="row mt-3">
             <div class="col-12">
-                <button class="btn btn-outline-secondary" onclick="history.back()">
+                <button class="btn btn-outline-secondary" onclick="window.location.href='buscador.php'">
                     ← Volver al buscador
                 </button>
             </div>
@@ -457,7 +457,7 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
             </div>
         </div>
 
-        <!--Informacoion de la cancha -->
+        <!--Informacion de la cancha -->
         <div class="row mt-4">
             <div class="col-12">
                 <div class="text-center">

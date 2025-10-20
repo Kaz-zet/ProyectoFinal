@@ -266,7 +266,7 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
                   <div
                     class="rounded-circle border border-2 border-white d-flex align-items-center justify-content-center bg-primary text-white"
                     style="width: 40px; height: 40px; font-size: 16px; font-weight: bold;">
-                    <?= strtoupper(substr($nombre, 0, 1)) ?>
+                    <?= strtoupper(substr($nombre, 0, length: 1)) ?>
                   </div>
                 <?php endif; ?>
               </button>
@@ -307,83 +307,84 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
 
     <!-----------------------BUSCAR CANCHA------------------>
 
-          <!--Contiene obviamente boostrap de chatpgt pq no se como hacerlo yo :) -->
+    <!--Contiene obviamente boostrap de chatpgt pq no se como hacerlo yo :) -->
     <div class="row mt-4 mb-4">
-  <div class="col-12">
-    <div class="text-white"> <!--Brad, si estás viendo esto, antes de text-white, ponele esto para ver la caja ""card bg-dark"" (sin las comillas)--> 
-      <div class="card-header">
-        <h5 class="mb-0">
-          <i class="fas fa-filter"></i> Buscar
-        </h5>
-      </div>
-      <div class="card-body">
-        <form method="GET" action="buscador.php">
-          <div class="row g-3 align-items-end">
-            
-            <!--NOMBRE DE CANCHA -->
-            <div class="col-md-2">
-              <label for="nombre" class="form-label">
-                <i class="fas fa-font"></i> Nombre
-              </label>
-              <input type="text" class="form-control" id="nombre" name="nombre"
-                value="<?= htmlspecialchars($buscarNombre) ?>">
-            </div>
-
-            <!--LUGAR -->
-            <div class="col-md-2">
-              <label for="lugar" class="form-label">
-                <i class="fas fa-map-marker-alt"></i> Ubicación
-              </label>
-              <input type="text" class="form-control" id="lugar" name="lugar"
-                value="<?= htmlspecialchars($buscarLugar) ?>">
-            </div>
-
-            <!--FILTRO BIOO -->
-            <div class="col-md-3">
-              <label for="bio" class="form-label">
-                <i class="fas fa-align-left"></i> Descripción
-              </label>
-              <input type="text" class="form-control" id="bio" name="bio"
-                value="<?= htmlspecialchars($buscarBio) ?>">
-            </div>
-
-            <!--FILTRO RPECIO -->
-            <div class="col-md-3">
-              <label class="form-label">
-                <i class="fas fa-dollar-sign"></i> Rango de Precio
-              </label>
-              <div class="input-group">
-                <input type="number" class="form-control" name="precio_min" placeholder="Mín"
-                  value="<?= htmlspecialchars($buscarPrecioMin) ?>">
-                <span class="input-group-text">-</span>
-                <input type="number" class="form-control" name="precio_max" placeholder="Máx"
-                  value="<?= htmlspecialchars($buscarPrecioMax) ?>">
-              </div>
-            </div>
-
-            <!--BTOTNES PARA BUSCAR Y LIMPIAR-->
-            <div class="col-md-2 d-flex gap-2">
-              <button type="submit" class="btn btn-success w-100">
-                <i class="fas fa-search"></i> Buscar
-              </button>
-              <?php if ($hayFiltros): ?>
-                <a href="buscador.php" class="btn btn-secondary w-100">
-                  <i class="fas fa-times"></i> Limpiar
-                </a>
-              <?php endif; ?>
-            </div>
+      <div class="col-12">
+        <div class="card bg-dark text-white">
+          <!--Brad, si estás viendo esto, antes de text-white, ponele esto para ver la caja ""card bg-dark"" (sin las comillas)-->
+          <div class="card-header">
+            <h5 class="mb-0">
+              <i class="fas fa-filter"></i> Buscar
+            </h5>
           </div>
-        </form>
+          <div class="card-body">
+            <form method="GET" action="buscador.php">
+              <div class="row g-3 align-items-end">
+
+                <!--NOMBRE DE CANCHA -->
+                <div class="col-md-2">
+                  <label for="nombre" class="form-label">
+                    <i class="fas fa-font"></i> Nombre
+                  </label>
+                  <input type="text" class="form-control" id="nombre" name="nombre"
+                    value="<?= htmlspecialchars($buscarNombre) ?>">
+                </div>
+
+                <!--LUGAR -->
+                <div class="col-md-2">
+                  <label for="lugar" class="form-label">
+                    <i class="fas fa-map-marker-alt"></i> Ubicación
+                  </label>
+                  <input type="text" class="form-control" id="lugar" name="lugar"
+                    value="<?= htmlspecialchars($buscarLugar) ?>">
+                </div>
+
+                <!--FILTRO BIOO -->
+                <div class="col-md-3">
+                  <label for="bio" class="form-label">
+                    <i class="fas fa-align-left"></i> Descripción
+                  </label>
+                  <input type="text" class="form-control" id="bio" name="bio"
+                    value="<?= htmlspecialchars($buscarBio) ?>">
+                </div>
+
+                <!--FILTRO PRECIO -->
+                <div class="col-md-3">
+                  <label class="form-label">
+                    <i class="fas fa-dollar-sign"></i> Rango de Precio
+                  </label>
+                  <div class="input-group">
+                    <input type="number" class="form-control" name="precio_min" placeholder="Mín"
+                      value="<?= htmlspecialchars($buscarPrecioMin) ?>">
+                    <span class="input-group-text">-</span>
+                    <input type="number" class="form-control" name="precio_max" placeholder="Máx"
+                      value="<?= htmlspecialchars($buscarPrecioMax) ?>">
+                  </div>
+                </div>
+
+                <!--BOTONES PARA BUSCAR Y LIMPIAR-->
+                <div class="col-md-2 d-flex gap-2">
+                  <button type="submit" class="btn btn-success w-100">
+                    <i class="fas fa-search"></i> Buscar
+                  </button>
+                  <?php if ($hayFiltros): ?>
+                    <a href="buscador.php" class="btn btn-secondary w-100">
+                      <i class="fas fa-times"></i> Limpiar
+                    </a>
+                  <?php endif; ?>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
-<!-------------------------------TERMINA BUSCAR CANCHA------------------------------->
+    <!-------------------------------TERMINA BUSCAR CANCHA------------------------------->
 
 
 
     <!--------------------------------------FAVORITOS--------------------------------------------------->
-
+    
     <?php if ($misFavoritos): ?>
     <h1>Mis Favoritos</h1>
     <ul>
@@ -417,39 +418,40 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
     <h1 style="color: #ffffffff;">Canchas registradas</h1>
     <?php if ($canchas && count($canchas) > 0): ?>
     <!--permite comprobar que existan canchas y que tengan datos adentro-->
-      <ul>
+      <div class="row align-items-center justify-content-left">
         <?php foreach ($canchas as $cancha): ?>
-          <li>
-            <strong style="color: #ffffffff;"><?php echo htmlspecialchars($cancha['nombre']); ?></strong>
             <!--Muestra las variables q queremos-->
-            <strong style="color: #ffffffff;">- Ubicación: <?php echo htmlspecialchars($cancha['lugar']); ?></strong>
-            <strong style="color: #ffffffff;">- Precio: $<?php echo htmlspecialchars($cancha['precio']); ?></strong>
-            <strong style="color: #ffffffff;">- Descipcion: <?php echo htmlspecialchars($cancha['bio']); ?></strong>
-            <?php if ($cancha['foto']): ?>
-              <br><img src="uploads/<?= htmlspecialchars($cancha['foto']) ?>" width="100" height="60">
-            <?php endif; ?>
-            <a href="reservacion.php?id=<?= $cancha['id_cancha'] ?>"
-              style="background: #000000ff; color: white; padding: 5px 10px; text-decoration: none; border-radius: 3px;">
-              Ver Detalles
-            </a>
+              <div class="card col-12 col-sm-6 col-md-4" style="background-color: #41ab92;">
+                <strong style="color: #ffffffff;"><?php echo htmlspecialchars($cancha['nombre']); ?></strong>
+                <strong style="color: #ffffffff;">- Ubicación: <?php echo htmlspecialchars($cancha['lugar']); ?></strong>
+                <strong style="color: #ffffffff;">- Precio: $<?php echo htmlspecialchars($cancha['precio']); ?></strong>
+                <strong style="color: #ffffffff;">- Descipcion: <?php echo htmlspecialchars($cancha['bio']); ?></strong>
+                <?php if ($cancha['foto']): ?>
+                  <br><img src="uploads/<?= htmlspecialchars($cancha['foto']) ?>" width="100" height="60">
+                <?php endif; ?>
+                <a href="reservacion.php?id=<?= $cancha['id_cancha'] ?>"
+                  style="background: #000000ff; color: white; padding: 5px 10px; text-decoration: none; border-radius: 3px;">
+                  Ver Detalles
+                </a>
 
 
 
-            <!--PARA AGREGAR FAV CANCHAS (EL CODE ESTÁ EN ESTE PHP, MIS FAVORTIOS.PHP NO ANDA)-->
+                <!--PARA AGREGAR FAV CANCHAS (EL CODE ESTÁ EN ESTE PHP, MIS FAVORTIOS.PHP NO ANDA)-->
 
 
-            <form method="post" style="display:inline;">
-              <input type="hidden" name="id_cancha" value="<?= $cancha['id_cancha'] ?>">
-              <button type="submit" name="accion" value="toggle_favorito">
-                <?= in_array($cancha['id_cancha'], $favoritosIds) ? '⭐' : '☆' ?>
-              </button>
-            </form>
+                <form method="post" style="display:inline;">
+                  <input type="hidden" name="id_cancha" value="<?= $cancha['id_cancha'] ?>">
+                  <button type="submit" name="accion" value="toggle_favorito">
+                    <?= in_array($cancha['id_cancha'], $favoritosIds) ? '⭐' : '☆' ?>
+                  </button>
+                </form>
 
 
-
-          </li>
+              </div>
         <?php endforeach; ?>
-      </ul>
+      </div>
+
+
     <?php else: ?>
       <p>No hay canchas registradas.</p>
     <?php endif; ?>
@@ -457,6 +459,7 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
 
     <!-- Bootstrap 5 JS Bundle (incluye Popper) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+  </div>
 </body>
 
 </html>

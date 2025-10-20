@@ -150,16 +150,16 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
 <html lang="es">
 
 <head>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-  <!-- Font Awesome para iconos -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Panel de Control - Dueño</title>
-  <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <!-- Font Awesome para iconos -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Control - Dueño</title>
+    <link rel="stylesheet" href="style.css">
 
-  <style>
+    <style>
         body {
             background-color: #000000ff;
         }
@@ -337,7 +337,7 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
                         <img src="image/icon.png" alt="Logo" width="85" height="60"
                             class="d-inline-block align-text-top">
                     </a>
-                   
+
                     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
                         aria-labelledby="offcanvasNavbarLabel">
                         <div class="offcanvas-header">
@@ -371,9 +371,9 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
                                         class="rounded-circle border border-2 border-white" width="40" height="40"
                                         style="object-fit: cover;">
                                 <?php else: ?>
-                                    <div class="rounded-circle border border-2 border-white d-flex align-items-center justify-content-center bg-secondary text-white"
-                                        style="width: 40px; height: 40px; font-size: 20px;">
-                                        👤
+                                    <div class="rounded-circle border border-2 border-white d-flex align-items-center justify-content-center bg-primary text-white"
+                                        style="width: 40px; height: 40px; font-size: 16px; font-weight: bold;">
+                                        <?= strtoupper(substr($nombre, 0, length: 1)) ?>
                                     </div>
                                 <?php endif; ?>
                             </button>
