@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 02, 2025 at 04:28 PM
+-- Generation Time: Oct 09, 2025 at 12:31 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -106,6 +106,13 @@ CREATE TABLE `favoritos` (
   `fecha_agregado` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `favoritos`
+--
+
+INSERT INTO `favoritos` (`id_favorito`, `id_usuario`, `id_cancha`, `fecha_agregado`) VALUES
+(39, 10, 73, '2025-10-08 22:20:13');
+
 -- --------------------------------------------------------
 
 --
@@ -124,6 +131,7 @@ CREATE TABLE `reserva` (
   `jugadores_reservados` int(11) NOT NULL DEFAULT 1,
   `telefono` varchar(20) DEFAULT NULL,
   `observaciones` text DEFAULT NULL,
+  `categoria` tinyint(4) NOT NULL,
   `estado` enum('activa','cancelada') DEFAULT 'activa'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -131,40 +139,41 @@ CREATE TABLE `reserva` (
 -- Dumping data for table `reserva`
 --
 
-INSERT INTO `reserva` (`id_reserva`, `codigo_reserva`, `fecha`, `hora_inicio`, `hora_final`, `id_usuario`, `id_cancha`, `espacios_reservados`, `jugadores_reservados`, `telefono`, `observaciones`, `estado`) VALUES
-(56, 'MNTHZ6', '2025-09-14', '21:00:00', '22:00:00', 5, 73, 2, 1, '124124', '', 'cancelada'),
-(57, '6BMSKT', '2025-09-13', '22:00:00', '23:00:00', 2, 74, 1, 1, '12345464564', '', 'cancelada'),
-(58, '6AUN9K', '2025-09-13', '22:00:00', '23:00:00', 4, 74, 1, 1, '12434452332', '', 'cancelada'),
-(59, 'XQP742', '2025-09-14', '12:00:00', '13:00:00', 4, 73, 2, 1, '12334342123', '', 'cancelada'),
-(60, '4TLN0Q', '2025-09-14', '12:00:00', '13:00:00', 6, 73, 1, 1, '12345668', '', 'cancelada'),
-(61, 'LCY9W4', '2025-09-14', '12:00:00', '13:00:00', 2, 73, 1, 1, '21321134321', '', 'cancelada'),
-(62, 'L1G7FC', '2025-09-14', '15:00:00', '16:00:00', 2, 74, 1, 1, '2131314123', '', 'cancelada'),
-(63, 'JTCQFS', '2025-09-14', '15:00:00', '16:00:00', 2, 74, 1, 1, '2131434123131', '', 'cancelada'),
-(64, 'LZUGDT', '2025-09-14', '16:00:00', '17:00:00', 4, 73, 2, 1, '3143134321', '', 'cancelada'),
-(65, 'HPZ07W', '2025-09-14', '16:00:00', '17:00:00', 6, 73, 1, 1, '13214123', '', 'cancelada'),
-(66, '3PA7DT', '2025-09-15', '12:00:00', '13:00:00', 2, 74, 2, 1, '2131413412', '', 'activa'),
-(67, 'CAKXB4', '2025-09-15', '13:00:00', '14:00:00', 2, 74, 1, 1, '123413132', '', 'activa'),
-(68, 'PS98FT', '2025-09-15', '14:00:00', '15:00:00', 2, 74, 1, 1, '2131314431', '', 'activa'),
-(69, 'PZE5YN', '2025-09-15', '18:00:00', '19:00:00', 2, 74, 1, 1, '21321341', '', 'activa'),
-(70, 'W9SEYC', '2025-09-16', '19:00:00', '20:00:00', 2, 74, 1, 1, '12314214234142', '', 'activa'),
-(71, 'WYCUE2', '2025-09-17', '18:00:00', '19:00:00', 7, 74, 1, 1, '23142342341', '', 'activa'),
-(72, 'P4ZQHJ', '2025-09-17', '11:00:00', '12:00:00', 7, 74, 1, 1, '1414123413', '', 'activa'),
-(73, '82IXQ6', '2025-09-17', '15:00:00', '16:00:00', 7, 74, 1, 1, '123214131241', '', 'activa'),
-(74, 'HFWUKE', '2025-09-17', '21:00:00', '22:00:00', 7, 74, 1, 1, '4134141312313', '', 'activa'),
-(75, 'FSJ3AK', '2025-09-17', '08:00:00', '09:00:00', 7, 74, 1, 1, '12431423423', '', 'activa'),
-(76, 'WC1GKF', '2025-09-17', '16:00:00', '17:00:00', 7, 73, 1, 1, '21342343241', '', 'activa'),
-(77, 'SX1G46', '2025-09-17', '20:00:00', '21:00:00', 7, 73, 1, 1, '1314213413', '', 'activa'),
-(78, '2XR87Q', '2025-09-17', '11:00:00', '12:00:00', 7, 73, 1, 1, '134342133414', '', 'activa'),
-(79, 'C9H8GM', '2025-09-17', '14:00:00', '15:00:00', 7, 73, 1, 1, '1321432142421', '', 'activa'),
-(80, 'DH58G6', '2025-09-17', '13:00:00', '14:00:00', 7, 74, 2, 1, '2323425234', '', 'activa'),
-(81, 'WOM6NY', '2025-09-17', '21:00:00', '22:00:00', 2, 76, 2, 1, '223442342523', '', 'activa'),
-(82, 'EGKXFZ', '2025-09-17', '19:00:00', '20:00:00', 2, 76, 3, 1, '332423421421', '', 'activa'),
-(83, '3Q5OZ9', '2025-09-17', '21:00:00', '22:00:00', 4, 76, 2, 1, '321312413', '', 'activa'),
-(84, 'Z17MXA', '2025-10-01', '10:00:00', '11:00:00', 8, 73, 3, 1, '124124124124', '', 'cancelada'),
-(85, '1P9ONB', '2025-10-01', '21:00:00', '22:00:00', 8, 74, 2, 1, '124124124', '', 'cancelada'),
-(86, '1V93AO', '2025-10-02', '22:00:00', '23:00:00', 8, 74, 3, 1, '124124', '', 'cancelada'),
-(87, 'ZMRN74', '2025-10-01', '21:00:00', '22:00:00', 8, 74, 1, 1, '1241241', '', 'cancelada'),
-(88, 'JTR9VB', '2025-10-01', '21:00:00', '22:00:00', 8, 74, 1, 1, '124124', '', 'activa');
+INSERT INTO `reserva` (`id_reserva`, `codigo_reserva`, `fecha`, `hora_inicio`, `hora_final`, `id_usuario`, `id_cancha`, `espacios_reservados`, `jugadores_reservados`, `telefono`, `observaciones`, `categoria`, `estado`) VALUES
+(56, 'MNTHZ6', '2025-09-14', '21:00:00', '22:00:00', 5, 73, 2, 1, '124124', '', 0, 'cancelada'),
+(57, '6BMSKT', '2025-09-13', '22:00:00', '23:00:00', 2, 74, 1, 1, '12345464564', '', 0, 'cancelada'),
+(58, '6AUN9K', '2025-09-13', '22:00:00', '23:00:00', 4, 74, 1, 1, '12434452332', '', 0, 'cancelada'),
+(59, 'XQP742', '2025-09-14', '12:00:00', '13:00:00', 4, 73, 2, 1, '12334342123', '', 0, 'cancelada'),
+(60, '4TLN0Q', '2025-09-14', '12:00:00', '13:00:00', 6, 73, 1, 1, '12345668', '', 0, 'cancelada'),
+(61, 'LCY9W4', '2025-09-14', '12:00:00', '13:00:00', 2, 73, 1, 1, '21321134321', '', 0, 'cancelada'),
+(62, 'L1G7FC', '2025-09-14', '15:00:00', '16:00:00', 2, 74, 1, 1, '2131314123', '', 0, 'cancelada'),
+(63, 'JTCQFS', '2025-09-14', '15:00:00', '16:00:00', 2, 74, 1, 1, '2131434123131', '', 0, 'cancelada'),
+(64, 'LZUGDT', '2025-09-14', '16:00:00', '17:00:00', 4, 73, 2, 1, '3143134321', '', 0, 'cancelada'),
+(65, 'HPZ07W', '2025-09-14', '16:00:00', '17:00:00', 6, 73, 1, 1, '13214123', '', 0, 'cancelada'),
+(66, '3PA7DT', '2025-09-15', '12:00:00', '13:00:00', 2, 74, 2, 1, '2131413412', '', 0, 'activa'),
+(67, 'CAKXB4', '2025-09-15', '13:00:00', '14:00:00', 2, 74, 1, 1, '123413132', '', 0, 'activa'),
+(68, 'PS98FT', '2025-09-15', '14:00:00', '15:00:00', 2, 74, 1, 1, '2131314431', '', 0, 'activa'),
+(69, 'PZE5YN', '2025-09-15', '18:00:00', '19:00:00', 2, 74, 1, 1, '21321341', '', 0, 'activa'),
+(70, 'W9SEYC', '2025-09-16', '19:00:00', '20:00:00', 2, 74, 1, 1, '12314214234142', '', 0, 'activa'),
+(71, 'WYCUE2', '2025-09-17', '18:00:00', '19:00:00', 7, 74, 1, 1, '23142342341', '', 0, 'activa'),
+(72, 'P4ZQHJ', '2025-09-17', '11:00:00', '12:00:00', 7, 74, 1, 1, '1414123413', '', 0, 'activa'),
+(73, '82IXQ6', '2025-09-17', '15:00:00', '16:00:00', 7, 74, 1, 1, '123214131241', '', 0, 'activa'),
+(74, 'HFWUKE', '2025-09-17', '21:00:00', '22:00:00', 7, 74, 1, 1, '4134141312313', '', 0, 'activa'),
+(75, 'FSJ3AK', '2025-09-17', '08:00:00', '09:00:00', 7, 74, 1, 1, '12431423423', '', 0, 'activa'),
+(76, 'WC1GKF', '2025-09-17', '16:00:00', '17:00:00', 7, 73, 1, 1, '21342343241', '', 0, 'activa'),
+(77, 'SX1G46', '2025-09-17', '20:00:00', '21:00:00', 7, 73, 1, 1, '1314213413', '', 0, 'activa'),
+(78, '2XR87Q', '2025-09-17', '11:00:00', '12:00:00', 7, 73, 1, 1, '134342133414', '', 0, 'activa'),
+(79, 'C9H8GM', '2025-09-17', '14:00:00', '15:00:00', 7, 73, 1, 1, '1321432142421', '', 0, 'activa'),
+(80, 'DH58G6', '2025-09-17', '13:00:00', '14:00:00', 7, 74, 2, 1, '2323425234', '', 0, 'activa'),
+(81, 'WOM6NY', '2025-09-17', '21:00:00', '22:00:00', 2, 76, 2, 1, '223442342523', '', 0, 'activa'),
+(82, 'EGKXFZ', '2025-09-17', '19:00:00', '20:00:00', 2, 76, 3, 1, '332423421421', '', 0, 'activa'),
+(83, '3Q5OZ9', '2025-09-17', '21:00:00', '22:00:00', 4, 76, 2, 1, '321312413', '', 0, 'activa'),
+(84, 'Z17MXA', '2025-10-01', '10:00:00', '11:00:00', 8, 73, 3, 1, '124124124124', '', 0, 'cancelada'),
+(85, '1P9ONB', '2025-10-01', '21:00:00', '22:00:00', 8, 74, 2, 1, '124124124', '', 0, 'cancelada'),
+(86, '1V93AO', '2025-10-02', '22:00:00', '23:00:00', 8, 74, 3, 1, '124124', '', 0, 'cancelada'),
+(87, 'ZMRN74', '2025-10-01', '21:00:00', '22:00:00', 8, 74, 1, 1, '1241241', '', 0, 'cancelada'),
+(88, 'JTR9VB', '2025-10-01', '21:00:00', '22:00:00', 8, 74, 1, 1, '124124', '', 0, 'activa'),
+(89, 'RLJ8YA', '2025-10-02', '21:00:00', '22:00:00', 2, 78, 2, 1, '23123123', '', 0, 'activa');
 
 -- --------------------------------------------------------
 
@@ -180,23 +189,25 @@ CREATE TABLE `usuario` (
   `foto` varchar(255) DEFAULT NULL,
   `telefono` varchar(20) DEFAULT NULL,
   `fecha_registro` timestamp NOT NULL DEFAULT current_timestamp(),
-  `categoria` tinyint(4) DEFAULT 1
+  `categoria` tinyint(4) DEFAULT 1,
+  `posicion` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `usuario`
 --
 
-INSERT INTO `usuario` (`id_usuario`, `nombre`, `email`, `contrasena`, `foto`, `telefono`, `fecha_registro`, `categoria`) VALUES
-(1, 'A', 'A@gmail.com', '123456', NULL, NULL, '2025-09-17 14:54:27', 0),
-(2, 'Beti', 'beti@gmail.com', '123', NULL, '24942921312', '2025-09-17 14:54:27', 0),
-(3, 'Pe', 'Pe@gmail.com', '123', NULL, NULL, '2025-09-17 14:54:27', 0),
-(4, 'b', 'b@gmail.com', '123', NULL, NULL, '2025-09-17 14:54:27', 0),
-(5, 'CAA', 'CA@gmail.com', '123', 'usuario_5_1757718444.png', NULL, '2025-09-17 14:54:27', 0),
-(6, 'Z', 'Z@gmail.com', '123', 'usuario_6_1757790994.jpg', NULL, '2025-09-17 14:54:27', 0),
-(7, 'f', 'f@gmail.com', '123', NULL, NULL, '2025-09-17 14:54:27', 0),
-(8, 'c', 'c@gmail.com', '123456', 'usuario_8_1759322651.png', '12345', '2025-10-01 12:32:55', 0),
-(9, 'Pa', 'pa@gmail.com', '123456', 'usuario_9_1759415133.png', '12345', '2025-10-02 13:56:50', 5);
+INSERT INTO `usuario` (`id_usuario`, `nombre`, `email`, `contrasena`, `foto`, `telefono`, `fecha_registro`, `categoria`, `posicion`) VALUES
+(1, 'A', 'A@gmail.com', '123456', NULL, NULL, '2025-09-17 14:54:27', 0, ''),
+(2, 'Beti', 'beti@gmail.com', '123', NULL, '24942921312', '2025-09-17 14:54:27', 5, 'Izquierda'),
+(3, 'Pe', 'Pe@gmail.com', '123', NULL, NULL, '2025-09-17 14:54:27', 0, ''),
+(4, 'b', 'b@gmail.com', '123', NULL, NULL, '2025-09-17 14:54:27', 0, ''),
+(5, 'CAA', 'CA@gmail.com', '123', 'usuario_5_1757718444.png', NULL, '2025-09-17 14:54:27', 0, ''),
+(6, 'Z', 'Z@gmail.com', '123', 'usuario_6_1757790994.jpg', NULL, '2025-09-17 14:54:27', 0, ''),
+(7, 'f', 'f@gmail.com', '123', NULL, NULL, '2025-09-17 14:54:27', 0, ''),
+(8, 'c', 'c@gmail.com', '123456', 'usuario_8_1759322651.png', '12345', '2025-10-01 12:32:55', 0, ''),
+(9, 'Pa', 'pa@gmail.com', '123456', 'usuario_9_1759415133.png', '12345', '2025-10-02 13:56:50', 3, 'SinPreferencia'),
+(10, 'AAA', 'AAA@GMAIL.COM', '123456', 'usuario_10_1759961830.jpg', '1234124', '2025-10-08 22:16:22', 1, 'Derecha');
 
 -- --------------------------------------------------------
 
@@ -209,16 +220,21 @@ CREATE TABLE `valoracion` (
   `valor` int(10) NOT NULL,
   `comentario` text NOT NULL,
   `id_usuario` int(11) NOT NULL,
-  `id_cancha` int(11) NOT NULL
+  `id_cancha` int(11) NOT NULL,
+  `fecha` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `valoracion`
 --
 
-INSERT INTO `valoracion` (`id_valoracion`, `valor`, `comentario`, `id_usuario`, `id_cancha`) VALUES
-(2, 4, 'Muy buena gestion!', 6, 74),
-(3, 5, 'Excelente todo, desde la cancha hasta la gestion', 7, 74);
+INSERT INTO `valoracion` (`id_valoracion`, `valor`, `comentario`, `id_usuario`, `id_cancha`, `fecha`) VALUES
+(2, 4, 'Muy buena gestion!', 6, 74, '2025-10-08 18:33:51'),
+(3, 5, 'Excelente todo, desde la cancha hasta la gestion', 7, 74, '2025-10-08 18:33:51'),
+(8, 3, 'Anasheii', 9, 78, '2025-10-08 20:41:55'),
+(9, 4, 'Cbum sos re lindaaa', 2, 78, '2025-10-08 22:18:16'),
+(10, 5, 'Tung tung tung sahurr\r\nBallerina Capuccina\r\nTrulinero Truliccina', 10, 78, '2025-10-08 22:20:05'),
+(11, 5, 'Ww against k6 xddd', 10, 73, '2025-10-08 22:20:32');
 
 -- --------------------------------------------------------
 
@@ -294,7 +310,8 @@ ALTER TABLE `usuario`
 --
 ALTER TABLE `valoracion`
   ADD PRIMARY KEY (`id_valoracion`),
-  ADD UNIQUE KEY `id_usuario` (`id_usuario`,`id_cancha`);
+  ADD UNIQUE KEY `id_usuario` (`id_usuario`,`id_cancha`),
+  ADD UNIQUE KEY `id_usuario_2` (`id_usuario`,`id_cancha`);
 
 --
 -- Indexes for table `verificacion`
@@ -328,25 +345,25 @@ ALTER TABLE `duenio`
 -- AUTO_INCREMENT for table `favoritos`
 --
 ALTER TABLE `favoritos`
-  MODIFY `id_favorito` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id_favorito` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `reserva`
 --
 ALTER TABLE `reserva`
-  MODIFY `id_reserva` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
+  MODIFY `id_reserva` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
 
 --
 -- AUTO_INCREMENT for table `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `valoracion`
 --
 ALTER TABLE `valoracion`
-  MODIFY `id_valoracion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_valoracion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `verificacion`

@@ -65,6 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['actualizar_datos'])) 
     $email = trim($_POST['email'] ?? '');
     $telefono = trim($_POST['telefono'] ?? '');
     $categoria = intval($_POST['categoria'] ?? 0);
+    $posicion = trim($_POST['posicion'] ?? '');
 
 
     if ($nombre === '' || $email === '') {
@@ -113,10 +114,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['actualizar_datos'])) 
                 if (empty($error)) {
                     $stmt = $pdo->prepare("
                         UPDATE usuario 
-                        SET nombre = ?, email = ?, telefono = ?, foto = ?, categoria = ?
+                        SET nombre = ?, email = ?, telefono = ?, foto = ?, categoria = ?, posicion = ?
                         WHERE id_usuario = ?
                     ");
-                    $stmt->execute([$nombre, $email, $telefono, $foto_final, $categoria, $id_usuario]);
+                    $stmt->execute([$nombre, $email, $telefono, $foto_final, $categoria, $posicion, $id_usuario]);
                     
                     $_SESSION['nombre'] = $nombre;
                     
@@ -126,6 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['actualizar_datos'])) 
                     $usuario['telefono'] = $telefono;
                     $usuario['foto'] = $foto_final;
                     $usuario['categoria'] = $categoria;
+                    $usuario['posicion'] = $posicion;
                     
                     $msg = 'Datos actualizados correctamente.';
                 }
@@ -547,6 +549,16 @@ try {
                                                         <option value="6" <?= ($usuario['categoria'] == 6) ? 'selected' : '' ?>>Categoría 6</option>
                                                         <option value="7" <?= ($usuario['categoria'] == 7) ? 'selected' : '' ?>>Categoría 7</option>
                                                         </select>     
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 mb-3">
+                                                        <label class="form-label">Posición</label>
+                                                        <select class="form-control neumorphic-input" id="posicion" name="posicion" required>
+                                                            <option value="Derecha" <?= ($usuario['posicion'] == 'Derecha') ? 'selected' : '' ?>>Derecha</option>
+                                                            <option value="Izquierda" <?= ($usuario['posicion'] == 'Izquierda') ? 'selected' : '' ?>>Izquierda</option>
+                                                            <option value="SinPreferencia" <?= ($usuario['posicion'] == 'SinPreferencia') ? 'selected' : '' ?>>Sin Preferencia</option>
+                                                        </select>
                                                     </div>
                                                 </div>
 
