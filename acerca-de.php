@@ -15,7 +15,7 @@ if ($nombre) {
         if ($row && !empty($row['foto'])) {
             $foto = $row['foto'];
         }
-    } catch (PDOException $e) { 
+    } catch (PDOException $e) {
         error_log("Error fetching foto: " . $e->getMessage());
     }
 }
@@ -219,8 +219,7 @@ if ($nombre) {
 </head>
 
 <body>
-    <div class="container-fluid p-2 bg-light">
-
+    <div class="container-fluid p-0 m-0 bg-light">
         <!-- Header Section -->
         <section class="text-center text-white d-flex flex-column">
             <!-- Navbar -->
@@ -229,7 +228,7 @@ if ($nombre) {
                     <nav class="navbar navbar-expand-lg">
                         <a class="navbar-brand me-auto" href="#">
                             <img src="image/icon.png" alt="Logo" width="85" height="60"
-                                class="d-inline-block align-text-top">
+                                class="d-inline-block align-text-top pos">
                         </a>
                         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
                             aria-labelledby="offcanvasNavbarLabel">
@@ -271,9 +270,9 @@ if ($nombre) {
                                             class="rounded-circle border border-2 border-white" width="40" height="40"
                                             style="object-fit: cover;">
                                     <?php else: ?>
-                                        <div class="rounded-circle border border-2 border-white d-flex align-items-center justify-content-center bg-secondary text-white"
-                                            style="width: 40px; height: 40px; font-size: 20px;">
-                                            👤
+                                        <div class="rounded-circle border border-2 border-white d-flex align-items-center justify-content-center bg-primary text-white"
+                                            style="width: 40px; height: 40px; font-size: 16px; font-weight: bold;">
+                                            <?= strtoupper(substr($nombre, 0, length: 1)) ?>
                                         </div>
                                     <?php endif; ?>
                                 </button>
