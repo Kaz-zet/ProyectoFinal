@@ -69,7 +69,7 @@ if ($calendario)
 </head>
 
 <body>
-  <div class="container-fluid p-0 m-0">
+  <div class="container-fluid p-0 m-0 " style="background-color: #f0f0f0; min-height: 100vh;">
     <!-- Navbar -->
     <div class="row" id="navbar">
       <div class="col-12">

@@ -242,7 +242,7 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
 </head>
 
 <body>
-  <div class="container-fluid p-0 m-0">
+  <div class="container-fluid p-0 m-0" style="background-color: #f0f0f0; min-height: 100vh;">
     <!-- Navbar -->
     <div class="row" id="navbar">
       <div class="col-12">
@@ -405,14 +405,15 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
     <!--------------------------------------FAVORITOS--------------------------------------------------->
 <?php if ($misFavoritos): ?>
 <h1>Mis Favoritos</h1>
-<ul>
+<div class="row row-cols-1 row-cols-md-3 g-4 align-items-center justify-content-left ">
   <?php foreach ($misFavoritos as $cancha): ?>
     <?php 
     $rating = obtenerPromedioValoracion($pdo, $cancha['id_cancha']);
     $promedio = $rating['promedio'];
     $total = $rating['total'];
     ?>
-  <li>
+            <div class="col-12 col-sm-6 col-md-4" >
+              <div class="card h-100 p-2 mb-3 " style="background-color: #41ab92;">
     <?= htmlspecialchars($cancha['nombre']) ?> -
     <?= htmlspecialchars($cancha['lugar']) ?> -
     <?= htmlspecialchars($cancha['precio']) ?> -
@@ -449,9 +450,10 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
         <?= in_array($cancha['id_cancha'], $favoritosIds) ? '⭐' : '☆' ?>
       </button>
     </form>
-  </li>
+  </div>
+  </div>
   <?php endforeach; ?>
-</ul>
+</div>
 <?php endif; ?>
 
 
@@ -460,7 +462,7 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
 
     <!------------------------------------------------------------------------------------------------------->
 
-    <h1 style="color: #ffffffff;">Canchas registradas</h1>
+    <h1 style="color: #0a0505ff;">Canchas registradas</h1>
     <?php if ($canchas && count($canchas) > 0): ?>
     <!--permite comprobar que existan canchas y que tengan datos adentro-->
       <div class="row row-cols-1 row-cols-md-3 g-4 align-items-center justify-content-left ">
@@ -472,6 +474,21 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
               <strong style="color: #ffffffff;">- Ubicación: <?php echo htmlspecialchars($cancha['lugar']); ?></strong>
               <strong style="color: #ffffffff;">- Precio: $<?php echo htmlspecialchars($cancha['precio']); ?></strong>
               <strong style="color: #ffffffff;">- Descipcion: <?php echo htmlspecialchars($cancha['bio']); ?></strong>
+              <strong style="color: #ffffffff;">- valoracion :  <?php if ($total > 0): ?>
+        <span style="color: #ffc107; font-size: 18px;">
+            <?php
+            $stars = round($promedio);
+            for ($i = 1; $i <= 5; $i++) {
+                echo $i <= $stars ? '★' : '☆';
+            }
+            ?>
+        </span>
+        <span style="color: #ffffffff;">
+            <?= number_format($promedio, 1) ?>/5 (<?= $total ?>)
+        </span>
+    <?php else: ?>
+        <span style="color: #999;">Sin valoraciones</span>
+    <?php endif; ?></strong>
               <?php if ($cancha['foto']): ?>
                 <br><img src="uploads/<?= htmlspecialchars($cancha['foto']) ?>" width="100" height="60">
               <?php endif; ?>

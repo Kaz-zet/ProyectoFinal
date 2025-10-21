@@ -366,7 +366,7 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
 </head>
 
 <body>
-    <div class="container-fluid text-light p-2">
+    <div class="container-fluid text-light p-2" style= "background-color: #f0f0f0; min-height: 100vh;">
 
 
         <!-- Navbar -->
@@ -501,7 +501,7 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
                     <div class="text-center">
                         <h2 class="text-primary mb-3"><?= htmlspecialchars($cancha['nombre']) ?></h2>
                         <p class="text-info mb-2"><span><?= htmlspecialchars($cancha['lugar']) ?></span></p>
-                        <p class="lead mb-4">
+                        <p class="lead mb-4" style= "color: #0B0519">
                             <?= htmlspecialchars($cancha['bio']) ?>
                         </p>
                         <?php if (!empty($cancha['duenio_nombre'])): ?>
@@ -521,7 +521,7 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
             <!-- Sistema de reserva-->
             <div class="row mt-4">
                 <div class="col-12">
-                    <h3 class="text-center mb-4"><?= $id_usuario ? 'Haz clic para reservar' : 'Horarios disponibles' ?></h3>
+                    <h3 class="text-center mb-4" style= "color: #0B0519" ><?= $id_usuario ? 'Haz clic para reservar' : 'Horarios disponibles' ?></h3>
 
                     <!-- PARA SELECCIONAR DIAS-->
                     <div class="date-picker-container text-center"
@@ -669,7 +669,7 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
         <!----------------------------VALORACIONES DATOS GENERALES  ----------------------------------->
         <div class="row mt-5">
             <div class="col-12">
-                <h3 class="text-center mb-4">Valoraciones!</h3>
+                <h3 class="text-center mb-4"  style= "color:#0B0519">Valoraciones!</h3>
 
                 <?php
                 //Datos de las canchas!
@@ -720,9 +720,9 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
                     <div class="col-md-10 offset-md-1">
                         <?php if (!empty($valoraciones)): ?>
                             <?php foreach ($valoraciones as $v): ?>
-                                <div class="" style="background-color: #ffffffff;"> <!--Agregar card si querer, pero se ve con el hover auto puesto.-->
-                                    <div class="card-body" style="background-color: #000000ff;">
-                                        <div class="d-flex align-items-center mb-2" style="background-color: #000000ff;">
+                                <div class="" style="background-color: #ffffffff; border-radius: 16px;"> <!--Agregar card si querer, pero se ve con el hover auto puesto.-->
+                                    <div class="card-body" style="background-color: white; ">
+                                        <div class="d-flex align-items-center mb-2" style="background-color: white;">
 
                             <!--FOTO DEL USUARIO PARA EL COMENTARIO-->
                                             <?php if (!empty($v['foto'])): ?>
@@ -738,7 +738,7 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
 
 
                                             <div class="flex-grow-1">
-                                                <h5 class="mb-0"><?= htmlspecialchars($v['nombre']) ?></h5>
+                                                <h5 class="mb-0" style= "color: #0B0519"><?= htmlspecialchars($v['nombre']) ?></h5>
                                                 <div class="text-warning">
                                                     <?php for ($i = 1; $i <= 5; $i++): ?>
                                                         <?= $i <= $v['valor'] ? '★' : '☆' ?>
@@ -750,7 +750,7 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
                                             </div>
                                         </div>
                                         <?php if (!empty($v['comentario'])): ?>
-                                            <p class="card-text mb-0"><?= nl2br(htmlspecialchars($v['comentario'])) ?></p>
+                                            <p class="card-text mb-0" style= "color: #0B0519"><?= nl2br(htmlspecialchars($v['comentario'])) ?></p>
                                         <?php endif; ?>
                                     </div>
                                 </div>
@@ -786,19 +786,19 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
 
 
             <div class="row mt-5 mb-5 ">
-                <div class="col-md-8 offset-md-2" >
+                <div class="col-md-8 offset-md-2" style="border radius: 10px" >
 
                     <h4 class="text-center mb-4">
                         <?= $miValoracion ? 'Editar tu valoración' : 'Deja tu valoración' ?>
                     </h4>
 
-                    <form method="POST" action="procesar_valoracion.php" id="formValoracion" style="background-color: #000000ff;">
+                    <form method="POST" action="procesar_valoracion.php" id="formValoracion" style="background-color: white; border-radius: 16Spx">
                         <input type="hidden" name="id_cancha" value="<?= htmlspecialchars($id_cancha) ?>">
                         <input type="hidden" name="id_usuario" value="<?= htmlspecialchars($id_usuario) ?>">
                         <input type="hidden" name="modo" value="<?= $miValoracion ? 'editar' : 'nuevo' ?>" id="modoInput">
 
                         <div class="mb-4 text-center">
-                            <label class="form-label fw-bold fs-5">Tu puntuación:</label>
+                            <label class="form-label fw-bold fs-5" style= "color: #0B0519">Tu puntuación:</label>
 
 
 
@@ -825,7 +825,7 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
                         </div>
 
                         <div class="mb-3">
-                            <label for="comentario" class="form-label fw-bold">Opiniones!</label>
+                            <label for="comentario" class="form-label fw-bold" style= "color: #0B0519">Opiniones!</label>
                             <textarea name="comentario" id="comentario" class="form-control" rows="4" maxlength="777"
                                 placeholder="Escribí tu experiencia con esta cancha...tu opinion realmente nos importa!"><?= htmlspecialchars($miValoracion['comentario'] ?? '') ?></textarea>
                             <div class="form-text">Máximo 777 caracteres</div>
