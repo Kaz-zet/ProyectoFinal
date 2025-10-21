@@ -384,7 +384,7 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
 
 
     <!--------------------------------------FAVORITOS--------------------------------------------------->
-    
+
     <?php if ($misFavoritos): ?>
     <h1>Mis Favoritos</h1>
     <ul>
@@ -418,36 +418,37 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
     <h1 style="color: #ffffffff;">Canchas registradas</h1>
     <?php if ($canchas && count($canchas) > 0): ?>
     <!--permite comprobar que existan canchas y que tengan datos adentro-->
-      <div class="row align-items-center justify-content-left">
+      <div class="row row-cols-1 row-cols-md-3 g-4 align-items-center justify-content-left ">
         <?php foreach ($canchas as $cancha): ?>
-            <!--Muestra las variables q queremos-->
-              <div class="card col-12 col-sm-6 col-md-4" style="background-color: #41ab92;">
-                <strong style="color: #ffffffff;"><?php echo htmlspecialchars($cancha['nombre']); ?></strong>
-                <strong style="color: #ffffffff;">- Ubicación: <?php echo htmlspecialchars($cancha['lugar']); ?></strong>
-                <strong style="color: #ffffffff;">- Precio: $<?php echo htmlspecialchars($cancha['precio']); ?></strong>
-                <strong style="color: #ffffffff;">- Descipcion: <?php echo htmlspecialchars($cancha['bio']); ?></strong>
-                <?php if ($cancha['foto']): ?>
-                  <br><img src="uploads/<?= htmlspecialchars($cancha['foto']) ?>" width="100" height="60">
-                <?php endif; ?>
-                <a href="reservacion.php?id=<?= $cancha['id_cancha'] ?>"
-                  style="background: #000000ff; color: white; padding: 5px 10px; text-decoration: none; border-radius: 3px;">
-                  Ver Detalles
-                </a>
+          <!--Muestra las variables q queremos-->
+          <div class="col-12 col-sm-6 col-md-4" >
+            <div class="card h-100 p-2 mb-3 " style="background-color: #41ab92;">
+              <strong style="color: #ffffffff;"><?php echo htmlspecialchars($cancha['nombre']); ?></strong>
+              <strong style="color: #ffffffff;">- Ubicación: <?php echo htmlspecialchars($cancha['lugar']); ?></strong>
+              <strong style="color: #ffffffff;">- Precio: $<?php echo htmlspecialchars($cancha['precio']); ?></strong>
+              <strong style="color: #ffffffff;">- Descipcion: <?php echo htmlspecialchars($cancha['bio']); ?></strong>
+              <?php if ($cancha['foto']): ?>
+                <br><img src="uploads/<?= htmlspecialchars($cancha['foto']) ?>" width="100" height="60">
+              <?php endif; ?>
+              <a href="reservacion.php?id=<?= $cancha['id_cancha'] ?>"
+                style="background: #000000ff; color: white; padding: 5px 10px; text-decoration: none; border-radius: 3px;">
+                Ver Detalles
+              </a>
 
 
 
-                <!--PARA AGREGAR FAV CANCHAS (EL CODE ESTÁ EN ESTE PHP, MIS FAVORTIOS.PHP NO ANDA)-->
+              <!--PARA AGREGAR FAV CANCHAS (EL CODE ESTÁ EN ESTE PHP, MIS FAVORTIOS.PHP NO ANDA)-->
 
 
-                <form method="post" style="display:inline;">
-                  <input type="hidden" name="id_cancha" value="<?= $cancha['id_cancha'] ?>">
-                  <button type="submit" name="accion" value="toggle_favorito">
-                    <?= in_array($cancha['id_cancha'], $favoritosIds) ? '⭐' : '☆' ?>
-                  </button>
-                </form>
+              <form method="post" style="display:inline;">
+                <input type="hidden" name="id_cancha" value="<?= $cancha['id_cancha'] ?>">
+                <button type="submit" name="accion" value="toggle_favorito">
+                  <?= in_array($cancha['id_cancha'], $favoritosIds) ? '⭐' : '☆' ?>
+                </button>
+              </form>
 
-
-              </div>
+            </div>
+          </div>
         <?php endforeach; ?>
       </div>
 
