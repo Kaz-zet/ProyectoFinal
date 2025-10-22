@@ -129,7 +129,7 @@ if ($calendario)
 
     .tutorial-progress {
       font-size: 11px;
-      color: #666;
+      color: #666; /*Esto es lo que dice 1/7 y asi*/
       margin-top: 8px;
     }
   </style>
@@ -229,9 +229,17 @@ if ($calendario)
     <div class="row py-5 mb-5 mt-3" id="inicio">
       <div class="col-12 d-flex flex-column justify-content-center align-items-center text-center">
         <h1 class="text-center-left text-white">
-          Bienvenido/a <?= htmlspecialchars($nombre ?? 'a CanchApp') ?>!
+          ¡Hola <?= htmlspecialchars($nombre ?? 'a CanchApp') ?>!
         </h1>
+        <?php if ($rol === 'usuario'): ?>
+        <p class="text-center-left text-white">Tu sitio de confianza para reservar canchas.</p>
+        <?php endif; ?>
+        <?php if ($rol === 'duenio'): ?>
+        <p class="text-center-left text-white">Tu sitio de confianza para gestionar canchas.</p>
+        <?php endif; ?>
+        <?php if ($rol === null): ?>
         <p class="text-center-left text-white">Tu sitio de confianza para reservar o gestionar canchas.</p>
+        <?php endif; ?>
 
         <!--Botón para iniciar tutorial-->
         <button id="btnIniciarTutorial" class="btn btn-info mt-2 mb-3">
@@ -399,9 +407,9 @@ if ($calendario)
     integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
     crossorigin="anonymous"></script>
 
-  <!-- Script del tutorial -->
+  <!--PARA AGREGAR BOTONES-->
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function() { //Una vez que carga la página carga esto:
       const pasos = [
         { 
           elemento: '#btnInicio', 
@@ -446,42 +454,43 @@ if ($calendario)
       let tooltip = null;
       let elementoActual = null;
 
-      function limpiarPaso() {
+      function limpiarPaso() { //Vuelve a 0 los pasos una vez q cerrás.
         if (tooltip && tooltip.parentNode) {
-          tooltip.remove();
+          tooltip.remove(); //Y borra el cuadrito blanco anterior
         }
         if (elementoActual) {
-          elementoActual.classList.remove('tutorial-highlight');
+          elementoActual.classList.remove('tutorial-highlight'); //Saca el resaltado
         }
         tooltip = null;
         elementoActual = null;
       }
 
+      //Para que se vean los pasos---------------------------------------------------------------------------
       function mostrarPaso(index) {
-        limpiarPaso();
+        limpiarPaso(); //limpia paso anterior
 
-        if (index >= pasos.length) {
+        if (index >= pasos.length) { //Si no hay mas pasos termina tutorial
           finalizarTutorial();
           return;
         }
 
-        const paso = pasos[index];
-        const elem = document.querySelector(paso.elemento);
+        const paso = pasos[index]; //La variable paso toma el valor del paso actual.
+        const elem = document.querySelector(paso.elemento); //Con este busca el boton que tiene la ID que pusimos.
         
-        if (!elem) {
+        if (!elem) { //Ponele q no sos dueño y no ves todos los pasos, se salta hasta encontrar el q te corresponda.
           pasoActual++;
           mostrarPaso(pasoActual);
           return;
         }
+        //.................................................................
 
-        // Mostrar overlay
-        overlay.style.display = 'block';
+        //
+        overlay.style.display = 'block'; //muestra la sombra esa.
         
-        // Scroll al elemento
         elem.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
         setTimeout(() => {
-          // Resaltar elemento
+          //Espera un cachito y resalta el elemento que estamos buscando.
           elem.classList.add('tutorial-highlight');
           elementoActual = elem;
 
@@ -499,14 +508,14 @@ if ($calendario)
           `;
           document.body.appendChild(tooltip);
 
-          // Posicionar tooltip
+          //Posiciona pooltip
           const rect = elem.getBoundingClientRect();
           const tooltipRect = tooltip.getBoundingClientRect();
           
           let top = rect.bottom + window.scrollY + 15;
           let left = rect.left + (rect.width / 2) - (tooltipRect.width / 2);
           
-          // Ajustar si se sale de la pantalla
+          //Ajusta el tamaño del tutorial
           if (left < 10) left = 10;
           if (left + tooltipRect.width > window.innerWidth - 10) {
             left = window.innerWidth - tooltipRect.width - 10;
@@ -523,18 +532,18 @@ if ($calendario)
         pasoActual = 0;
       }
 
-      // Funciones globales para los botones
+      //Funciones globales para los botones
       window.tutorialSiguiente = function() {
         pasoActual++;
         mostrarPaso(pasoActual);
       };
-      // Iniciar tutorial con el botón
+      //Inicia tutorial con el botón
       document.getElementById('btnIniciarTutorial').addEventListener('click', function() {
         pasoActual = 0;
         mostrarPaso(pasoActual);
       });
 
-      // Cerrar tutorial al hacer click en el overlay
+      //Cierra el tutorial al hacer click en el overlay (Afuera)
       overlay.addEventListener('click', function() {
         finalizarTutorial();
       });
