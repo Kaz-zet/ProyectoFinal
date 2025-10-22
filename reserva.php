@@ -524,13 +524,9 @@ if ($id_cancha && $fecha && $hora_inicio) {
                     
                     <div class="mb-4">
                         <label for="nombre" class="form-label">Tu Nombre <span style="color: #dc3545;">*</span></label>
-<<<<<<< Updated upstream
-                        <input type="text" name="nombre" class="form-control neumorphic-input" required id="nombre" placeholder="Nombre completo" value="<?= isset($_SESSION['nombre']) ? htmlspecialchars($_SESSION['nombre']) : '' ?>">
-=======
                         <input type="text" name="nombre" class="form-control neumorphic-input" required id="nombre" 
                                placeholder="Nombre completo" 
                                value="<?= htmlspecialchars($usuario_data['nombre'] ?? '') ?>">
->>>>>>> Stashed changes
                     </div>
                     
                     <div class="mb-4">

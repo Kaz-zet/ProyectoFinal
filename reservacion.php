@@ -726,19 +726,29 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
 
                             <!--FOTO DEL USUARIO PARA EL COMENTARIO-->
                                             <?php if (!empty($v['foto'])): ?>
-                                                <img src="uploads/usuarios/<?= htmlspecialchars($v['foto']) ?>"
-                                                    alt="<?= htmlspecialchars($v['nombre']) ?>" class="rounded-circle me-3"
-                                                    width="50" height="50" style="object-fit: cover;">
+                                                <a href="perfil_otro.php?id=<?= $v['id_usuario'] ?>">
+                                                    <img src="uploads/usuarios/<?= htmlspecialchars($v['foto']) ?>"
+                                                        alt="<?= htmlspecialchars($v['nombre']) ?>" class="rounded-circle me-3"
+                                                        width="50" height="50" style="object-fit: cover;">
+                                                </a>
                                             <?php else: ?>
-                                                <div class="rounded-circle text-white me-3 d-flex align-items-center justify-content-center"
-                                                    style="width: 50px; height: 50px; font-size: 20px; font-weight: bold;">
-                                                    <?= strtoupper(substr($v['nombre'], 0, 1)) ?>
-                                                </div>
+                                                <a href="perfil_otro.php?id=<?= $v['id_usuario'] ?>" style="text-decoration: none;">
+                                                    <div class="rounded-circle text-white me-3 d-flex align-items-center justify-content-center"
+                                                        style="width: 50px; height: 50px; font-size: 20px; font-weight: bold;  ">
+                                                        <?= strtoupper(substr($v['nombre'], 0, 1)) ?>
+                                                    </div>
+                                                </a>
                                             <?php endif; ?>
 
 
                                             <div class="flex-grow-1">
+<<<<<<< Updated upstream
                                                 <h5 class="mb-0" style= "color: #0B0519"><?= htmlspecialchars($v['nombre']) ?></h5>
+=======
+                                                <a href="perfil_otro.php?id=<?= $v['id_usuario'] ?>" style="color: inherit; text-decoration: none;">
+                                                    <h5 class="mb-0"><?= htmlspecialchars($v['nombre']) ?></h5>
+                                                </a>
+>>>>>>> Stashed changes
                                                 <div class="text-warning">
                                                     <?php for ($i = 1; $i <= 5; $i++): ?>
                                                         <?= $i <= $v['valor'] ? '★' : '☆' ?>
