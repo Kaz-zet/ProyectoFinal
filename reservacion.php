@@ -716,11 +716,11 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
                 <?php endif; ?>
 
                 <!--COMENTARIOS Y VALORACIONES DE USUARIOS (SE VE RARO)-->
-                <div class="row">
+                <div class="row" style="background-color: #ffffffff; border-radius: 16px;">
                     <div class="col-md-10 offset-md-1">
                         <?php if (!empty($valoraciones)): ?>
                             <?php foreach ($valoraciones as $v): ?>
-                                <div class="" style="background-color: #ffffffff; border-radius: 16px;"> <!--Agregar card si querer, pero se ve con el hover auto puesto.-->
+                                <div class="card" > <!--Agregar card si querer, pero se ve con el hover auto puesto.-->
                                     <div class="card-body" style="background-color: white; ">
                                         <div class="d-flex align-items-center mb-2" style="background-color: white;">
 
@@ -786,7 +786,7 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
 
 
             <div class="row mt-5 mb-5 ">
-                <div class="col-md-8 offset-md-2" style="border radius: 10px" >
+                <div class="col-md-8 offset-md-2" style="border-radius: 10px;" >
 
                     <h4 class="text-center mb-4">
                         <?= $miValoracion ? 'Editar tu valoración' : 'Deja tu valoración' ?>
