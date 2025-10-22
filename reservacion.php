@@ -562,19 +562,19 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
                     <div class="legend justify-content-center">
                         <div class="legend-item">
                             <div class="legend-color" style="background-color: #28a745;"></div>
-                            <span>Disponible</span>
+                            <span style= "color: #0B0519">Disponible</span>
                         </div>
                         <div class="legend-item">
                             <div class="legend-color" style="background-color: #ffc107;"></div>
-                            <span>Parcialmente ocupado</span>
+                            <span style= "color: #0B0519">Parcialmente ocupado</span>
                         </div>
                         <div class="legend-item">
                             <div class="legend-color" style="background-color: #dc3545;"></div>
-                            <span>Ocupado</span>
+                            <span style= "color: #0B0519">Ocupado</span>
                         </div>
                         <div class="legend-item">
                             <div class="legend-color" style="background-color: #6c757d;"></div>
-                            <span>Hora pasada</span>
+                            <span style= "color: #0B0519">Hora pasada</span>
                         </div>
                     </div>
 
