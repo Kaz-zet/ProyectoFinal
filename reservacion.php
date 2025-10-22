@@ -742,13 +742,9 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
 
 
                                             <div class="flex-grow-1">
-<<<<<<< Updated upstream
-                                                <h5 class="mb-0" style= "color: #0B0519"><?= htmlspecialchars($v['nombre']) ?></h5>
-=======
                                                 <a href="perfil_otro.php?id=<?= $v['id_usuario'] ?>" style="color: inherit; text-decoration: none;">
                                                     <h5 class="mb-0"><?= htmlspecialchars($v['nombre']) ?></h5>
                                                 </a>
->>>>>>> Stashed changes
                                                 <div class="text-warning">
                                                     <?php for ($i = 1; $i <= 5; $i++): ?>
                                                         <?= $i <= $v['valor'] ? '★' : '☆' ?>
@@ -796,7 +792,7 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
 
 
             <div class="row mt-5 mb-5 ">
-                <div class="col-md-8 offset-md-2" style="border radius: 10px" >
+                <div class="col-md-8 offset-md-2">
 
                     <h4 class="text-center mb-4">
                         <?= $miValoracion ? 'Editar tu valoración' : 'Deja tu valoración' ?>

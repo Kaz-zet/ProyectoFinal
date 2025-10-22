@@ -412,14 +412,13 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
     $promedio = $rating['promedio'];
     $total = $rating['total'];
     ?>
-            <div class="col-12 col-sm-6 col-md-4" >
-              <div class="card h-100 p-2 mb-3 " style="background-color: #41ab92;">
-    <?= htmlspecialchars($cancha['nombre']) ?> -
-    <?= htmlspecialchars($cancha['lugar']) ?> -
-    <?= htmlspecialchars($cancha['precio']) ?> -
-    <?= htmlspecialchars($cancha['bio']) ?>
-    <br>
-    <?php if ($total > 0): ?>
+           <div class="col-12 col-sm-6 col-md-4" >
+            <div class="card h-100 p-2 mb-3 " style="background-color: #41ab92;">
+              <strong style="color: #ffffffff;"><?php echo htmlspecialchars($cancha['nombre']); ?></strong>
+              <strong style="color: #ffffffff;">- Ubicación: <?php echo htmlspecialchars($cancha['lugar']); ?></strong>
+              <strong style="color: #ffffffff;">- Precio: $<?php echo htmlspecialchars($cancha['precio']); ?></strong>
+              <strong style="color: #ffffffff;">- Descipcion: <?php echo htmlspecialchars($cancha['bio']); ?></strong>
+              <strong style="color: #ffffffff;">- valoracion :  <?php if ($total > 0): ?>
         <span style="color: #ffc107; font-size: 18px;">
             <?php
             $stars = round($promedio);
@@ -467,6 +466,11 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
     <!--permite comprobar que existan canchas y que tengan datos adentro-->
       <div class="row row-cols-1 row-cols-md-3 g-4 align-items-center justify-content-left ">
         <?php foreach ($canchas as $cancha): ?>
+          <?php
+            $rating = obtenerPromedioValoracion($pdo, $cancha['id_cancha']);
+            $promedio = $rating['promedio'];
+            $total = $rating['total'];
+          ?>
           <!--Muestra las variables q queremos-->
           <div class="col-12 col-sm-6 col-md-4" >
             <div class="card h-100 p-2 mb-3 " style="background-color: #41ab92;">

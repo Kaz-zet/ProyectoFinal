@@ -3,7 +3,7 @@ session_start();
 require_once 'conexiones/conDB.php';
 
 // Solo usuarios pueden ver su perfil
-if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'usuario') {
+if (!isset($_SESSION['rol'])) {
     die("Solo los usuarios pueden ver su perfil.");
 }
 
@@ -280,22 +280,6 @@ try {
                 </div>
             <?php endif; ?>
 
-            <!-- Contenido Principal con Tabs -->
-            <div class="row">
-                <div class="col-12">
-                    <ul class="nav nav-tabs profile-tabs mb-4 bg-light rounded-4" id="profileTab" role="tablist">
-
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="historial-tab" data-bs-toggle="tab" data-bs-target="#historial"
-                                type="button" role="tab">
-                                <i class="fas fa-history me-2"></i>Historial
-                            </button>
-                        </li>
-                    </ul>
-
-                    <div class="tab-content" id="profileTabContent">
-                        <!-- Tab Historial -->
-                        <div class="tab-pane fade" id="historial" role="tabpanel">
                             <div class="card">
                                 <div class="card-header">
                                     <h5 class="mb-0"><i class="fas fa-history me-2"></i>Historial de Partidos</h5>
