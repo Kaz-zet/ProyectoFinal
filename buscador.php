@@ -476,6 +476,11 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
     <!--permite comprobar que existan canchas y que tengan datos adentro-->
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 px-1">
         <?php foreach ($canchas as $cancha): ?>
+          <?php
+            $rating = obtenerPromedioValoracion($pdo, $cancha['id_cancha']);
+            $promedio = $rating['promedio'];
+            $total = $rating['total'];
+          ?>
           <!--Muestra las variables q queremos-->
           <div class="col">
             <div class="card h-100 d-flex flex-column bg-primary">
