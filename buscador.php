@@ -541,10 +541,12 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
               <div class="card-footer mt-auto">
                 <div class="row justify-content-center align-items-center g-2">
                   <div class="col-10 bg-dark">
+                    <?php if ($rol === 'usuario'): ?>
                     <a href="reservacion.php?id=<?= $cancha['id_cancha'] ?>"
                       style="color:#f0f0f0; padding: 5px 10px; text-decoration: none; border-radius: 3px;">
                       Ver Detalles
                     </a>
+                    <?php endif; ?>
                   </div>
                   <div class="col-2">
                     <!--PARA AGREGAR FAV CANCHAS (EL CODE ESTÁ EN ESTE PHP, MIS FAVORTIOS.PHP NO ANDA)-->
