@@ -257,6 +257,12 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
             background-color: #6c757d;
             cursor: not-allowed;
         }
+        .time-slot.pasado:hover {
+            background-color: #6c757d;
+            transform: translateY(-2px);
+            color: white;
+            text-decoration: none;
+        }
 
         .time-slot.selected {
             background-color: #007bff !important;
@@ -483,34 +489,63 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
 
         <?php if ($cancha): ?>
             <!-- Busca imagen -->
-            <div class="row mt-4">
-                <div class="col-12">
-                    <?php if (!empty($cancha['foto'])): ?>
-                        <img src="uploads/<?= htmlspecialchars($cancha['foto']) ?>" class="img-fluid w-100 court-image"
-                            alt="<?= htmlspecialchars($cancha['nombre']) ?>">
-                    <?php else: ?>
-                        <img src="image/cancha.jpg" class="img-fluid w-100 court-image"
-                            alt="<?= htmlspecialchars($cancha['nombre']) ?>">
-                    <?php endif; ?>
-                </div>
-            </div>
-
-            <!-- Información de la cancha -->
-            <div class="row mt-4">
-                <div class="col-12">
-                    <div class="text-center">
-                        <h2 class="text-primary mb-3"><?= htmlspecialchars($cancha['nombre']) ?></h2>
-                        <p class="text-info mb-2"><span><?= htmlspecialchars($cancha['lugar']) ?></span></p>
-                        <p class="lead mb-4" style= "color: #0B0519">
-                            <?= htmlspecialchars($cancha['bio']) ?>
-                        </p>
-                        <?php if (!empty($cancha['duenio_nombre'])): ?>
-                            <p class="text-info mb-2">Dueño: <?= htmlspecialchars($cancha['duenio_nombre']) ?></p>
-                        <?php endif; ?>
-                        <p class="text-success mb-4">Precio: $<?= number_format($cancha['precio']) ?> por hora</p>
+            <div class="row justify-content-center align-items-center p-4 g-4">
+                <div class="col-md-5 col-sm-12">
+                    <div class="row justify-content-center align-items-center g-2">
+                        <div class="col align-items-center">
+                            <?php if (!empty($cancha['foto'])): ?>
+                                <img src="uploads/<?= htmlspecialchars($cancha['foto']) ?>" class="img-fluid w-100 court-image"
+                                    alt="<?= htmlspecialchars($cancha['nombre']) ?>">
+                            <?php else: ?>
+                                <img src="image/cancha.jpg" class="img-fluid w-100 court-image"
+                                    alt="<?= htmlspecialchars($cancha['nombre']) ?>">
+                            <?php endif; ?>
+                        </div>
                     </div>
                 </div>
-            </div>
+            
+
+                <!-- Información de la cancha -->
+                <div class="col-lg-7 col-sm-12">
+                    <div class="row justify-content-center align-items-center g-2">
+                        <div class="col align-text-top">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <h2 class="section-title" style="color: black"><?= htmlspecialchars($cancha['nombre']) ?></h2>
+                                    <p class="mb-4" style= "color: #0B0519">
+                                        <?= htmlspecialchars($cancha['bio']) ?>
+                                    </p>
+                                    <div class="row g-4 mt-4">
+                                        <div class="col-md-6">
+                                            <div class="text-center">
+                                                    <i class="icono"></i>
+                                                    <h5 style="color:black">Direccion</h5>
+                                                    <p class="mb-4" style= "color: #0B0519"><span><?= htmlspecialchars($cancha['lugar']) ?></span></p>
+                                                    <?php if (!empty($cancha['duenio_nombre'])): ?>
+                                            </div>
+                                        </div>
+                                        <div  class="col-md-6">
+                                            <div class="text-center">
+                                                <i class="icono"></i>
+                                                <h5 style="color:black">Propietario</h5>
+                                                <p class="mb-4" style= "color: #0B0519"> <?= htmlspecialchars($cancha['duenio_nombre']) ?></p>
+                                            </div>
+                                        </div>
+                                        <?php endif; ?>
+                                        <div  class="col-md-6">
+                                            <div class="text-center">
+                                                <i class="icono"></i>
+                                                <h5 style="color:black">Precio</h5>
+                                                <p class="mb-4" style= "color: #0B0519">Precio: $<?= number_format($cancha['precio']) ?> por hora</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>    
+                            </div>
+                        </div>
+                    </div>
+                </div>    
+            </div> 
 
             <?php if (!$id_usuario): ?>
                 <div class="alert-login">
@@ -716,7 +751,7 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
                 <?php endif; ?>
 
                 <!--COMENTARIOS Y VALORACIONES DE USUARIOS (SE VE RARO)-->
-                <div class="row" style="background-color: #ffffffff; border-radius: 16px;">
+                <div class="row" style="background-color: #f0f0f0f0; border-radius: 16px;">
                     <div class="col-md-10 offset-md-1">
                         <?php if (!empty($valoraciones)): ?>
                             <?php foreach ($valoraciones as $v): ?>
@@ -734,7 +769,7 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
                                             <?php else: ?>
                                                 <a href="perfil_otro.php?id=<?= $v['id_usuario'] ?>" style="text-decoration: none;">
                                                     <div class="rounded-circle text-white me-3 d-flex align-items-center justify-content-center"
-                                                        style="width: 50px; height: 50px; font-size: 20px; font-weight: bold;  ">
+                                                        style="width: 50px; height: 50px; font-size: 20px; font-weight: bold; background-color: gray;  ">
                                                         <?= strtoupper(substr($v['nombre'], 0, 1)) ?>
                                                     </div>
                                                 </a>
@@ -794,11 +829,11 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
             <div class="row mt-5 mb-5 ">
                 <div class="col-md-8 offset-md-2" style="border-radius: 10px;" >
 
-                    <h4 class="text-center mb-4">
+                    <h4 class="text-center mb-4" style="color:black">
                         <?= $miValoracion ? 'Editar tu valoración' : 'Deja tu valoración' ?>
                     </h4>
 
-                    <form method="POST" action="procesar_valoracion.php" id="formValoracion" style="background-color: white; border-radius: 16Spx">
+                    <form method="POST" action="procesar_valoracion.php" id="formValoracion" style="background-color: #f0f0f0f0; border-radius: 16Spx">
                         <input type="hidden" name="id_cancha" value="<?= htmlspecialchars($id_cancha) ?>">
                         <input type="hidden" name="id_usuario" value="<?= htmlspecialchars($id_usuario) ?>">
                         <input type="hidden" name="modo" value="<?= $miValoracion ? 'editar' : 'nuevo' ?>" id="modoInput">
@@ -1022,13 +1057,13 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
                     </div>
                     <div class="modal-footer justify-content-center">
                         <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">
-                            No
+                            No!
                         </button>
                         <form method="POST" action="procesar_valoracion.php" class="d-inline">
                             <input type="hidden" name="id_cancha" value="<?= htmlspecialchars($id_cancha) ?>">
                             <input type="hidden" name="modo" value="eliminar">
                             <button type="submit" class="btn btn-danger px-4">
-                                Chi uwu
+                                Si!
                             </button>
                         </form>
                     </div>

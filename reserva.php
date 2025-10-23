@@ -420,7 +420,7 @@ if ($id_cancha && $fecha && $hora_inicio) {
     <!-- Formulario de Reserva -->
     <div id="main" class="d-flex justify-content-center align-items-center min-vh-100">
       <div class="neumorphic-card">
-        <h1 class="text-center fw-bold mb-4" style="color: var(--main-color);">🎾 Reservar Cancha</h1>
+        <h1 class="text-center fw-bold mb-4" style="color: var(--main-color);"> Reservar Cancha</h1>
         
         <?php if ($msg): ?>
         <div class="alert alert-success alert-custom">
@@ -435,6 +435,48 @@ if ($id_cancha && $fecha && $hora_inicio) {
         </div>
         <?php endif; ?>
         
+        <div class="col-12">
+                <h3 class="text-center mb-4">Valoraciones!</h3>
+
+                <?php
+                try {
+                  $stmt = $pdo->prepare("
+                    SELECT r.*, u.nombre, u.foto, u.id_usuario
+                    FROM reserva r
+                    INNER JOIN usuario u ON r.id_usuario = u.id_usuario
+                    WHERE r.id_cancha = ?
+                      AND r.fecha = ?
+                      AND r.estado = 'activa'
+                      AND (
+                          (r.hora_inicio <= ? AND r.hora_final > ?)
+                          OR
+                          (r.hora_inicio < ? AND r.hora_final >= ?)
+                          OR
+                          (r.hora_inicio >= ? AND r.hora_final <= ?)
+                      )
+                    ORDER BY r.fecha ASC
+                  ");
+
+                $stmt->execute([
+                    $id_cancha,
+                    $fecha,
+                    $hora_inicio, $hora_inicio,
+                    $hora_final, $hora_final,
+                    $hora_inicio, $hora_final
+                ]);
+
+                $reservas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                  if (count($reservas) === 0) {
+                    echo "<div class='alert alert-info alert-custom'>No hay reservas para esta cancha aún.</div>";
+                  }
+                } catch (PDOException $e) {
+                  echo "<div class='alert alert-danger alert-custom'>Error al cargar los perfiles.</div>";
+                }
+?>
+        </div>
+        
+
         <?php if ($cancha && !$msg): ?>
             <!-- Información de la Cancha -->
             <div class="cancha-info">
@@ -467,11 +509,22 @@ if ($id_cancha && $fecha && $hora_inicio) {
                     </div>
                     
                     <div class="espacios-visual">
-                        <?php for ($i = 1; $i <= 4; $i++): ?>
-                            <div class="espacio-visual <?= $i <= $espacios_ocupados_actual ? 'espacio-ocupado' : 'espacio-disponible' ?>">
-                                <?= $i <= $espacios_ocupados_actual ? '✕' : '◯' ?>
+                      <?php foreach ($reservas as $r): ?>
+                        <?php if (!empty($r['foto'])): ?>
+                          <a href="perfil_otro.php?id=<?= $r['id_usuario'] ?>">
+                            <img src="uploads/usuarios/<?= htmlspecialchars($r['foto']) ?>"
+                            alt="<?= htmlspecialchars($r['nombre']) ?>" class="rounded-circle me-3"
+                            width="50" height="50" style="object-fit: cover;">
+                          </a>
+                        <?php else: ?>
+                          <a href="perfil_otro.php?id=<?= $r['id_usuario'] ?>" style="text-decoration: none;">
+                            <div class="rounded-circle  text-black me-3 d-flex align-items-center justify-content-center"
+                                 style="width: 50px; height: 50px; font-size: 20px; font-weight: bold;">
+                              <?= strtoupper(substr($r['nombre'], 0, 1)) ?>
                             </div>
-                        <?php endfor; ?>
+                          </a>
+                        <?php endif; ?>
+                      <?php endforeach; ?>
                     </div>
                     
                     <?php if ($espacios_ocupados_actual > 0 && $reservas_existentes): ?>
@@ -571,7 +624,7 @@ if ($id_cancha && $fecha && $hora_inicio) {
                     </div>
                     
                     <div class="d-grid">
-                        <button type="submit" name="confirmar_reserva" class="btn neumorphic-btn">🎾 Confirmar Reserva</button>
+                        <button type="submit" name="confirmar_reserva" class="btn neumorphic-btn"> Confirmar Reserva</button>
                     </div>
                     
                     <div class="d-grid">
