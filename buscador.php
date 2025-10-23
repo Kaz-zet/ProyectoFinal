@@ -27,21 +27,22 @@ if ($nombre) {
 
 
 //----------------PARA VER EL PROMEDIO DE ESTRELLAS PARA LA CANCHA!--------------------------------------------------
-function obtenerPromedioValoracion($pdo, $id_cancha) {
-    try {
-        $stmt = $pdo->prepare("
+function obtenerPromedioValoracion($pdo, $id_cancha)
+{
+  try {
+    $stmt = $pdo->prepare("
             SELECT 
                 COALESCE(AVG(valor), 0) as promedio,
                 COUNT(*) as total
             FROM valoracion 
             WHERE id_cancha = ?
         ");
-        $stmt->execute([$id_cancha]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        error_log("Error getting rating: " . $e->getMessage());
-        return ['promedio' => 0, 'total' => 0];
-    }
+    $stmt->execute([$id_cancha]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+  } catch (PDOException $e) {
+    error_log("Error getting rating: " . $e->getMessage());
+    return ['promedio' => 0, 'total' => 0];
+  }
 }
 //--------------------------------------------------------------------------------------------------
 
@@ -242,7 +243,7 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
 </head>
 
 <body>
-  <div class="container-fluid p-0 m-0">
+  <div class="container-fluid p-0 m-0" style="background-color: #f0f0f0; min-height: 100vh;">
     <!-- Navbar -->
     <div class="row" id="navbar">
       <div class="col-12">
@@ -403,161 +404,153 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
     <!-------------------------------TERMINA BUSCAR CANCHA------------------------------->
 
     <!--------------------------------------FAVORITOS--------------------------------------------------->
-<?php if ($misFavoritos): ?>
-<h1>Mis Favoritos</h1>
-<ul>
-  <?php foreach ($misFavoritos as $cancha): ?>
-    <?php 
-    $rating = obtenerPromedioValoracion($pdo, $cancha['id_cancha']);
-    $promedio = $rating['promedio'];
-    $total = $rating['total'];
-    ?>
-  <li>
-    <?= htmlspecialchars($cancha['nombre']) ?> -
-    <?= htmlspecialchars($cancha['lugar']) ?> -
-    <?= htmlspecialchars($cancha['precio']) ?> -
-    <?= htmlspecialchars($cancha['bio']) ?>
-    <br>
-    <?php if ($total > 0): ?>
-        <span style="color: #ffc107; font-size: 18px;">
-            <?php
-            $stars = round($promedio);
-            for ($i = 1; $i <= 5; $i++) {
-                echo $i <= $stars ? '★' : '☆';
-            }
-            ?>
-        </span>
-        <span style="color: #ffffffff;">
-            <?= number_format($promedio, 1) ?>/5 (<?= $total ?>)
-        </span>
-    <?php else: ?>
-        <span style="color: #999;">Sin valoraciones</span>
-    <?php endif; ?>
-
-    <?php if ($cancha['foto']): ?>
-    <br><img src="uploads/<?= htmlspecialchars($cancha['foto']) ?>" width="100" height="60">
-    <?php endif; ?> 
-    
-    <a href="reservacion.php?id=<?= $cancha['id_cancha'] ?>"
-      style="background: #000000ff; color: white; padding: 5px 10px; text-decoration: none; border-radius: 3px;">
-      Ver Detalles
-    </a>
-    
-    <form method="post" style="display:inline;">
-      <input type="hidden" name="id_cancha" value="<?= $cancha['id_cancha'] ?>">
-      <button type="submit" name="accion" value="toggle_favorito">
-        <?= in_array($cancha['id_cancha'], $favoritosIds) ? '⭐' : '☆' ?>
-      </button>
-    </form>
-  </li>
-  <?php endforeach; ?>
-</ul>
-<?php endif; ?>
-
-
-<!---------------------------------------CANCHAS NORMALES---------------------------------------------------------------->
-<h1 style="color: #ffffffff;">Canchas registradas</h1>
-<?php if ($canchas && count($canchas) > 0): ?>
-<!--permite comprobar que existan canchas y que tengan datos adentro-->
-  <ul>
-    <?php foreach ($canchas as $cancha): ?>
-      <?php 
+    <?php if ($misFavoritos): ?>
+    <h1>Mis Favoritos</h1>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 px-1">
+      <?php foreach ($misFavoritos as $cancha): ?>
+      <?php
       $rating = obtenerPromedioValoracion($pdo, $cancha['id_cancha']);
       $promedio = $rating['promedio'];
       $total = $rating['total'];
       ?>
-      <li>
-        <strong style="color: #ffffffff;"><?php echo htmlspecialchars($cancha['nombre']); ?></strong>
-        <!--Muestra las variables q queremos-->
-        <strong style="color: #ffffffff;">- Ubicación: <?php echo htmlspecialchars($cancha['lugar']); ?></strong>
-        <strong style="color: #ffffffff;">- Precio: $<?php echo htmlspecialchars($cancha['precio']); ?></strong>
-        <strong style="color: #ffffffff;">- Descripción: <?php echo htmlspecialchars($cancha['bio']); ?></strong>
-        
-        <!--Muestra las estrillitas y el total de valoraciones!!-->
-        <br>
-        <?php if ($total > 0): ?>
+      <div class="col">
+        <div class="card h-100 d-flex flex-column" style="background-color: #41ab92;">
+          <div class="div-body">
+            <?= htmlspecialchars($cancha['nombre']) ?> -
+            <?= htmlspecialchars($cancha['lugar']) ?> -
+            <?= htmlspecialchars($cancha['precio']) ?> -
+            <?= htmlspecialchars($cancha['bio']) ?>
+            <br>
+            <?php if ($total > 0): ?>
             <span style="color: #ffc107; font-size: 18px;">
-                <?php
-                $stars = round($promedio);
-                for ($i = 1; $i <= 5; $i++) {
-                    echo $i <= $stars ? '★' : '☆';
-                }
-                ?>
+              <?php
+              $stars = round($promedio);
+              for ($i = 1; $i <= 5; $i++) {
+                echo $i <= $stars ? '★' : '☆';
+              }
+              ?>
             </span>
             <span style="color: #ffffffff;">
-                <?= number_format($promedio, 1) ?>/5 (<?= $total ?>)
+              <?= number_format($promedio, 1) ?>/5 (
+              <?= $total ?>)
             </span>
-        <?php else: ?>
+            <?php else: ?>
             <span style="color: #999;">Sin valoraciones</span>
-        <?php endif; ?>
-        
+            <?php endif; ?>
+          </div>
 
-        
-        <?php if ($cancha['foto']): ?>
+          <?php if ($cancha['foto']): ?>
           <br><img src="uploads/<?= htmlspecialchars($cancha['foto']) ?>" width="100" height="60">
-        <?php endif; ?>
-        
-        <a href="reservacion.php?id=<?= $cancha['id_cancha'] ?>"
-          style="background: #000000ff; color: white; padding: 5px 10px; text-decoration: none; border-radius: 3px;">
-          Ver Detalles
-        </a>
+          <?php endif; ?>
+          <div class="card-footer mt-auto">
+            <a href="reservacion.php?id=<?= $cancha['id_cancha'] ?>"
+              style="background: #000000ff; color: white; padding: 5px 10px; text-decoration: none; border-radius: 3px;">
+              Ver Detalles
+            </a>
 
-        <!--PARA AGREGAR FAV CANCHAS (EL CODE ESTÁ EN ESTE PHP, MIS FAVORTIOS.PHP NO ANDA)-->
-        <form method="post" style="display:inline;">
-          <input type="hidden" name="id_cancha" value="<?= $cancha['id_cancha'] ?>">
-          <button type="submit" name="accion" value="toggle_favorito">
-            <?= in_array($cancha['id_cancha'], $favoritosIds) ? '⭐' : '☆' ?>
-          </button>
-        </form>
-
-      </li>
-    <?php endforeach; ?>
-  </ul>
-<?php else: ?>
-  <p>No hay canchas registradas.</p>
-<?php endif; ?>
-<a href="index.php">Volver</a>
-
-<!-- Bootstrap 5 JS Bundle (incluye Popper) -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-
+            <form method="post" style="display:inline;">
+              <input type="hidden" name="id_cancha" value="<?= $cancha['id_cancha'] ?>">
+              <button type="submit" name="accion" value="toggle_favorito">
+                <?= in_array($cancha['id_cancha'], $favoritosIds) ? '⭐' : '☆' ?>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
       <?php endforeach; ?>
-    </ul>
+
+    </div>
     <?php endif; ?>
+
+
+    <hr class="h-200 mx-auto my-3 border-dark" style="height: 4px; background-color: #000; border: none;">
+
+
+    <!---------------------------------------CANCHAS NORMALES---------------------------------------------------------------->
+
 
     <!------------------------------------------------------------------------------------------------------->
 
-    <h1 style="color: #ffffffff;">Canchas registradas</h1>
+    <h1 style="color: #0a0505ff;">Canchas registradas</h1>
     <?php if ($canchas && count($canchas) > 0): ?>
     <!--permite comprobar que existan canchas y que tengan datos adentro-->
-      <div class="row row-cols-1 row-cols-md-3 g-4 align-items-center justify-content-left ">
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 px-1">
         <?php foreach ($canchas as $cancha): ?>
+          <?php
+            $rating = obtenerPromedioValoracion($pdo, $cancha['id_cancha']);
+            $promedio = $rating['promedio'];
+            $total = $rating['total'];
+          ?>
           <!--Muestra las variables q queremos-->
-          <div class="col-12 col-sm-6 col-md-4" >
-            <div class="card h-100 p-2 mb-3 " style="background-color: #41ab92;">
-              <strong style="color: #ffffffff;"><?php echo htmlspecialchars($cancha['nombre']); ?></strong>
-              <strong style="color: #ffffffff;">- Ubicación: <?php echo htmlspecialchars($cancha['lugar']); ?></strong>
-              <strong style="color: #ffffffff;">- Precio: $<?php echo htmlspecialchars($cancha['precio']); ?></strong>
-              <strong style="color: #ffffffff;">- Descipcion: <?php echo htmlspecialchars($cancha['bio']); ?></strong>
+          <div class="col">
+            <div class="card h-100 d-flex flex-column bg-primary">
+              <div class="card-head-bus bg-dark text-center">
+                <h6 style="color: #ffffffff;"><?php echo htmlspecialchars($cancha['nombre']); ?></h6>
+              </div>
+              <hr>
+              <div class="card-body-bus">
+                <ul>
+                  <li>
+                    <p style="color: #ffffffff;">- Ubicación: <?php echo htmlspecialchars($cancha['lugar']); ?></p>
+                  </li>
+                  <li>
+                    <p style="color: #ffffffff;">- Precio: $<?php echo htmlspecialchars($cancha['precio']); ?></p>
+                  </li>
+                  <li>
+
+                    <!-- revisar -->
+                    <button type="button" class="btn btn-secondary" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-content="<?php echo htmlspecialchars($cancha['bio']); ?>">
+                      Descripción
+                    </button>                    
+                    
+
+
+
+
+                  </li>
+                </ul>
+
+
+                
+
+              </div>
+              <div class="logo-container">  
               <?php if ($cancha['foto']): ?>
-                <br><img src="uploads/<?= htmlspecialchars($cancha['foto']) ?>" width="100" height="60">
+                  <img src="uploads/<?= htmlspecialchars($cancha['foto']) ?>" class="img-fluid"
+                    style="height: 140px; width: 40%; object-fit: cover;">
               <?php endif; ?>
-              <a href="reservacion.php?id=<?= $cancha['id_cancha'] ?>"
-                style="background: #000000ff; color: white; padding: 5px 10px; text-decoration: none; border-radius: 3px;">
-                Ver Detalles
-              </a>
+                <br>
+                <strong style="color: #ffffffff;">- valoracion : <?php if ($total > 0): ?>
+                    <span style="color: #ffc107; font-size: 18px;">
+                      <?php
+                      $stars = round($promedio);
+                      for ($i = 1; $i <= 5; $i++) {
+                        echo $i <= $stars ? '★' : '☆';
+                      }
+                      ?>
+                    </span>
+                    <span style="color: #ffffffff;">
+                      <?= number_format($promedio, 1) ?>/5 (<?= $total ?>)
+                    </span>
+                  <?php else: ?>
+                    <span style="color: #999;">Sin valoraciones</span>
+                  <?php endif; ?></strong>
+              </div>
+              <div class="card-footer mt-auto">
+                <a href="reservacion.php?id=<?= $cancha['id_cancha'] ?>"
+                  style="background: #000000ff; color: white; padding: 5px 10px; text-decoration: none; border-radius: 3px;">
+                  Ver Detalles
+                </a>
 
+                <!--PARA AGREGAR FAV CANCHAS (EL CODE ESTÁ EN ESTE PHP, MIS FAVORTIOS.PHP NO ANDA)-->
+                <form method="post" style="display:inline;">
+                  <input type="hidden" name="id_cancha" value="<?= $cancha['id_cancha'] ?>">
+                  <button type="submit" name="accion" value="toggle_favorito">
+                    <?= in_array($cancha['id_cancha'], $favoritosIds) ? '⭐' : '☆' ?>
+                  </button>
+                </form>
 
-
-              <!--PARA AGREGAR FAV CANCHAS (EL CODE ESTÁ EN ESTE PHP, MIS FAVORTIOS.PHP NO ANDA)-->
-
-
-              <form method="post" style="display:inline;">
-                <input type="hidden" name="id_cancha" value="<?= $cancha['id_cancha'] ?>">
-                <button type="submit" name="accion" value="toggle_favorito">
-                  <?= in_array($cancha['id_cancha'], $favoritosIds) ? '⭐' : '☆' ?>
-                </button>
-              </form>
+              </div>
 
             </div>
           </div>
@@ -568,10 +561,31 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
     <?php else: ?>
       <p>No hay canchas registradas.</p>
     <?php endif; ?>
-    <a href="index.php">Volver</a>
 
     <!-- Bootstrap 5 JS Bundle (incluye Popper) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+      const collapses = document.querySelectorAll('.collapse');
+
+      collapses.forEach((item) => {
+        item.addEventListener('show.bs.collapse', () => {
+          collapses.forEach((el) => {
+            if (el !== item) {
+              const collapseInstance = bootstrap.Collapse.getInstance(el);
+              if (collapseInstance) {
+                collapseInstance.hide();
+              }
+            }
+          });
+        });
+      });
+    </script>
+
+    <script>
+      const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+      const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+    </script>
   </div>
 </body>
 

@@ -327,7 +327,7 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
 </head>
 
 <body>
-    <div class="container-fluid p-0 m-0 main-container">
+    <div class="container-fluid p-0 m-0 main-container" style="background-color: #f0f0f0; min-height: 100vh;">
         <!-- Navbar -->
 
         <div class="row" id="navbar">

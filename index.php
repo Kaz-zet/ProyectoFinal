@@ -1,8 +1,8 @@
 <?php
 session_start();
-$nombre = $_SESSION['nombre'] ?? null; //Si existe el nombre y rol que lo asigne, sino q no ponga nada. Asi la gente sin iniciar sesion puede entrar.
+$nombre = $_SESSION['nombre'] ?? null;
 $rol = $_SESSION['rol'] ?? null;
-$foto = null; // Obtener la foto de la sesión
+$foto = null;
 
 //---------------FOTO DE PERFIL----------------------------------------------
 if ($nombre) {
@@ -20,22 +20,21 @@ if ($nombre) {
 }
 //----------------------------------------------------------------
 
-$reservarmsj = ''; //Se inicia la variable.
+$reservarmsj = '';
 $valoracionmsj = '';
 $ver = '';
 $pedir = "";
 $calendario = "";
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') { //Esto hace q el login sea necesario unicamente cuando se activa algun boton o le pedis algo al servidor, si chusmeas no pasa nada.
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (!$rol) {
-    //Acá chusmea si está logueado, osea si tiene algún rol, sino lo manda al login.
     header("Location: inicioses.php?redirect=" . urlencode($_SERVER['PHP_SELF']));
     exit;
   }
 
   if (isset($_POST['reservar'])) {
     $reservarmsj = "¡Reserva realizada con éxito!";
-  } elseif (isset($_POST['valorar'])) { //Adentro va el nombre del boton, entonces sería, si vos apretas el boton de reservar, te manda un mensaje y en este caso cada uno tiene color.
+  } elseif (isset($_POST['valorar'])) {
     $valoracionmsj = "¡Valoración enviada!";
   } elseif (isset($_POST['ver'])) {
     $ver = "¡!";
@@ -60,16 +59,86 @@ if ($calendario)
 <head>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-  <!-- Font Awesome para iconos -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CanchApp - Reserva tu cancha</title>
   <link rel="stylesheet" href="style.css">
+  
+  <!-- Estilos para el tutorial -->
+  <style>
+    .tutorial-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.7); /*Esto cambia el fondo que se ilumina*/
+      display: none;
+      z-index: 9998;
+    }
+
+    .tutorial-highlight {
+      position: relative;
+      z-index: 9999 !important;
+      box-shadow: 0 0 0 4px rgba(255, 255, 0, 0.8), 0 0 20px rgba(255, 255, 0, 0.5);/*Esto cambia el recuadro que se ilumina*/
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+
+    .tutorial-tooltip {
+      position: absolute;
+      background: white;
+      color: #333;
+      padding: 15px 20px;
+      border-radius: 10px;
+      font-size: 14px;
+      max-width: 280px;
+      z-index: 10000;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /*Esto cambia la letra de color*/
+      text-align: center;
+    }
+
+    .tutorial-tooltip p {
+      margin: 0 0 10px 0; /*Para la letra tamb*/
+      line-height: 1.4;
+    }
+
+    .tutorial-btn-container {
+      display: flex;
+      gap: 10px;
+      justify-content: center; /*Contenedor del tutorial!*/
+      margin-top: 10px;
+    }
+
+    .tutorial-btn {
+      background: #088d03ff; 
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 16px;
+      cursor: pointer;
+      font-size: 13px;
+      transition: background 0.2s;
+    }
+
+    .tutorial-btn:hover {
+      background: #088d03ff;
+    }
+
+
+    .tutorial-progress {
+      font-size: 11px;
+      color: #666; /*Esto es lo que dice 1/7 y asi*/
+      margin-top: 8px;
+    }
+  </style>
+
 </head>
 
 <body>
-  <div class="container-fluid p-0 m-0">
+  
+  <div class="container-fluid p-0 m-0" style="background-color: #f0f0f0; min-height: 100vh;">
     <!-- Navbar -->
     <div class="row" id="navbar">
       <div class="col-12">
@@ -86,29 +155,28 @@ if ($calendario)
             <div class="offcanvas-body">
               <ul class="navbar-nav justify-content-center flex-grow-1 pe-3">
                 <li class="nav-item">
-                  <a class="nav-link mx-lg-2 active" aria-current="page" href="index.php">Inicio</a>
+                  <a class="nav-link mx-lg-2 active" aria-current="page" href="index.php" id="btnInicio">Inicio</a>
                 </li>
                 <?php if ($rol === 'duenio'): ?>
                   <li class="nav-item">
-                    <a class="nav-link mx-lg-2" href="gestion.php">Gestión</a>
+                    <a class="nav-link mx-lg-2" href="gestion.php" id="btnGestion">Gestión</a>
                   </li>
                 <?php endif; ?>
                 <?php if ($rol === 'duenio' || $rol === 'admin' || $rol === 'usuario'): ?>
                   <li class="nav-item">
-                    <a class="nav-link mx-lg-2" href="buscador.php">Reservar</a>
+                    <a class="nav-link mx-lg-2" href="buscador.php" id="btnReservar">Reservar</a>
                   </li>
                 <?php endif; ?>
                 <li class="nav-item">
-                  <a class="nav-link mx-lg-2" href="acerca-de.php">Acerca de</a>
+                  <a class="nav-link mx-lg-2" href="acerca-de.php" id="btnAcerca">Acerca de</a>
                 </li>
               </ul>
             </div>
           </div>
-                <!-- Skibidi Toilet-->
-          <!-- Sistema de login/logout integrado -->
+
           <?php if ($nombre): ?>
             <div class="dropdown">
-              <button class="btn p-0 border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <button class="btn p-0 border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="btnPerfil">
                 <?php if (!empty($foto)): ?>
                   <img src="uploads/usuarios/<?= htmlspecialchars($foto) ?>"
                     alt="Foto de perfil de <?= htmlspecialchars($nombre) ?>"
@@ -142,7 +210,7 @@ if ($calendario)
               </ul>
             </div>
           <?php else: ?>
-            <a href="inicioses.php" class="login-button btn btn-primary">Login</a>
+            <a href="inicioses.php" class="login-button btn btn-primary" id="btnGuess">Login</a>
           <?php endif; ?>
 
           <button class="navbar-toggler pe-0 ms-2" type="button" data-bs-toggle="offcanvas"
@@ -154,25 +222,39 @@ if ($calendario)
     </div>
     <!-- Fin Navbar -->
 
-    <!-- Bienvenida personalizada -->
+    <!-- Overlay del tutorial -->
+    <div id="tutorialOverlay" class="tutorial-overlay"></div>
+
+    <!--INICIO-->
     <div class="row py-5 mb-5 mt-3" id="inicio">
       <div class="col-12 d-flex flex-column justify-content-center align-items-center text-center">
         <h1 class="text-center-left text-white">
-          Bienvenido/a <?= htmlspecialchars($nombre ?? 'a CanchApp') ?>!
+          ¡Hola <?= htmlspecialchars($nombre ?? 'a CanchApp') ?>!
         </h1>
+        <?php if ($rol === 'usuario'): ?>
+        <p class="text-center-left text-white">Tu sitio de confianza para reservar canchas.</p>
+        <?php endif; ?>
+        <?php if ($rol === 'duenio'): ?>
+        <p class="text-center-left text-white">Tu sitio de confianza para gestionar canchas.</p>
+        <?php endif; ?>
+        <?php if ($rol === null): ?>
         <p class="text-center-left text-white">Tu sitio de confianza para reservar o gestionar canchas.</p>
+        <?php endif; ?>
+
+        <!--Botón para iniciar tutorial-->
+        <button id="btnIniciarTutorial" class="btn btn-info mt-2 mb-3">
+          <i class="fas fa-question-circle"></i> Ver Tutorial
+        </button>
 
         <!-- Botones de acción principales -->
-        <div class="mt-3">
-          <!-- Visible para todos -->
+        <div class="mt-3" id="botonesAccion">
           <form method="post" class="d-inline">
-            <button type="submit" name="ver" class="btn btn-success me-2">Ver Canchas</button>
+            <button type="submit" name="ver" class="btn btn-success me-2" id="btnVerCanchas">Ver Canchas</button>
           </form>
 
-          <!-- Solo para usuarios logueados -->
           <?php if ($rol === 'usuario'): ?>
             <form method="post" class="d-inline">
-              <button type="submit" name="pedir" class="btn btn-warning">Ser Dueño</button>
+              <button type="submit" name="pedir" class="btn btn-warning" id="btnDueño">Ser Dueño</button>
             </form>
           <?php elseif (!$nombre): ?>
             <a href="inicioses.php" class="btn btn-primary">Iniciar Sesión</a>
@@ -193,27 +275,27 @@ if ($calendario)
             <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
               aria-label="Slide 3"></button>
           </div>
-          <div class="carousel-inner h-100" style="height:100%;">
-            <div class="carousel-item active h-100" style="height:100%;">
+          <div class="carousel-inner h-100">
+            <div class="carousel-item active h-100">
               <img src="image/raqueta.avif" class="d-block w-100 h-100"
-                alt="Padel racket resting on a court, surrounded by green turf and white lines, evoking a sense of anticipation and excitement for a game"
-                style="object-fit:cover; height:100%;">
+                alt="Padel racket resting on a court"
+                style="object-fit:cover;">
               <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-3">
                 <h5 class="fw-bold text-success">Reserva Fácil</h5>
                 <p class="text-white">Elige tu cancha y horario en segundos. ¡Jugar nunca fue tan simple!</p>
               </div>
             </div>
-            <div class="carousel-item h-100" style="height:100%;">
+            <div class="carousel-item h-100">
               <img src="image/raqueta.avif" class="d-block w-100 h-100" alt="Gestiona tus canchas"
-                style="object-fit:cover; height:100%;">
+                style="object-fit:cover;">
               <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-3">
                 <h5 class="fw-bold text-primary">Gestión Rápida</h5>
                 <p class="text-white">Administra disponibilidad y horarios con un solo click.</p>
               </div>
             </div>
-            <div class="carousel-item h-100" style="height:100%;">
+            <div class="carousel-item h-100">
               <img src="image/raqueta.avif" class="d-block w-100 h-100" alt="Disfruta el pádel"
-                style="object-fit:cover; height:100%;">
+                style="object-fit:cover;">
               <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-3">
                 <h5 class="fw-bold text-warning">Disfruta el Pádel</h5>
                 <p class="text-white">Vive la mejor experiencia en nuestras canchas modernas y cómodas.</p>
@@ -318,9 +400,155 @@ if ($calendario)
     </footer>
   </div>
 
+  <!------------------------------------------------SCRIPT SACADO DE BOOSTRAP PARA PODER HACER ESTO!!------------------------------------------------------------------------>
+
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
     crossorigin="anonymous"></script>
+
+  <!--PARA AGREGAR BOTONES-->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() { //Una vez que carga la página carga esto:
+      const pasos = [
+        { 
+          elemento: '#btnInicio', 
+          texto: ' Este es el botón de Inicio. Te lleva a la página principal donde estás ahora.' 
+        }<?php if ($rol === 'duenio'): ?>,
+        
+        { 
+          elemento: '#btnGestion', 
+          texto: ' Desde Gestión podés administrar tus canchas y ver las reservas.' 
+        }<?php endif; ?>,
+        
+        { 
+          elemento: '#btnReservar', 
+          texto: ' En Reservar podés buscar y reservar canchas disponibles.' 
+        },
+        { 
+          elemento: '#btnAcerca', 
+          texto: ' Acá encontrarás información sobre CanchApp y cómo contactarnos.' 
+        }<?php if ($rol === null): ?>,
+
+        { 
+          elemento: '#btnGuess', 
+          texto: ' Acá podrás registrarte y/o iniciar Sesión.' 
+        }<?php endif; ?> <?php if ($rol === 'usuario'): ?>,
+
+        { 
+          elemento: '#btnPerfil', 
+          texto: ' Acá podrás ver tu perfil!.' 
+        }<?php endif; ?>,
+        { 
+          elemento: '#btnDueño', 
+          texto: ' Acá podras pedir ser dueño!.' 
+        },
+        { 
+          elemento: '#btnVerCanchas', 
+          texto: ' ¡Hacé click aquí para empezar a buscar canchas disponibles!' 
+        }
+      ];
+
+      let pasoActual = 0;
+      const overlay = document.getElementById('tutorialOverlay');
+      let tooltip = null;
+      let elementoActual = null;
+
+      function limpiarPaso() { //Vuelve a 0 los pasos una vez q cerrás.
+        if (tooltip && tooltip.parentNode) {
+          tooltip.remove(); //Y borra el cuadrito blanco anterior
+        }
+        if (elementoActual) {
+          elementoActual.classList.remove('tutorial-highlight'); //Saca el resaltado
+        }
+        tooltip = null;
+        elementoActual = null;
+      }
+
+      //Para que se vean los pasos---------------------------------------------------------------------------
+      function mostrarPaso(index) {
+        limpiarPaso(); //limpia paso anterior
+
+        if (index >= pasos.length) { //Si no hay mas pasos termina tutorial
+          finalizarTutorial();
+          return;
+        }
+
+        const paso = pasos[index]; //La variable paso toma el valor del paso actual.
+        const elem = document.querySelector(paso.elemento); //Con este busca el boton que tiene la ID que pusimos.
+        
+        if (!elem) { //Ponele q no sos dueño y no ves todos los pasos, se salta hasta encontrar el q te corresponda.
+          pasoActual++;
+          mostrarPaso(pasoActual);
+          return;
+        }
+        //.................................................................
+
+        //
+        overlay.style.display = 'block'; //muestra la sombra esa.
+        
+        elem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        setTimeout(() => {
+          //Espera un cachito y resalta el elemento que estamos buscando.
+          elem.classList.add('tutorial-highlight');
+          elementoActual = elem;
+
+          //ACA CREAS EL TOOLTIP Y PODÉS CAMBIAR LO QUE DICE EL CUADRITO EN LOS PASOS!! (CONTINUAR)
+          tooltip = document.createElement('div');
+          tooltip.className = 'tutorial-tooltip';
+          tooltip.innerHTML = `
+            <p><strong>${paso.texto}</strong></p>
+            <div class="tutorial-btn-container">
+              <button class="tutorial-btn" onclick="tutorialSiguiente()">
+                ${index === pasos.length - 1 ? 'Finalizar' : 'Siguiente'} 
+              </button>
+            </div>
+            <div class="tutorial-progress">Paso ${index + 1} de ${pasos.length}</div>
+          `;
+          document.body.appendChild(tooltip);
+
+          //Posiciona pooltip
+          const rect = elem.getBoundingClientRect();
+          const tooltipRect = tooltip.getBoundingClientRect();
+          
+          let top = rect.bottom + window.scrollY + 15;
+          let left = rect.left + (rect.width / 2) - (tooltipRect.width / 2);
+          
+          //Ajusta el tamaño del tutorial
+          if (left < 10) left = 10;
+          if (left + tooltipRect.width > window.innerWidth - 10) {
+            left = window.innerWidth - tooltipRect.width - 10;
+          }
+          
+          tooltip.style.top = top + 'px';
+          tooltip.style.left = left + 'px';
+        }, 300);
+      }
+
+      function finalizarTutorial() {
+        limpiarPaso();
+        overlay.style.display = 'none';
+        pasoActual = 0;
+      }
+
+      //Funciones globales para los botones
+      window.tutorialSiguiente = function() {
+        pasoActual++;
+        mostrarPaso(pasoActual);
+      };
+      //Inicia tutorial con el botón
+      document.getElementById('btnIniciarTutorial').addEventListener('click', function() {
+        pasoActual = 0;
+        mostrarPaso(pasoActual);
+      });
+
+      //Cierra el tutorial al hacer click en el overlay (Afuera)
+      overlay.addEventListener('click', function() {
+        finalizarTutorial();
+      });
+    });
+  </script>
 </body>
 
 </html>
