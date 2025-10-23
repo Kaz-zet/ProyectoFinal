@@ -483,34 +483,64 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
 
         <?php if ($cancha): ?>
             <!-- Busca imagen -->
-            <div class="row mt-4">
-                <div class="col-12">
-                    <?php if (!empty($cancha['foto'])): ?>
-                        <img src="uploads/<?= htmlspecialchars($cancha['foto']) ?>" class="img-fluid w-100 court-image"
-                            alt="<?= htmlspecialchars($cancha['nombre']) ?>">
-                    <?php else: ?>
-                        <img src="image/cancha.jpg" class="img-fluid w-100 court-image"
-                            alt="<?= htmlspecialchars($cancha['nombre']) ?>">
-                    <?php endif; ?>
-                </div>
-            </div>
-
-            <!-- Información de la cancha -->
-            <div class="row mt-4">
-                <div class="col-12">
-                    <div class="text-center">
-                        <h2 class="text-primary mb-3"><?= htmlspecialchars($cancha['nombre']) ?></h2>
-                        <p class="text-info mb-2"><span><?= htmlspecialchars($cancha['lugar']) ?></span></p>
-                        <p class="lead mb-4">
-                            <?= htmlspecialchars($cancha['bio']) ?>
-                        </p>
-                        <?php if (!empty($cancha['duenio_nombre'])): ?>
-                            <p class="text-info mb-2">Dueño: <?= htmlspecialchars($cancha['duenio_nombre']) ?></p>
-                        <?php endif; ?>
-                        <p class="text-success mb-4">Precio: $<?= number_format($cancha['precio']) ?> por hora</p>
+            <div class="row justify-content-center align-items-center p-4 g-4">
+                <div class="col-md-5 col-sm-12">
+                    <div class="row justify-content-center align-items-center g-2">
+                        <div class="col align-items-center">
+                            <?php if (!empty($cancha['foto'])): ?>
+                                <img src="uploads/<?= htmlspecialchars($cancha['foto']) ?>" class="img-fluid w-100 court-image"
+                                    alt="<?= htmlspecialchars($cancha['nombre']) ?>">
+                            <?php else: ?>
+                                <img src="image/cancha.jpg" class="img-fluid w-100 court-image"
+                                    alt="<?= htmlspecialchars($cancha['nombre']) ?>">
+                            <?php endif; ?>
+                        </div>
                     </div>
                 </div>
-            </div>
+            
+
+                <!-- Información de la cancha -->
+                <div class="col-lg-7 col-sm-12">
+                    <div class="row justify-content-center align-items-center g-2">
+                        <div class="col align-text-top">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <h2 class="section-title" style="color: black"><?= htmlspecialchars($cancha['nombre']) ?></h2>
+                                    <p class="mb-4" style= "color: #0B0519">
+                                        <?= htmlspecialchars($cancha['bio']) ?>
+                                    </p>
+                                    <div class="row g-4 mt-4">
+                                        <div class="col-md-6">
+                                            <div class="text-center">
+                                                    <i class="icono"></i>
+                                                    <h5 style="color:black">Direccion</h5>
+                                                    <p class="mb-4" style= "color: #0B0519"><span><?= htmlspecialchars($cancha['lugar']) ?></span></p>
+                                                    <?php if (!empty($cancha['duenio_nombre'])): ?>
+                                            </div>
+                                        </div>
+                                        <div  class="col-md-6">
+                                            <div class="text-center">
+                                                <i class="icono"></i>
+                                                <h5 style="color:black">Propietario</h5>
+                                                <p class="mb-4" style= "color: #0B0519"> <?= htmlspecialchars($cancha['duenio_nombre']) ?></p>
+                                            </div>
+                                        </div>
+                                        <?php endif; ?>
+                                        <div  class="col-md-6">
+                                            <div class="text-center">
+                                                <i class="icono"></i>
+                                                <h5 style="color:black">Precio</h5>
+                                                <p class="mb-4" style= "color: #0B0519">Precio: $<?= number_format($cancha['precio']) ?> por hora</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>    
+                            </div>
+                        </div>
+                    </div>
+                </div>    
+            </div> 
+
 
             <?php if (!$id_usuario): ?>
                 <div class="alert-login">
@@ -716,13 +746,13 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
                 <?php endif; ?>
 
                 <!--COMENTARIOS Y VALORACIONES DE USUARIOS (SE VE RARO)-->
-                <div class="row">
+                <div class="row" style="background-color: f0f0f0; border-radius: 16px;">
                     <div class="col-md-10 offset-md-1">
                         <?php if (!empty($valoraciones)): ?>
                             <?php foreach ($valoraciones as $v): ?>
-                                <div class="" style="background-color: #ffffffff;"> <!--Agregar card si querer, pero se ve con el hover auto puesto.-->
-                                    <div class="card-body" style="background-color: #000000ff;">
-                                        <div class="d-flex align-items-center mb-2" style="background-color: #000000ff;">
+                                <div class= ; style="background-color: f0f0f0; border-radius: 16px;"> <!--Agregar card si querer, pero se ve con el hover auto puesto.-->
+                                    <div class="card-body" style="background-color: #f0f0f0; ">
+                                        <div class="d-flex align-items-center mb-2" style="background-color: #f0f0f0;">
 
                             <!--FOTO DEL USUARIO PARA EL COMENTARIO-->
                                             <?php if (!empty($v['foto'])): ?>
@@ -730,10 +760,10 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
                                                     alt="<?= htmlspecialchars($v['nombre']) ?>" class="rounded-circle me-3"
                                                     width="50" height="50" style="object-fit: cover;">
                                             <?php else: ?>
-                                                <div class="rounded-circle text-white me-3 d-flex align-items-center justify-content-center"
+                                                <div class="rounded-circle text-black me-3 d-flex align-items-center justify-content-center"
                                                     style="width: 50px; height: 50px; font-size: 20px; font-weight: bold;">
                                                     <?= strtoupper(substr($v['nombre'], 0, 1)) ?>
-                                                </div>
+                                                </div> 
                                             <?php endif; ?>
 
 
@@ -741,12 +771,14 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
                                                 <h5 class="mb-0"><?= htmlspecialchars($v['nombre']) ?></h5>
                                                 <div class="text-warning">
                                                     <?php for ($i = 1; $i <= 5; $i++): ?>
+                                                       <?php for ($i = 1; $i <= 5; $i++): ?>
                                                         <?= $i <= $v['valor'] ? '★' : '☆' ?>
                                                     <?php endfor; ?>
-                                                    <span class="text-white ms-2 small">
+                                                    <span class="text-black ms-2 small">
                                                         <?= date('d/m/Y', strtotime($v['fecha'])) ?>
                                                     </span>
                                                 </div>
+
                                             </div>
                                         </div>
                                         <?php if (!empty($v['comentario'])): ?>
@@ -786,19 +818,20 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
 
 
             <div class="row mt-5 mb-5 ">
-                <div class="col-md-8 offset-md-2" >
+                <div class="col-md-8 offset-md-2" style="border radius: 10px" >
 
-                    <h4 class="text-center mb-4">
+                    <h4 class="text-center mb-4" style= "color: #0B0519">
                         <?= $miValoracion ? 'Editar tu valoración' : 'Deja tu valoración' ?>
                     </h4>
 
-                    <form method="POST" action="procesar_valoracion.php" id="formValoracion" style="background-color: #000000ff;">
+                    <form method="POST" action="procesar_valoracion.php" id="formValoracion" style="background-color: #f0f0f0; border-radius: 16Spx">
                         <input type="hidden" name="id_cancha" value="<?= htmlspecialchars($id_cancha) ?>">
                         <input type="hidden" name="id_usuario" value="<?= htmlspecialchars($id_usuario) ?>">
                         <input type="hidden" name="modo" value="<?= $miValoracion ? 'editar' : 'nuevo' ?>" id="modoInput">
 
-                        <div class="mb-4 text-center">
-                            <label class="form-label fw-bold fs-5">Tu puntuación:</label>
+                        <div class="mb-4 text-center" style="border-radius: 10px;s">
+                            <label class="form-label fw-bold fs-5" style= "color: #0B0519">Tu puntuación:</label>
+
 
 
 
@@ -824,10 +857,10 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
                             </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="comentario" class="form-label fw-bold">Opiniones!</label>
+                         <div class="mb-3">
+                            <label for="comentario" class="form-label fw-bold" style= "color: #0B0519">Opiniones!</label>
                             <textarea name="comentario" id="comentario" class="form-control" rows="4" maxlength="777"
-                                placeholder="Escribí tu experiencia con esta cancha...tu opinion realmente nos importa!"><?= htmlspecialchars($miValoracion['comentario'] ?? '') ?></textarea>
+                                placeholder="Escribí tu experiencia con esta cancha...tu opinion realmente nos importa!" style= "background-color: #f0f0f0"><?= htmlspecialchars($miValoracion['comentario'] ?? '') ?></textarea>
                             <div class="form-text">Máximo 777 caracteres</div>
                         </div>
 
