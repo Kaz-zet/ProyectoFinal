@@ -483,8 +483,8 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
           ?>
           <!--Muestra las variables q queremos-->
           <div class="col">
-            <div class="card h-100 d-flex flex-column bg-primary">
-              <div class="card-head-bus bg-dark text-center">
+            <div class="card h-100 d-flex flex-column bg-dark">
+              <div class="card-head-bus rounded-top-2 bg-primary text-center">
                 <h6 style="color: #ffffffff;"><?php echo htmlspecialchars($cancha['nombre']); ?></h6>
               </div>
               <hr>
@@ -497,16 +497,9 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
                     <p style="color: #ffffffff;">- Precio: $<?php echo htmlspecialchars($cancha['precio']); ?></p>
                   </li>
                   <li>
-
-                    <!-- revisar -->
-                    <button type="button" class="btn btn-secondary" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-content="<?php echo htmlspecialchars($cancha['bio']); ?>">
+                    <button type="button" class="btn btn-success" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-content="<?php echo htmlspecialchars($cancha['bio']); ?>">
                       Descripción
                     </button>                    
-                    
-
-
-
-
                   </li>
                 </ul>
 
@@ -519,39 +512,64 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
                   <img src="uploads/<?= htmlspecialchars($cancha['foto']) ?>" class="img-fluid"
                     style="height: 140px; width: 40%; object-fit: cover;">
               <?php endif; ?>
-                <br>
-                <strong style="color: #ffffffff;">- valoracion : <?php if ($total > 0): ?>
-                    <span style="color: #ffc107; font-size: 18px;">
-                      <?php
-                      $stars = round($promedio);
-                      for ($i = 1; $i <= 5; $i++) {
-                        echo $i <= $stars ? '★' : '☆';
-                      }
-                      ?>
-                    </span>
-                    <span style="color: #ffffffff;">
-                      <?= number_format($promedio, 1) ?>/5 (<?= $total ?>)
-                    </span>
-                  <?php else: ?>
-                    <span style="color: #999;">Sin valoraciones</span>
-                  <?php endif; ?></strong>
               </div>
+              
+
               <div class="card-footer mt-auto">
-                <a href="reservacion.php?id=<?= $cancha['id_cancha'] ?>"
-                  style="background: #000000ff; color: white; padding: 5px 10px; text-decoration: none; border-radius: 3px;">
-                  Ver Detalles
-                </a>
+                <div class="row justify-content-center align-items-center g-2">
+                  <div class="col-10 bg-dark">
+                    <a href="reservacion.php?id=<?= $cancha['id_cancha'] ?>"
+                      style="color:#f0f0f0; padding: 5px 10px; text-decoration: none; border-radius: 3px;">
+                      Ver Detalles
+                    </a>
+                  </div>
+                  <div class="col-2">
+                    <!--PARA AGREGAR FAV CANCHAS (EL CODE ESTÁ EN ESTE PHP, MIS FAVORTIOS.PHP NO ANDA)-->
+                    <form method="post" style="display:inline;">
+                      <input type="hidden" name="id_cancha" value="<?= $cancha['id_cancha'] ?>">
+                      <button type="submit" name="accion" value="toggle_favorito">
+                        <?= in_array($cancha['id_cancha'], $favoritosIds) ? '⭐' : '☆' ?>
+                      </button>
+                    </form>
+                  </div>
+                </div>
+                
+                
 
-                <!--PARA AGREGAR FAV CANCHAS (EL CODE ESTÁ EN ESTE PHP, MIS FAVORTIOS.PHP NO ANDA)-->
-                <form method="post" style="display:inline;">
-                  <input type="hidden" name="id_cancha" value="<?= $cancha['id_cancha'] ?>">
-                  <button type="submit" name="accion" value="toggle_favorito">
-                    <?= in_array($cancha['id_cancha'], $favoritosIds) ? '⭐' : '☆' ?>
-                  </button>
-                </form>
+                
+                
+
 
               </div>
+              <div class="rating-container rounded-bottom-2">
+                  <strong style="color: #ffffffff;">
+                    <?php if ($total > 0): ?>
+                      <div class="row">
+                        <div class="col-5">
+                          <span style="color: #ffc107; font-size: 18px;">
+                            <?php
+                            $stars = round($promedio);
+                            for ($i = 1; $i <= 5; $i++) {
+                              echo $i <= $stars ? '★' : '☆';
+                            }
+                            ?>
+                          </span>
+                        </div>
+                        <div class="col-7 align-items-center">
+                          <span style="color: black;">
+                            <?= number_format($promedio, 1) ?>/5 
 
+                            valoraciones <span class="badge text-bg-secondary">(<?= $total ?>)</span>
+                            
+                            
+                          </span>
+                        </div>
+                      </div>
+                    <?php else: ?>
+                      <span style="color: #999;">Sin valoraciones</span>
+                    <?php endif; ?>
+                  </strong>
+              </div>
             </div>
           </div>
         <?php endforeach; ?>

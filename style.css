@@ -404,12 +404,9 @@
      align-items: center;
      justify-content: center;
  }
-/* 
- .card-head-bus {
-    background-color: #000;
- }
 
- .card-body-bus {
-    background-color: #376239;
-    border-radius: 10px;
- } */
+ .rating-container {
+    background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+    padding: 12px;
+    display: inline-block;
+        }

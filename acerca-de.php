@@ -209,7 +209,7 @@ if ($nombre) {
 
 
         .blur-container {
-            backdrop-filter: blur(8px);
+            backdrop-filter: blur(20px);
             background-color: rgba(255, 255, 255, 0.3);
             /* semitransparente */
             padding: 20px;
@@ -312,10 +312,10 @@ if ($nombre) {
 
 
 
-            <div class="d-flex align-items-center justify-content-center text-white">
+            <div class="d-flex align-items-center justify-content-center text-muted">
                 <div class="col-12 col-md-8 text-center my-5 blur-container">
                     <h1>Acerca de Nosotros</h1>
-                    <p class="lead">Bienvenido a nuestra página de Acerca de. Aquí puedes encontrar información sobre
+                    <p class="h5">Bienvenido a nuestra página de Acerca de. Aquí puedes encontrar información sobre
                         nuestra empresa, misión y valores.</p>
                     <p>Nuestra empresa se dedica a ofrecer los mejores servicios en el sector. Nos esforzamos por
                         brindar
