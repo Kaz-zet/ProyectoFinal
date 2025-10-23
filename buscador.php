@@ -443,10 +443,12 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
           <br><img src="uploads/<?= htmlspecialchars($cancha['foto']) ?>" width="100" height="60">
           <?php endif; ?>
           <div class="card-footer mt-auto">
+            <?php if ($rol === 'usuario'): ?>
             <a href="reservacion.php?id=<?= $cancha['id_cancha'] ?>"
               style="background: #000000ff; color: white; padding: 5px 10px; text-decoration: none; border-radius: 3px;">
               Ver Detalles
             </a>
+            <?php endif; ?>
 
             <form method="post" style="display:inline;">
               <input type="hidden" name="id_cancha" value="<?= $cancha['id_cancha'] ?>">
@@ -518,10 +520,12 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
               <div class="card-footer mt-auto">
                 <div class="row justify-content-center align-items-center g-2">
                   <div class="col-10 bg-dark">
+                    <?php if ($rol === 'usuario'): ?>
                     <a href="reservacion.php?id=<?= $cancha['id_cancha'] ?>"
                       style="color:#f0f0f0; padding: 5px 10px; text-decoration: none; border-radius: 3px;">
                       Ver Detalles
                     </a>
+                    <?php endif; ?>
                   </div>
                   <div class="col-2">
                     <!--PARA AGREGAR FAV CANCHAS (EL CODE ESTÁ EN ESTE PHP, MIS FAVORTIOS.PHP NO ANDA)-->
