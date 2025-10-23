@@ -510,7 +510,50 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
                         <p class="text-success mb-4">Precio: $<?= number_format($cancha['precio']) ?> por hora</p>
                     </div>
                 </div>
-            </div>
+            
+
+                <!-- Información de la cancha -->
+                <div class="col-lg-7 col-sm-12">
+                    <div class="row justify-content-center align-items-center g-2">
+                        <div class="col align-text-top">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <h2 class="section-title" style="color: black"><?= htmlspecialchars($cancha['nombre']) ?></h2>
+                                    <p class="mb-4" style= "color: #0B0519">
+                                        <?= htmlspecialchars($cancha['bio']) ?>
+                                    </p>
+                                    <div class="row g-4 mt-4">
+                                        <div class="col-md-6">
+                                            <div class="text-center">
+                                                    <i class="icono"></i>
+                                                    <h5 style="color:black">Direccion</h5>
+                                                    <p class="mb-4" style= "color: #0B0519"><span><?= htmlspecialchars($cancha['lugar']) ?></span></p>
+                                                    <?php if (!empty($cancha['duenio_nombre'])): ?>
+                                            </div>
+                                        </div>
+                                        <div  class="col-md-6">
+                                            <div class="text-center">
+                                                <i class="icono"></i>
+                                                <h5 style="color:black">Propietario</h5>
+                                                <p class="mb-4" style= "color: #0B0519"> <?= htmlspecialchars($cancha['duenio_nombre']) ?></p>
+                                            </div>
+                                        </div>
+                                        <?php endif; ?>
+                                        <div  class="col-md-6">
+                                            <div class="text-center">
+                                                <i class="icono"></i>
+                                                <h5 style="color:black">Precio</h5>
+                                                <p class="mb-4" style= "color: #0B0519">Precio: $<?= number_format($cancha['precio']) ?> por hora</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>    
+                            </div>
+                        </div>
+                    </div>
+                </div>    
+            </div> 
+
 
             <?php if (!$id_usuario): ?>
                 <div class="alert-login">
@@ -747,12 +790,14 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
                                                 </a>
                                                 <div class="text-warning">
                                                     <?php for ($i = 1; $i <= 5; $i++): ?>
+                                                       <?php for ($i = 1; $i <= 5; $i++): ?>
                                                         <?= $i <= $v['valor'] ? '★' : '☆' ?>
                                                     <?php endfor; ?>
-                                                    <span class="text-white ms-2 small">
+                                                    <span class="text-black ms-2 small">
                                                         <?= date('d/m/Y', strtotime($v['fecha'])) ?>
                                                     </span>
                                                 </div>
+
                                             </div>
                                         </div>
                                         <?php if (!empty($v['comentario'])): ?>
@@ -794,7 +839,7 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
             <div class="row mt-5 mb-5 ">
                 <div class="col-md-8 offset-md-2" style="border-radius: 10px;" >
 
-                    <h4 class="text-center mb-4">
+                    <h4 class="text-center mb-4" style= "color: #0B0519">
                         <?= $miValoracion ? 'Editar tu valoración' : 'Deja tu valoración' ?>
                     </h4>
 
@@ -833,7 +878,7 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
                         <div class="mb-3">
                             <label for="comentario" class="form-label fw-bold" style= "color: #0B0519">Opiniones!</label>
                             <textarea name="comentario" id="comentario" class="form-control" rows="4" maxlength="777"
-                                placeholder="Escribí tu experiencia con esta cancha...tu opinion realmente nos importa!"><?= htmlspecialchars($miValoracion['comentario'] ?? '') ?></textarea>
+                                placeholder="Escribí tu experiencia con esta cancha...tu opinion realmente nos importa!" style= "background-color: #f0f0f0"><?= htmlspecialchars($miValoracion['comentario'] ?? '') ?></textarea>
                             <div class="form-text">Máximo 777 caracteres</div>
                         </div>
 
