@@ -406,7 +406,7 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
     <!--------------------------------------FAVORITOS--------------------------------------------------->
     <?php if ($misFavoritos): ?>
     <h1>Mis Favoritos</h1>
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 px-1">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4 px-1">
       <?php foreach ($misFavoritos as $cancha): ?>
       <?php
       $rating = obtenerPromedioValoracion($pdo, $cancha['id_cancha']);
@@ -414,47 +414,73 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
       $total = $rating['total'];
       ?>
       <div class="col">
-        <div class="card h-100 d-flex flex-column" style="background-color: #41ab92;">
-          <div class="div-body">
-            <?= htmlspecialchars($cancha['nombre']) ?> -
-            <?= htmlspecialchars($cancha['lugar']) ?> -
-            <?= htmlspecialchars($cancha['precio']) ?> -
-            <?= htmlspecialchars($cancha['bio']) ?>
-            <br>
-            <?php if ($total > 0): ?>
-            <span style="color: #ffc107; font-size: 18px;">
-              <?php
-              $stars = round($promedio);
-              for ($i = 1; $i <= 5; $i++) {
-                echo $i <= $stars ? '★' : '☆';
-              }
-              ?>
-            </span>
-            <span style="color: #ffffffff;">
-              <?= number_format($promedio, 1) ?>/5 (
-              <?= $total ?>)
-            </span>
-            <?php else: ?>
-            <span style="color: #999;">Sin valoraciones</span>
-            <?php endif; ?>
+        <div class="card bg-dark h-100 d-flex flex-column">
+
+          <div class="card-head rounded-top-2 bg-primary text-center">
+            <h6 style="color: #ffffffff;">
+              <?= htmlspecialchars($cancha['nombre']) ?>
+            </h6>
+          </div>
+          <div class="rating-container rounded-bottom-2">
+            <strong style="color: #ffffffff;">
+              <?php if ($total > 0): ?>
+                <div class="row">
+                  <div class="col-5">
+                    <span style="color: #ffc107; font-size: 18px;">
+                      <?php
+                      $stars = round($promedio);
+                      for ($i = 1; $i <= 5; $i++) {
+                        echo $i <= $stars ? '★' : '☆';
+                      }
+                      ?>
+                    </span>
+                  </div>
+                  <div class="col-7 align-items-center">
+                    <span style="color: black;">
+                      <?= number_format($promedio, 1) ?>/5 
+
+                      valoraciones <span class="badge text-bg-secondary">(<?= $total ?>)</span>
+                      
+                      
+                    </span>
+                  </div>
+                </div>
+              <?php else: ?>
+                <span style="color: #999;">Sin valoraciones</span>
+              <?php endif; ?>
+            </strong>
           </div>
 
-          <?php if ($cancha['foto']): ?>
-          <br><img src="uploads/<?= htmlspecialchars($cancha['foto']) ?>" width="100" height="60">
-          <?php endif; ?>
+          <div class="card-body">
+            <div class="logo-container">
+              <?php if ($cancha['foto']): ?>
+                <img src="uploads/<?= htmlspecialchars($cancha['foto']) ?>" class="img-fluid"
+                  style="height: 140px; width: 40%; object-fit: cover;">
+              <?php endif; ?>
+            </div>
+          </div>
+
+
           <div class="card-footer mt-auto">
-            <a href="reservacion.php?id=<?= $cancha['id_cancha'] ?>"
-              style="background: #000000ff; color: white; padding: 5px 10px; text-decoration: none; border-radius: 3px;">
-              Ver Detalles
-            </a>
-
-            <form method="post" style="display:inline;">
-              <input type="hidden" name="id_cancha" value="<?= $cancha['id_cancha'] ?>">
-              <button type="submit" name="accion" value="toggle_favorito">
-                <?= in_array($cancha['id_cancha'], $favoritosIds) ? '⭐' : '☆' ?>
-              </button>
-            </form>
+            <div class="row justify-content-center align-items-center g-2">
+              <div class="col-10">
+                <a href="reservacion.php?id=<?= $cancha['id_cancha'] ?>"
+                  style="color:#f0f0f0; padding: 5px 10px; text-decoration: none; border-radius: 3px;">
+                  Ver Detalles
+                </a>
+              </div>
+              <div class="col-2">
+                <!--PARA AGREGAR FAV CANCHAS (EL CODE ESTÁ EN ESTE PHP, MIS FAVORTIOS.PHP NO ANDA)-->
+                <form method="post" style="display:inline;">
+                  <input type="hidden" name="id_cancha" value="<?= $cancha['id_cancha'] ?>">
+                  <button type="submit" name="accion" value="toggle_favorito">
+                    <?= in_array($cancha['id_cancha'], $favoritosIds) ? '⭐' : '☆' ?>
+                  </button>
+                </form>
+              </div>
+            </div>
           </div>
+
         </div>
       </div>
       <?php endforeach; ?>
@@ -474,12 +500,12 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
     <h1 style="color: #0a0505ff;">Canchas registradas</h1>
     <?php if ($canchas && count($canchas) > 0): ?>
     <!--permite comprobar que existan canchas y que tengan datos adentro-->
-      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 px-1">
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4 px-1">
         <?php foreach ($canchas as $cancha): ?>
           <?php
-            $rating = obtenerPromedioValoracion($pdo, $cancha['id_cancha']);
-            $promedio = $rating['promedio'];
-            $total = $rating['total'];
+          $rating = obtenerPromedioValoracion($pdo, $cancha['id_cancha']);
+          $promedio = $rating['promedio'];
+          $total = $rating['total'];
           ?>
           <!--Muestra las variables q queremos-->
           <div class="col">
@@ -497,23 +523,20 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
                     <p style="color: #ffffffff;">- Precio: $<?php echo htmlspecialchars($cancha['precio']); ?></p>
                   </li>
                   <li>
-                    <button type="button" class="btn btn-success" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-content="<?php echo htmlspecialchars($cancha['bio']); ?>">
+                    <button type="button" class="btn btn-success" data-bs-container="body" data-bs-toggle="popover"
+                      data-bs-placement="bottom" data-bs-content="<?php echo htmlspecialchars($cancha['bio']); ?>">
                       Descripción
-                    </button>                    
+                    </button>
                   </li>
                 </ul>
-
-
-                
-
               </div>
-              <div class="logo-container">  
-              <?php if ($cancha['foto']): ?>
+              <div class="logo-container">
+                <?php if ($cancha['foto']): ?>
                   <img src="uploads/<?= htmlspecialchars($cancha['foto']) ?>" class="img-fluid"
                     style="height: 140px; width: 40%; object-fit: cover;">
-              <?php endif; ?>
+                <?php endif; ?>
               </div>
-              
+
 
               <div class="card-footer mt-auto">
                 <div class="row justify-content-center align-items-center g-2">
@@ -533,42 +556,36 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
                     </form>
                   </div>
                 </div>
-                
-                
-
-                
-                
-
 
               </div>
               <div class="rating-container rounded-bottom-2">
-                  <strong style="color: #ffffffff;">
-                    <?php if ($total > 0): ?>
-                      <div class="row">
-                        <div class="col-5">
-                          <span style="color: #ffc107; font-size: 18px;">
-                            <?php
-                            $stars = round($promedio);
-                            for ($i = 1; $i <= 5; $i++) {
-                              echo $i <= $stars ? '★' : '☆';
-                            }
-                            ?>
-                          </span>
-                        </div>
-                        <div class="col-7 align-items-center">
-                          <span style="color: black;">
-                            <?= number_format($promedio, 1) ?>/5 
-
-                            valoraciones <span class="badge text-bg-secondary">(<?= $total ?>)</span>
-                            
-                            
-                          </span>
-                        </div>
+                <strong style="color: #ffffffff;">
+                  <?php if ($total > 0): ?>
+                    <div class="row">
+                      <div class="col-5">
+                        <span style="color: #ffc107; font-size: 18px;">
+                          <?php
+                          $stars = round($promedio);
+                          for ($i = 1; $i <= 5; $i++) {
+                            echo $i <= $stars ? '★' : '☆';
+                          }
+                          ?>
+                        </span>
                       </div>
-                    <?php else: ?>
-                      <span style="color: #999;">Sin valoraciones</span>
-                    <?php endif; ?>
-                  </strong>
+                      <div class="col-7 align-items-center">
+                        <span style="color: black;">
+                          <?= number_format($promedio, 1) ?>/5
+
+                          valoraciones <span class="badge text-bg-secondary">(<?= $total ?>)</span>
+
+
+                        </span>
+                      </div>
+                    </div>
+                  <?php else: ?>
+                    <span style="color: #999;">Sin valoraciones</span>
+                  <?php endif; ?>
+                </strong>
               </div>
             </div>
           </div>

@@ -41,35 +41,79 @@ try {
 
 //-----------------------------------------------------------------------
 
-//EDITAR CANCHAS!!
+//EDITAR CANCHAS!! (COPIA Y PEGA ESTO)
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['accion'] ?? '') === 'editar') { //Utilizo el mismo filtro que al crear cancha pero en este caso saco su Id, y remplazo los datos utilizando esa ID.
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['accion'] ?? '') === 'editar') {
     $id = $_POST['id_cancha'];
-    $nombre = trim($_POST['nombre']);
-    $lugar = trim($_POST['lugar']);
-    $bio = trim($_POST['bio']);
-    $precio = trim($_POST['precio']);
+    $nombre = trim($_POST['nombre'] ?? '');
+    $lugar = trim($_POST['lugar'] ?? '');
+    $bio = trim($_POST['bio'] ?? '');
+    $precio = trim($_POST['precio'] ?? '');
 
     if ($nombre === '' || $lugar === '' || $bio === '' || $precio === '') {
-        $msgError[$id] = "Completa todos los campos.";
+        $error = "Completa todos los campos.";
     } else {
         try {
-            $stmt = $pdo->prepare("SELECT 1 FROM cancha WHERE nombre = ? AND id_cancha <> ?"); //<> permite que ponele, si qerés editar la cancha y dejás el mismo nombre, que no te mande q ya existe, sino q entienda q no la cambiaste.
+            // Verificar si ya existe otra cancha con ese nombre
+            $stmt = $pdo->prepare("SELECT 1 FROM cancha WHERE nombre = ? AND id_cancha <> ?");
             $stmt->execute([$nombre, $id]);
 
             if ($stmt->fetch()) {
-                $msgError[$id] = "Ya existe otra cancha con ese nombre.";
+                $error = "Ya existe otra cancha con ese nombre.";
             } else {
-                $stmt = $pdo->prepare("UPDATE cancha SET nombre = ?, lugar = ?, bio = ?, precio = ? WHERE id_cancha = ?");
-                $stmt->execute([$nombre, $lugar, $bio, $precio, $id]);
-                $msgOk[$id] = "Cancha editada correctamente.";
+                // Obtener la foto actual de la cancha
+                $stmt = $pdo->prepare("SELECT foto FROM cancha WHERE id_cancha = ?");
+                $stmt->execute([$id]);
+                $cancha_actual = $stmt->fetch(PDO::FETCH_ASSOC);
+                $foto_final = $cancha_actual['foto']; // Por defecto mantiene la foto actual
 
-                $_SESSION['msgOk'] = "Cancha editada correctamente.";
-                header("Location: " . $_SERVER['PHP_SELF']);
-                exit;
+                // Manejar subida de foto
+                if (isset($_FILES['foto']) && $_FILES['foto']['error'] === 0) {
+                    $allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+                    $maxSize = 5 * 1024 * 1024; // 5MB
+                   
+                    if (!in_array($_FILES['foto']['type'], $allowedTypes)) {
+                        $error = 'Solo se permiten archivos JPG, JPEG y PNG.';
+                    } elseif ($_FILES['foto']['size'] > $maxSize) {
+                        $error = 'El archivo es muy grande. Máximo 5MB.';
+                    } else {
+                        // Crear carpeta uploads si no existe
+                        if (!file_exists('uploads')) {
+                            mkdir('uploads', 0777, true);
+                        }
+                       
+                        // Borrar foto anterior si existe
+                        if ($cancha_actual['foto'] && file_exists('uploads/' . $cancha_actual['foto'])) {
+                            unlink('uploads/' . $cancha_actual['foto']);
+                        }
+                       
+                        // Generar nombre único para la foto
+                        $extension = pathinfo($_FILES['foto']['name'], PATHINFO_EXTENSION);
+                        $filename = 'cancha_' . $id . '_' . time() . '.' . $extension;
+                        $uploadPath = 'uploads/' . $filename;
+                       
+                        if (move_uploaded_file($_FILES['foto']['tmp_name'], $uploadPath)) {
+                            $foto_final = $filename;
+                        } else {
+                            $error = 'Error al subir la imagen.';
+                        }
+                    }
+                }
+
+                // Solo actualizar si no hubo errores
+                if (empty($error)) {
+                    $stmt = $pdo->prepare("UPDATE cancha SET nombre = ?, lugar = ?, bio = ?, precio = ?, foto = ? WHERE id_cancha = ?");
+                    $stmt->execute([$nombre, $lugar, $bio, $precio, $foto_final, $id]);
+                    
+                    $msg = "Cancha editada correctamente.";
+                    
+                    // Recargar la página para ver cambios
+                    header("Location: " . $_SERVER['PHP_SELF']);
+                    exit;
+                }
             }
         } catch (Throwable $e) {
-            $msgError[$id] = "Error: " . $e->getMessage();
+            $error = "Error: " . $e->getMessage();
         }
     }
 }
@@ -500,65 +544,104 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
                                                         <strong>Capacidad:</strong> 4 jugadores
                                                     </p>
 
-                                                    <div class="btn-group w-100">
-                                                        <form method="post" action="eliminar_cancha.php" style="display:inline;"
-                                                            onsubmit="return confirm('¿Seguro que querés eliminar esta cancha?');">
-                                                            <input type="hidden" name="borrarcancha"
-                                                                value="<?= (int) $cancha['id_cancha'] ?>">
-                                                            <button type="submit">Borrar</button>
-                                                        </form>
-                                                        <!--BOTON PARA EDITAR-->
-                                                        <button onclick="abrirModal(
-                        '<?= $cancha['id_cancha'] ?>',
-                        '<?= htmlspecialchars($cancha['nombre']) ?>',
-                        '<?= htmlspecialchars($cancha['lugar']) ?>',
-                        '<?= htmlspecialchars($cancha['bio']) ?>',
-                        '<?= htmlspecialchars($cancha['precio']) ?>',
-                        '<?= htmlspecialchars($cancha['foto']) ?>'
-                        )">Editar</button>
+                                                    <div class="btn-group w-100" role="group">
+                                                        <button class="btn btn-outline-danger" type="button" 
+                                                                onclick="confirmarEliminacion(<?= (int) $cancha['id_cancha'] ?>)">
+                                                            <i class="bi bi-trash"></i> Borrar
+                                                        </button>
+                                                        
+                                                        <button class="btn btn-warning" 
+                                                                type="button" 
+                                                                data-bs-toggle="modal" 
+                                                                data-bs-target="#modalEditar<?= $cancha['id_cancha'] ?>"
+                                                                data-id="<?= $cancha['id_cancha'] ?>"
+                                                                data-nombre="<?= htmlspecialchars($cancha['nombre'], ENT_QUOTES) ?>"
+                                                                data-lugar="<?= htmlspecialchars($cancha['lugar'], ENT_QUOTES) ?>"
+                                                                data-bio="<?= htmlspecialchars($cancha['bio'], ENT_QUOTES) ?>"
+                                                                data-precio="<?= htmlspecialchars($cancha['precio'], ENT_QUOTES) ?>"
+                                                                data-foto="<?= htmlspecialchars($cancha['foto'], ENT_QUOTES) ?>">
+                                                            <i class="bi bi-pencil"></i> Editar
+                                                        </button>
+                                                    </div>
 
-                                                        <!--POPUP PARA EDITAR CANCHA-->
-                                                        <div id="modalEditar"
-                                                            style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999;">
-                                                            <div
-                                                                style="background:#fff; padding:20px; margin:10% auto; width:300px; border-radius:10px;">
-                                                                <h2>Editar Cancha</h2>
-                                                                <form method="post">
-                                                                    <input type="hidden" name="id_cancha" id="edit_id">
-                                                                    <input type="text" name="nombre" id="edit_nombre"
-                                                                        required><br><br>
-                                                                    <input type="text" name="lugar" id="edit_lugar"
-                                                                        required><br><br>
-                                                                    <input type="text" name="bio" id="edit_bio"
-                                                                        required><br><br>
-                                                                    <input type="integer" name="precio" id="edit_precio"
-                                                                        required><br><br>
-                                                                    <input type="file" name="foto" id="edit_foto"><br><br>
-                                                                    <button type="submit" name="accion"
-                                                                        value="editar">Guardar</button>
-                                                                    <button type="button"
-                                                                        onclick="cerrarModal()">Cancelar</button>
+                                                    <!-- Form oculto para eliminar -->
+                                                    <form method="post" action="eliminar_cancha.php" id="formEliminar<?= $cancha['id_cancha'] ?>" style="display:none;">
+                                                        <input type="hidden" name="borrarcancha" value="<?= (int) $cancha['id_cancha'] ?>">
+                                                    </form>
+
+                                                    <!-- Modal de Bootstrap para editar -->
+                                                    <div class="modal fade" id="modalEditar<?= $cancha['id_cancha'] ?>" tabindex="-1" aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-centered">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header bg-warning bg-opacity-10">
+                                                                    <h5 class="modal-title fw-bold">
+                                                                        <i class="bi bi-pencil-square"></i> Editar Cancha
+                                                                    </h5>
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                </div>
+                                                                
+                                                                <form method="post" enctype="multipart/form-data">
+                                                                    <div class="modal-body">
+                                                                        <input type="hidden" name="id_cancha" value="<?= $cancha['id_cancha'] ?>">
+                                                                        
+                                                                        <div class="mb-3">
+                                                                            <label class="form-label fw-semibold">Nombre de la cancha</label>
+                                                                            <input class="form-control" type="text" name="nombre" 
+                                                                                value="<?= htmlspecialchars($cancha['nombre']) ?>"
+                                                                                required placeholder="Ej: Cancha El Crack">
+                                                                        </div>
+
+                                                                        <div class="mb-3">
+                                                                            <label class="form-label fw-semibold">Ubicación</label>
+                                                                            <input class="form-control" type="text" name="lugar" 
+                                                                                value="<?= htmlspecialchars($cancha['lugar']) ?>"
+                                                                                required placeholder="Ej: Buenos Aires, Tandil, Av. Principal 123">
+                                                                        </div>
+
+                                                                        <div class="mb-3">
+                                                                            <label class="form-label fw-semibold">Descripción</label>
+                                                                            <textarea class="form-control" name="bio" 
+                                                                                    rows="3" required 
+                                                                                    placeholder="Describe la cancha..."><?= htmlspecialchars($cancha['bio']) ?></textarea>
+                                                                        </div>
+
+                                                                        <div class="mb-3">
+                                                                            <label class="form-label fw-semibold">Precio por hora</label>
+                                                                            <div class="input-group">
+                                                                                <span class="input-group-text">$</span>
+                                                                                <input class="form-control" type="number" name="precio" 
+                                                                                    value="<?= htmlspecialchars($cancha['precio']) ?>"
+                                                                                    required placeholder="0" min="0" step="0.01">
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="mb-3">
+                                                                            <label class="form-label fw-semibold">Foto actual</label>
+                                                                            <div class="mb-2">
+                                                                                <img src="<?= !empty($cancha['foto']) ? 'uploads/' . htmlspecialchars($cancha['foto']) : 'image/cancha.jpg' ?>" 
+                                                                                    class="img-thumbnail" style="max-height: 100px;" 
+                                                                                    alt="Foto actual">
+                                                                            </div>
+                                                                            <input class="form-control" type="file" name="foto" 
+                                                                                accept="image/*">
+                                                                            <div class="form-text">Deja en blanco si no quieres cambiar la foto</div>
+                                                                        </div>
+                                                                    </div>
+                                                                    
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                                            Cancelar
+                                                                        </button>
+                                                                        <button type="submit" name="accion" value="editar" class="btn btn-warning">
+                                                                            <i class="bi bi-save"></i> Guardar Cambios
+                                                                        </button>
+                                                                    </div>
                                                                 </form>
                                                             </div>
                                                         </div>
-
-
-                                                        <!--SCRIPT PARA EL POPUP-->
-                                                        <script>
-                                                            function abrirModal(id, nombre, lugar, bio, precio, foto) {
-                                                                document.getElementById('modalEditar').style.display = 'block';
-                                                                document.getElementById('edit_id').value = id;
-                                                                document.getElementById('edit_nombre').value = nombre;
-                                                                document.getElementById('edit_lugar').value = lugar;
-                                                                document.getElementById('edit_bio').value = bio;
-                                                                document.getElementById('edit_precio').value = precio;
-                                                                document.getElementById('edit_foto').value = foto;
-                                                            }
-                                                            function cerrarModal() {
-                                                                document.getElementById('modalEditar').style.display = 'none';
-                                                            }
-                                                        </script>
                                                     </div>
+                                                    
+                                                    
                                                 </div>
                                             </div>
                                         </div>
@@ -747,6 +830,14 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
             }
 
             window.location.href = url + params.join('&');
+        }
+    </script>
+
+    <script>
+        function confirmarEliminacion(id) {
+            if (confirm('¿Seguro que querés eliminar esta cancha?')) {
+                document.getElementById('formEliminar' + id).submit();
+            }
         }
     </script>
 </body>

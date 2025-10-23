@@ -198,6 +198,28 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <style>
+
+        /* estilos de hero section */
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15) !important;
+        }
+
+        .court-image {
+            transition: transform 0.5s ease;
+        }
+
+        .court-image:hover {
+            transform: scale(1.05);
+        }
+        /* fin estilos hero secion */
+
+
+
         .court-image {
             height: 400px;
             object-fit: cover;
@@ -490,62 +512,88 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
         <?php if ($cancha): ?>
             <!-- Busca imagen -->
             <div class="row justify-content-center align-items-center p-4 g-4">
+                <!-- Imagen de la cancha -->
                 <div class="col-md-5 col-sm-12">
-                    <div class="row justify-content-center align-items-center g-2">
-                        <div class="col align-items-center">
-                            <?php if (!empty($cancha['foto'])): ?>
-                                <img src="uploads/<?= htmlspecialchars($cancha['foto']) ?>" class="img-fluid w-100 court-image"
-                                    alt="<?= htmlspecialchars($cancha['nombre']) ?>">
-                            <?php else: ?>
-                                <img src="image/cancha.jpg" class="img-fluid w-100 court-image"
-                                    alt="<?= htmlspecialchars($cancha['nombre']) ?>">
-                            <?php endif; ?>
-                        </div>
+                    <div class="position-relative overflow-hidden rounded-4 shadow-lg">
+                        <?php if (!empty($cancha['foto'])): ?>
+                            <img src="uploads/<?= htmlspecialchars($cancha['foto']) ?>" 
+                                class="img-fluid w-100 court-image" 
+                                alt="<?= htmlspecialchars($cancha['nombre']) ?>"
+                                style="object-fit: cover; height: 400px;">
+                        <?php else: ?>
+                            <img src="image/cancha.jpg" 
+                                class="img-fluid w-100 court-image" 
+                                alt="<?= htmlspecialchars($cancha['nombre']) ?>"
+                                style="object-fit: cover; height: 400px;">
+                        <?php endif; ?>
+                        <div class="position-absolute top-0 start-0 w-100 h-100" 
+                            style="background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.2) 100%);"></div>
                     </div>
                 </div>
-            
 
                 <!-- Información de la cancha -->
                 <div class="col-lg-7 col-sm-12">
-                    <div class="row justify-content-center align-items-center g-2">
-                        <div class="col align-text-top">
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <h2 class="section-title" style="color: black"><?= htmlspecialchars($cancha['nombre']) ?></h2>
-                                    <p class="mb-4" style= "color: #0B0519">
-                                        <?= htmlspecialchars($cancha['bio']) ?>
-                                    </p>
-                                    <div class="row g-4 mt-4">
-                                        <div class="col-md-6">
-                                            <div class="text-center">
-                                                    <i class="icono"></i>
-                                                    <h5 style="color:black">Direccion</h5>
-                                                    <p class="mb-4" style= "color: #0B0519"><span><?= htmlspecialchars($cancha['lugar']) ?></span></p>
-                                                    <?php if (!empty($cancha['duenio_nombre'])): ?>
-                                            </div>
+                    <div class="px-lg-4">
+                        <!-- Título y descripción -->
+                        <h2 class="fw-bold mb-3" style="color: #1a1a2e; font-size: 2.5rem;">
+                            <?= htmlspecialchars($cancha['nombre']) ?>
+                        </h2>
+                        <p class="mb-4 text-muted" style="font-size: 1.1rem; line-height: 1.7;">
+                            <?= htmlspecialchars($cancha['bio']) ?>
+                        </p>
+
+                        <!-- Cards de información -->
+                        <div class="row g-3 mt-4">
+                            <!-- Dirección -->
+                            <div class="col-md-6">
+                                <div class="card border-0 shadow-sm h-100 hover-lift">
+                                    <div class="card-body text-center p-4">
+                                        <div class="icon-circle mx-auto mb-3" 
+                                            style="width: 60px; height: 60px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                            <i class="bi bi-geo-alt-fill text-white" style="font-size: 1.5rem;"></i>
                                         </div>
-                                        <div  class="col-md-6">
-                                            <div class="text-center">
-                                                <i class="icono"></i>
-                                                <h5 style="color:black">Propietario</h5>
-                                                <p class="mb-4" style= "color: #0B0519"> <?= htmlspecialchars($cancha['duenio_nombre']) ?></p>
-                                            </div>
-                                        </div>
-                                        <?php endif; ?>
-                                        <div  class="col-md-6">
-                                            <div class="text-center">
-                                                <i class="icono"></i>
-                                                <h5 style="color:black">Precio</h5>
-                                                <p class="mb-4" style= "color: #0B0519">Precio: $<?= number_format($cancha['precio']) ?> por hora</p>
-                                            </div>
-                                        </div>
+                                        <h5 class="fw-semibold mb-2" style="color: #1a1a2e;">Dirección</h5>
+                                        <p class="text-muted mb-0"><?= htmlspecialchars($cancha['lugar']) ?></p>
                                     </div>
-                                </div>    
+                                </div>
+                            </div>
+
+                            <!-- Propietario -->
+                            <?php if (!empty($cancha['duenio_nombre'])): ?>
+                            <div class="col-md-6">
+                                <div class="card border-0 shadow-sm h-100 hover-lift">
+                                    <div class="card-body text-center p-4">
+                                        <div class="icon-circle mx-auto mb-3" 
+                                            style="width: 60px; height: 60px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                            <i class="bi bi-person-fill text-white" style="font-size: 1.5rem;"></i>
+                                        </div>
+                                        <h5 class="fw-semibold mb-2" style="color: #1a1a2e;">Propietario</h5>
+                                        <p class="text-muted mb-0"><?= htmlspecialchars($cancha['duenio_nombre']) ?></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php endif; ?>
+
+                            <!-- Precio -->
+                            <div class="col-md-6">
+                                <div class="card border-0 shadow-sm h-100 hover-lift">
+                                    <div class="card-body text-center p-4">
+                                        <div class="icon-circle mx-auto mb-3" 
+                                            style="width: 60px; height: 60px; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                            <i class="bi bi-cash-coin text-white" style="font-size: 1.5rem;"></i>
+                                        </div>
+                                        <h5 class="fw-semibold mb-2" style="color: #1a1a2e;">Precio</h5>
+                                        <p class="mb-0">
+                                            <span class="fs-4 fw-bold" style="color: #667eea;">$<?= number_format($cancha['precio']) ?></span>
+                                            <span class="text-muted"> / hora</span>
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>    
-            </div> 
+                </div>
+            </div>
 
             <?php if (!$id_usuario): ?>
                 <div class="alert-login">
@@ -645,7 +693,7 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
                                     ?>
 
                                     <?php if ($id_usuario && $puede_reservar): ?>
-                                        <a href="reserva.php?id_cancha=<?= $id_cancha ?>&fecha=<?= $fecha_mostrar ?>&hora_inicio=<?= $hora ?>"
+                                            <a href="reserva.php?id_cancha=<?= $id_cancha ?>&fecha=<?= $fecha_mostrar ?>&hora_inicio=<?= $hora ?>"
                                             class="time-slot parcial">
                                             <div class="fs-5 fw-bold"><?= $hora ?></div>
                                             <div class="small">

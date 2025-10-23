@@ -9,8 +9,13 @@ $rol = $_SESSION['rol'] ?? null;
 $msg = '';
 $error = '';
 
+if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'usuario') {
+    header("Location: reservacion.php");
+    exit;
+}
+
 if (!$id_usuario) {
-    header("Location: login.php");
+    header("Location: inicioses.php");
     exit;
 }
 
@@ -592,11 +597,9 @@ if ($id_cancha && $fecha && $hora_inicio) {
                     <div class="mb-4">
                         <label for="categoria" class="form-label">Tu Categoría <span style="color: #dc3545;">*</span></label>
                         <select name="categoria" class="form-control neumorphic-select" required id="categoria">
-                            <?php for ($i = 1; $i <= 7; $i++): ?>
-                                <option value="<?= $i ?>" <?= ($usuario_data['categoria'] ?? 1) == $i ? 'selected' : '' ?>>
-                                    Categoría <?= $i ?>
-                                </option>
-                            <?php endfor; ?>
+                          <option value="<?= $usuario_data['categoria'] ?? 1 ?>" selected>
+                              Categoría <?= $usuario_data['categoria'] ?? 1 ?>
+                          </option>
                         </select>
                     </div>
                     

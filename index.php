@@ -286,7 +286,7 @@ if ($calendario)
               </div>
             </div>
             <div class="carousel-item h-100">
-              <img src="image/raqueta.avif" class="d-block w-100 h-100" alt="Gestiona tus canchas"
+              <img src="image/gestion.jpg" class="d-block w-100 h-100" alt="Gestiona tus canchas"
                 style="object-fit:cover;">
               <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-3">
                 <h5 class="fw-bold text-primary">Gestión Rápida</h5>
@@ -294,11 +294,11 @@ if ($calendario)
               </div>
             </div>
             <div class="carousel-item h-100">
-              <img src="image/raqueta.avif" class="d-block w-100 h-100" alt="Disfruta el pádel"
+              <img src="image/grupo.jpg" class="d-block w-100 h-100" alt="Disfruta el pádel"
                 style="object-fit:cover;">
               <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-3">
                 <h5 class="fw-bold text-warning">Disfruta el Pádel</h5>
-                <p class="text-white">Vive la mejor experiencia en nuestras canchas modernas y cómodas.</p>
+                <p class="text-white">Vive la mejor experiencia consiguiendo grupos para jugar al padel.</p>
               </div>
             </div>
           </div>

@@ -417,8 +417,7 @@ if ($nombre) {
                         <div id="collapse1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                             <div class="accordion-body">
                                 Es muy sencillo. Solo tienes que registrarte en nuestra plataforma, seleccionar la
-                                ubicación y horario que prefieras, y confirmar tu reserva. Recibirás una confirmación
-                                inmediata por email.
+                                ubicación y horario que prefieras, y confirmar tu reserva.
                             </div>
                         </div>
                     </div>
@@ -432,7 +431,7 @@ if ($nombre) {
                         </h2>
                         <div id="collapse2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                             <div class="accordion-body">
-                                Sí, puedes cancelar tu reserva hasta 4 horas antes del horario programado sin ningún
+                                Sí, puedes cancelar tu reserva hasta 24 horas antes del horario programado sin ningún
                                 costo. Para cancelaciones con menos tiempo, se aplicará una penalización del 50%.
                             </div>
                         </div>
@@ -447,8 +446,7 @@ if ($nombre) {
                         </h2>
                         <div id="collapse3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                             <div class="accordion-body">
-                                Aceptamos todas las tarjetas de crédito y débito principales (Visa, Mastercard, American
-                                Express), PayPal, y transferencias bancarias.
+                                Eso se vera con el dueño de la cancha, nosotros no somos mas que el puente.
                             </div>
                         </div>
                     </div>
@@ -469,21 +467,6 @@ if ($nombre) {
                         </div>
                     </div>
 
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="heading5">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapse5">
-                                ¿Hay descuentos por reservas frecuentes?
-                            </button>
-                        </h2>
-                        <div id="collapse5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body">
-                                Sí, ofrecemos descuentos progresivos para usuarios frecuentes. A partir de la quinta
-                                reserva al mes, obtienes un 10% de descuento, y con más de 10 reservas mensuales, el
-                                descuento es del 15%.
-                            </div>
-                        </div>
-                    </div>
 
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="heading6">
@@ -526,7 +509,7 @@ if ($nombre) {
                         <div id="collapse8" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                             <div class="accordion-body">
                                 En cada reserva encontrarás los datos de contacto del centro específico. También puedes
-                                usar nuestro chat en vivo o llamar a nuestro servicio de atención al cliente que hará de
+                                llamar a nuestro servicio de atención al cliente que hará de
                                 intermediario.
                             </div>
                         </div>
@@ -552,7 +535,7 @@ if ($nombre) {
                     <div class="contact-card">
                         <i class="fas fa-envelope contact-icon"></i>
                         <h5>Email</h5>
-                        <p class="main-text">info@padelreservas.com</p>
+                        <p class="main-text">Canchappcorp@gmail.com</p>
                         <p class="sub-text">Respuesta en menos de 24 horas</p>
                     </div>
                 </div>
@@ -561,7 +544,7 @@ if ($nombre) {
                     <div class="contact-card">
                         <i class="fas fa-phone contact-icon"></i>
                         <h5>Teléfono</h5>
-                        <p class="main-text">+34 900 123 456</p>
+                        <p class="main-text">+54 2494-648225</p>
                         <p class="sub-text">Lunes a Viernes, 9:00 - 18:00</p>
                     </div>
                 </div>
@@ -570,7 +553,7 @@ if ($nombre) {
                     <div class="contact-card">
                         <i class="fas fa-map-marker-alt contact-icon"></i>
                         <h5>Oficina Central</h5>
-                        <p class="main-text">Madrid, España</p>
+                        <p class="main-text">Tandil ,Buenos Aires ,Argentina</p>
                         <p class="sub-text">Calle del Pádel, 123</p>
                     </div>
                 </div>
@@ -580,7 +563,6 @@ if ($nombre) {
                         <i class="fas fa-clock contact-icon"></i>
                         <h5>Soporte</h5>
                         <p class="main-text">24/7 Online</p>
-                        <p class="sub-text">Chat en vivo disponible</p>
                     </div>
                 </div>
             </div>
@@ -589,7 +571,7 @@ if ($nombre) {
                 <h4 class="mb-3">¿Necesitas más información?</h4>
                 <p class="mb-4">Nuestro equipo de soporte está listo para resolver todas tus dudas sobre la
                     plataforma, reservas, pagos o cualquier aspecto técnico.</p>
-                <button class="btn btn-primary-contact btn-contact">
+                <button class="btn btn-primary-contact btn-contact" href="">
                     <i class="fas fa-envelope me-2"></i>Enviar Email
                 </button>
                 <button class="btn btn-outline-contact btn-contact">
@@ -615,9 +597,9 @@ if ($nombre) {
                 </div>
                 <div class="col-xs-12 col-md-6 col-lg-3 mb-3">
                     <h5 class="mb-2">Contacto</h5>
-                    <p class="mb-1">Email: info@canchapp.com</p>
-                    <p class="mb-1">Tel: +54 11 1234-5678</p>
-                    <p class="mb-1">Dirección: Av. Pádel 123, Buenos Aires</p>
+                    <p class="mb-1">Email: canchappcorp@gmail.com</p>
+                    <p class="mb-1">Tel: +54 2494-648225</p>
+                    <p class="mb-1">Dirección: Av. Pádel 123 ,Tandil ,Buenos Aires</p>
                 </div>
                 <div class="col-xs-12 col-md-6 col-lg-3 mb-3">
                     <h5 class="mb-2">Síguenos</h5>

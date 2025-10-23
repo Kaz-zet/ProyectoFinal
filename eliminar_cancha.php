@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['borrarcancha'])) {
     $stmt = $pdo->prepare("DELETE FROM cancha WHERE id_cancha = ?");
     $stmt->execute([$id_borrar]);
 
-    header("Location: gestion_reservas.php");
+    header("Location: gestion.php");
     exit;
 }
 ?>
