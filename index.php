@@ -294,7 +294,7 @@ if ($calendario)
               </div>
             </div>
             <div class="carousel-item h-100">
-              <img src="image/grupo.jpg" class="d-block w-100 h-100" alt="Disfruta el pádel"
+              <img src="image/grupopadel.avif" class="d-block w-100 h-100" alt="Disfruta el pádel"
                 style="object-fit:cover;">
               <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-3">
                 <h5 class="fw-bold text-warning">Disfruta el Pádel</h5>
