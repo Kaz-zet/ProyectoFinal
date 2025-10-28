@@ -143,7 +143,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar_reserva']))
                     // Calcular espacios restantes después de esta reserva
                     $espacios_restantes = $espacios_disponibles - $espacios;
                     
-                    $msg = "¡Reserva realizada con éxito! 🎉<br><br>
+                    $msg = "¡Reserva realizada con éxito! <br><br>
                            <div style='background: var(--main-color); color: white; padding: 15px; border-radius: 10px; font-size: 20px; font-weight: bold; letter-spacing: 2px; text-align: center; font-family: monospace;'>{$codigo}</div><br>
                            <strong>{$nombre_cancha}</strong><br>
                            " . date('d/m/Y', strtotime($fecha)) . "<br>
@@ -152,7 +152,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar_reserva']))
                     
                     if ($espacios_restantes > 0) {
                         $msg .= "<br><div style='background: #ffc107; color: #000; padding: 10px; border-radius: 8px; font-size: 14px;'>
-                                 ℹQuedan {$espacios_restantes} espacios disponibles. Otros jugadores pueden unirse a este horario.
+                                 Quedan {$espacios_restantes} espacios disponibles. Otros jugadores pueden unirse a este horario.
                                  </div>";
                     } else {
                         $msg .= "<br><div style='background: #dc3545; color: white; padding: 10px; border-radius: 8px; font-size: 14px;'>

@@ -25,7 +25,6 @@ if ($nombre) {
 }
 //----------------------------------------------------------------
 
-
 //----------------PARA VER EL PROMEDIO DE ESTRELLAS PARA LA CANCHA!--------------------------------------------------
 function obtenerPromedioValoracion($pdo, $id_cancha)
 {
@@ -45,11 +44,6 @@ function obtenerPromedioValoracion($pdo, $id_cancha)
   }
 }
 //--------------------------------------------------------------------------------------------------
-
-//PARA EDITAR CANCHA!!
-
-$msgError = []; //Se usan cuando querés editar una cancha, si hay error, lo guarda en este array.
-$msgOk = [];
 
 //AGREGAR A FAVORITOSS LA CANCHA--------------------------------------------------------------------
 
@@ -108,64 +102,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['accion'] === 'toggle_favori
 
 //-----------------------------------------------------------------------
 
-//EDITAR CANCHAS!!
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['accion'] === 'editar') { //Utilizo el mismo filtro que al crear cancha pero en este caso saco su Id, y remplazo los datos utilizando esa ID.
-  $id = $_POST['id_cancha'];
-  $nombre = trim($_POST['nombre']);
-  $lugar = trim($_POST['lugar']);
-  $precio = trim($_POST['precio']);
-  $bio = trim($_POST['bio']);
-  $foto = "";
-
-  if ($nombre === '' || $lugar === '' || $bio === '' || $precio === '') {
-    $msgError[$id] = "Completa todos los campos.";
-  } else {
-    try {
-      $stmt = $pdo->prepare("SELECT 1 FROM cancha WHERE nombre = ? AND id_cancha <> ?"); //<> permite que ponele, si qerés editar la cancha y dejás el mismo nombre, que no te mande q ya existe, sino q entienda q no la cambiaste.
-      $stmt->execute([$nombre, $id]);
-
-      if ($stmt->fetch()) {
-        $msgError[$id] = "Ya existe otra cancha con ese nombre.";
-      } else {
-
-        if (!empty($_FILES['foto']['name'])) {
-          // Buscar la foto vieja
-          $stmt = $pdo->prepare("SELECT foto FROM cancha WHERE id_cancha = ?");
-          $stmt->execute([$id]);
-          $cancha = $stmt->fetch();
-
-          if ($cancha && !empty($cancha['foto'])) {
-            $rutaVieja = __DIR__ . "/uploads/" . $cancha['foto'];
-            if (file_exists($rutaVieja)) {
-              unlink($rutaVieja);
-            }
-          }
-
-          // Guardar nueva foto
-          $nombreArchivo = time() . "_" . basename($_FILES['foto']['name']);
-          $rutaDestino = __DIR__ . "/uploads/" . $nombreArchivo;
-          move_uploaded_file($_FILES['foto']['tmp_name'], $rutaDestino);
-
-          $foto = $nombreArchivo;
-        }
-        if ($foto) {
-          $stmt = $pdo->prepare("UPDATE cancha SET nombre = ?, lugar = ?, bio = ?, foto = ?, precio = ? WHERE id_cancha = ?");
-          $stmt->execute([$nombre, $lugar, $bio, $foto, $precio, $id]);
-        } else {
-          $stmt = $pdo->prepare("UPDATE cancha SET nombre = ?, lugar = ?, bio = ?, precio = ? WHERE id_cancha = ?");
-          $stmt->execute([$nombre, $lugar, $bio, $precio, $id]);
-        }
-
-        $_SESSION['msgOk'] = "Cancha editada correctamente.";
-        header("Location: " . $_SERVER['PHP_SELF']);
-        exit;
-      }
-    } catch (Throwable $e) {
-      $msgError[$id] = "Error: " . $e->getMessage();
-    }
-  }
-}
 //------ BÚSQUEDA DE CANCHAS ------
 
 //Creamos filtros para poder encontrar la cancha que queremos.
@@ -276,10 +212,18 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
 <body>
   <div class="container-fluid p-0 m-0" style="background-color: #f0f0f0; min-height: 100vh;">
     <section class="text-center text-white d-flex flex-column p-0 m-0 rounded-top-0" id="inicio">
+<<<<<<< HEAD
       <!-- Navbar -->
       <div class="row p-3 rounded-bottom-300 px-3" id="navbar">
         <div class="col-12 rounded-bottom-300 px-3" >
           <nav class="navbar navbar-expand-lg" >
+=======
+
+      <!-- Navbar ----------------------------------------------------------------------------------------------------->
+      <div class="row" id="navbar">
+        <div class="col-12">
+          <nav class="navbar navbar-expand-lg">
+>>>>>>> a2988790846f653770bf2f044ed2e36559639718
             <a class="navbar-brand me-auto" href="#">
               <img src="image/icon.png" alt="Logo" width="85" height="60" class="d-inline-block align-text-top">
             </a>
@@ -355,14 +299,19 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
           </nav>
         </div>
       </div>
-      <!-- Fin Navbar -->
+      <!-- Fin Navbar --------------------------------------------------------------------------------------------------------->
 
+     <!-----------------------BUSCAR CANCHA------------------------------------->
 
+<<<<<<< HEAD
 
      <!-----------------------BUSCAR CANCHA------------------>
 
       <!--nia ichi ni san nia kevin ariel gatoooooooo :) -->
       <div class="row mb-4 rounded-bottom-300 px-3">
+=======
+      <div class="row mb-4">
+>>>>>>> a2988790846f653770bf2f044ed2e36559639718
         <div class="col-12">
           <div class="card text-dark rounded-top-300">
             <!--Brad, si estás viendo esto, antes de text-white, ponele esto para ver la caja ""card bg-dark"" (sin las comillas)-->
@@ -534,15 +483,6 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
     <?php endif; ?>
 
 
-
-
-
-
-
-
-    
-
-
     <hr class="h-200 mx-auto my-3 border-dark" style="height: 4px; background-color: #000; border: none;">
 
 
@@ -644,19 +584,19 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
         <div class="alert alert-info text-center">No hay canchas registradas.</div>
         <?php endif; ?>
 
-    <!-- Bootstrap 5 JS Bundle (incluye Popper) -->
+    <!--Bootstrap 5 JS Bundle (incluye Poppers que es una librería)-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-      const collapses = document.querySelectorAll('.collapse');
+      const collapses = document.querySelectorAll('.collapse'); //Busca todos los elementos con clase .collapse.
 
       collapses.forEach((item) => {
-        item.addEventListener('show.bs.collapse', () => {
+        item.addEventListener('show.bs.collapse', () => { //Un .collapse está abierto.
           collapses.forEach((el) => {
             if (el !== item) {
               const collapseInstance = bootstrap.Collapse.getInstance(el);
               if (collapseInstance) {
-                collapseInstance.hide();
+                collapseInstance.hide(); // Esto hace que a lo hora de abrir un .collapse, cierre los demás en caso de haber otro abierto.
               }
             }
           });
@@ -665,7 +605,7 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
     </script>
 
     <script>
-      const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+      const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]') //Todos los objetos que tenga esa clase crea un popover.
       const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
     </script>
   </div>

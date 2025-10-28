@@ -444,17 +444,17 @@ try {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        // Confirmación al aprobar
+        //ventana de confirmación al aprobar al apretar onsubmit
         function confirmarAprobacion(nombre) {
             return confirm(`¿Estás seguro de aprobar la solicitud de ${nombre}?\n\nEste usuario se convertirá en dueño y podrá gestionar canchas.`);
         }
 
-        // Confirmación al rechazar
+        //ventana de onfirmación al rechazar
         function confirmarRechazo(nombre) {
             return confirm(`¿Estás seguro de rechazar la solicitud de ${nombre}?\n\nEsta acción no se puede deshacer.`);
         }
 
-        // Auto-ocultar mensajes después de 5 segundos
+        //Autoocultar mensajes después de .alert-custom desp de 5 segundos desde q carga la página con una transición suave.
         setTimeout(function() {
             const alerts = document.querySelectorAll('.alert-custom');
             alerts.forEach(function(alert) {
@@ -464,7 +464,8 @@ try {
             });
         }, 5000);
 
-        // Animación de entrada para las filas
+        //Animación de entrada para las filas al empezar.
+        //Aparecen las filas y van apareciendo con un fade una sobre otra.
         document.addEventListener('DOMContentLoaded', function() {
             const rows = document.querySelectorAll('.custom-table tbody tr');
             rows.forEach((row, index) => {
