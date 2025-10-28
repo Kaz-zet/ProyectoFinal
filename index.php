@@ -3,6 +3,9 @@ session_start();
 $nombre = $_SESSION['nombre'] ?? null;
 $rol = $_SESSION['rol'] ?? null;
 $foto = null;
+$idduenio = $_SESSION['id'] ?? null; //Creo variable para sacar la ID
+
+$id_usuario = $_SESSION['id'] ?? null;
 
 //---------------FOTO DE PERFIL----------------------------------------------
 if ($nombre) {
@@ -19,6 +22,80 @@ if ($nombre) {
     }
 }
 //----------------------------------------------------------------
+
+//----------------PARA VER EL PROMEDIO DE ESTRELLAS PARA LA CANCHA!--------------------------------------------------
+function obtenerPromedioValoracion($pdo, $id_cancha)
+{
+  try {
+    $stmt = $pdo->prepare("
+            SELECT 
+                COALESCE(AVG(valor), 0) as promedio,
+                COUNT(*) as total
+            FROM valoracion 
+            WHERE id_cancha = ?
+        ");
+    $stmt->execute([$id_cancha]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+  } catch (PDOException $e) {
+    error_log("Error getting rating: " . $e->getMessage());
+    return ['promedio' => 0, 'total' => 0];
+  }
+}
+
+//AGREGAR A FAVORITOSS LA CANCHA--------------------------------------------------------------------
+
+$misFavoritos = [];
+$favoritosIds = []; //Le ponemos ID asi se storea mas fácil.
+
+if ($id_usuario) {
+  $stmt = $pdo->prepare("
+        SELECT c.*, f.id_favorito
+        FROM cancha c
+        INNER JOIN favoritos f ON c.id_cancha = f.id_cancha 
+        WHERE f.id_usuario = ?
+    ");
+  $stmt->execute([$id_usuario]);
+  $misFavoritos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+  //Crea un array de las canchas favoritas para que sea mas lindo a la vista
+  $favoritosIds = array_column($misFavoritos, 'id_cancha');
+}
+
+//Saca o pone en favoritos.
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['accion'] === 'toggle_favorito') {
+  if (!$id_usuario) {
+    header("Location: login.php");
+    exit;
+  }
+
+  $id_cancha = $_POST['id_cancha'];
+
+  try {
+    //SI YA ESTÁ EN FAVORITOS
+    $stmt = $pdo->prepare("SELECT id_favorito FROM favoritos WHERE id_usuario = ? AND id_cancha = ?");
+    $stmt->execute([$id_usuario, $id_cancha]);
+    $existe = $stmt->fetch(); //creamos la variable "existe" en la busqueda de canchas, por ende revisa si esa cancha existe en favoritos, si si, te deja eliminarla, si no, se añadae.
+
+    if ($existe) {
+      //SACAR DE FAVORITOS
+      $stmt = $pdo->prepare("DELETE FROM favoritos WHERE id_usuario = ? AND id_cancha = ?");
+      $stmt->execute([$id_usuario, $id_cancha]);
+      $msg = "Cancha removida de favoritos";
+    } else {
+      //AÑADIR A FAVORITOS
+      $stmt = $pdo->prepare("INSERT INTO favoritos (id_usuario, id_cancha) VALUES (?, ?)");
+      $stmt->execute([$id_usuario, $id_cancha]);
+      $msg = "Cancha agregada a favoritos";
+    }
+
+    //se restartea la pagina asi se ven los nuevos cambios.
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit;
+
+  } catch (Exception $e) {
+    $msg = "Error: " . $e->getMessage();
+  }
+}
 
 $reservarmsj = '';
 $valoracionmsj = '';
@@ -364,6 +441,94 @@ if ($calendario)
         </div>
       </div>
     <?php endif; ?>
+
+    <!--------------------------------------FAVORITOS--------------------------------------------------->
+    
+
+    <?php if ($misFavoritos): ?>
+    <h1>Mis Favoritos</h1>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4 px-1">
+      <?php foreach ($misFavoritos as $cancha): ?>
+      <?php
+      $rating = obtenerPromedioValoracion($pdo, $cancha['id_cancha']);
+      $promedio = $rating['promedio'];
+      $total = $rating['total'];
+      ?>
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="card shadow-lg rounded-4 overflow-hidden border-0 h-100">
+            <!-- Imagen de la cancha -->
+            <div class="card-image position-relative">
+                <!-- Botón de favoritos -->
+                <form method="post" class="position-absolute top-0 end-0 m-3">
+                    <input type="hidden" name="id_cancha" value="<?= $cancha['id_cancha'] ?>">
+                    <button type="submit" name="accion" value="toggle_favorito" class="btn btn-favorito rounded-circle p-2 border-0 shadow-sm" style="width: 40px; height: 40px;">
+                        <span class="fs-5"><?= in_array($cancha['id_cancha'], $favoritosIds) ? '⭐' : '☆' ?></span>
+                    </button>
+                </form>
+                
+                <!-- Imagen -->
+                <?php if ($cancha['foto']): ?>
+                    <img src="uploads/<?= htmlspecialchars($cancha['foto']) ?>" class="img-fluid" style="height: 300px; width: 100%; object-fit: cover;">
+                <?php endif; ?>
+                
+                <!-- Precio -->
+                <div class="position-absolute bottom-0 end-0 bg-white rounded-pill px-3 py-1 m-3 fw-semibold small">
+                    Desde $<?php echo htmlspecialchars($cancha['precio']); ?>
+                </div>
+            </div>
+            
+            <!-- Contenido de la tarjeta -->
+            <div class="card-body p-4 d-flex flex-column">
+                <div class="text-secondary text-uppercase small mb-2 fw-medium" style="letter-spacing: 0.5px;">
+                    Cancha Deportiva
+                </div>
+                <h2 class="fs-3 fw-bold mb-3 text-dark"><?php echo htmlspecialchars($cancha['nombre']); ?></h2>
+                <p class="text-secondary mb-3"><?php echo htmlspecialchars($cancha['lugar']); ?></p>
+                
+                <!-- Botón y Rating -->
+                <div class="row align-items-center mt-auto">
+                    <div class="col-auto">
+                        
+                        <a href="reservacion.php?id=<?= $cancha['id_cancha'] ?>" class="btn btn-reservar text-white border-0 rounded-pill px-4 py-2 fw-semibold shadow-sm text-decoration-none">
+                            Reservar
+                        </a>
+                    </div>
+                    <div class="col">
+                        <div class="d-flex flex-column align-items-end">
+                            <small class="text-muted mb-1">Rating</small>
+                            <?php if ($total > 0): ?>
+                            <div class="d-flex gap-1 fs-5">
+                                <?php
+                                $stars = round($promedio);
+                                for ($i = 1; $i <= 5; $i++) {
+                                    echo '<span class="' . ($i <= $stars ? 'star-filled' : 'star-empty') . '">' . ($i <= $stars ? '★' : '☆') . '</span>';
+                                }
+                                ?>
+                            </div>
+                            <small class="text-muted mt-1">
+                                <?= number_format($promedio, 1) ?>/5 (<?= $total ?> valoraciones)
+                            </small>
+                            <?php else: ?>
+                            <div class="d-flex gap-1 fs-5">
+                                <span class="star-empty">☆</span>
+                                <span class="star-empty">☆</span>
+                                <span class="star-empty">☆</span>
+                                <span class="star-empty">☆</span>
+                                <span class="star-empty">☆</span>
+                            </div>
+                            <small class="text-muted mt-1">Sin valoraciones</small>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+      <?php endforeach; ?>
+
+    </div>
+    <?php endif; ?>
+    <hr class="h-200 mx-auto my-3 border-dark" style="height: 4px; background-color: #000; border: none;">
 
     <!-- Footer -->
     <footer class="mt-5">
