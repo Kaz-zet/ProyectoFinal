@@ -344,6 +344,7 @@ try {
                 </p>
 
                 <!-- Contador de solicitudes -->
+                 <!--Se creó un array arriba para las solicitudes donde si hay una o mas se muestran. Si hay 2 o mas se le agrega s y es para que se lea bien. -->
                 <?php if (count($solicitudes) > 0): ?>
                     <div class="text-center mb-4">
                         <span class="stats-badge">
@@ -373,7 +374,7 @@ try {
                     <?php endif; ?>
                 <?php endif; ?>
 
-                <!-- Tabla de solicitudes -->
+                <!--Se crea un campo por cada solicitud-->
                 <?php if (count($solicitudes) > 0): ?>
                     <div class="table-container">
                         <table class="custom-table">
@@ -387,6 +388,7 @@ try {
                                 </tr>
                             </thead>
                             <tbody>
+                                <!--En cada campo se rellena con los datos del usuario-->
                                 <?php foreach ($solicitudes as $sol): ?>
                                     <tr>
                                         <td>
@@ -401,8 +403,8 @@ try {
                                         </td>
                                         <td>
                                             <div class="actions-group">
-                                                <form method="post" style="display:inline;" onsubmit="return confirmarAprobacion('<?= htmlspecialchars($sol['nombre']) ?>')">
-                                                    <input type="hidden" name="id_usuario" value="<?= $sol['id_usuario'] ?>">
+                                                <form method="post" style="display:inline;" onsubmit="return confirmarAprobacion('<?= htmlspecialchars($sol['nombre']) ?>')"><!--Onsubmit hace referencia que al clickear activará la función de js.-->
+                                                    <input type="hidden" name="id_usuario" value="<?= $sol['id_usuario'] ?>"> <!--Se le manda al servidor la ID exacta del usuario con el que se está trabajando.-->
                                                     <button type="submit" name="dec" value="aprobar" class="neumorphic-btn-approve">
                                                         <i class="fas fa-check me-1"></i>Aprobar
                                                     </button>

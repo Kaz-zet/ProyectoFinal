@@ -103,7 +103,7 @@ $ver = '';
 $pedir = "";
 $calendario = "";
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') { //En caso de que quiera accionar algún post y no tenga rol se lo redirige al index.
   if (!$rol) {
     header("Location: inicioses.php?redirect=" . urlencode($_SERVER['PHP_SELF']));
     exit;
@@ -251,6 +251,7 @@ if ($calendario)
             </div>
           </div>
 
+                <!--FOTO DE PERFIL------------------------------------------------------------------------------------->
           <?php if ($nombre): ?>
             <div class="dropdown">
               <button class="btn p-0 border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="btnPerfil">
@@ -266,6 +267,8 @@ if ($calendario)
                   </div>
                 <?php endif; ?>
               </button>
+                <!-------------------------------------------------------------------------------------------------->
+
               <ul class="dropdown-menu dropdown-menu-end">
                 <li>
                   <h6 class="dropdown-header">¡Hola, <?= htmlspecialchars($nombre) ?>!</h6>
@@ -273,6 +276,7 @@ if ($calendario)
                 <li>
                   <hr class="dropdown-divider">
                 </li>
+                <!--VER PERFIL DE PADEL DEL USUARIO-->
                 <?php if ($rol === 'usuario'): ?>
                   <li><a class="dropdown-item" href="perfil_padel.php">
                       <i class="fas fa-user me-2"></i>Editar Perfil
@@ -281,11 +285,15 @@ if ($calendario)
                     <hr class="dropdown-divider">
                   </li>
                 <?php endif; ?>
+
+                <!--DESLOGUEAR------------------------------->
                 <li><a class="dropdown-item text-danger" href="logout.php">
                     <i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión
                   </a></li>
+
               </ul>
             </div>
+                <!--LOGUEARSE SI NO TIENE CUENTA-->
           <?php else: ?>
             <a href="inicioses.php" class="login-button btn btn-primary" id="btnGuess">Login</a>
           <?php endif; ?>
@@ -305,8 +313,8 @@ if ($calendario)
     <!--INICIO-->
     <div class="row py-5 mb-5 mt-3" >
       <div class="col-12 d-flex flex-column justify-content-center align-items-center text-center">
-        <h1 class="text-center-left text-dark">
-          ¡Hola <?= htmlspecialchars($nombre ?? 'a CanchApp') ?>!
+        <h1 class="text-center-left text-white">
+          ¡Hola, <?= htmlspecialchars($nombre ?? 'a CanchApp') ?>!
         </h1>
         <?php if ($rol === 'usuario'): ?>
         <p class="text-center-left text-dark">Tu sitio de confianza para reservar canchas.</p>
@@ -419,28 +427,6 @@ if ($calendario)
       </div>
     <?php endif; ?>
 
-    <!-- Mensajes de confirmación -->
-    <?php if ($reservarmsj): ?>
-      <div class="row mt-3">
-        <div class="col-12">
-          <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <?= $reservarmsj ?>
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-          </div>
-        </div>
-      </div>
-    <?php endif; ?>
-
-    <?php if ($valoracionmsj): ?>
-      <div class="row mt-3">
-        <div class="col-12">
-          <div class="alert alert-info alert-dismissible fade show" role="alert">
-            <?= $valoracionmsj ?>
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-          </div>
-        </div>
-      </div>
-    <?php endif; ?>
 
     <!--------------------------------------FAVORITOS--------------------------------------------------->
     
