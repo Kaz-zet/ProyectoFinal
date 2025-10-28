@@ -108,64 +108,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['accion'] === 'toggle_favori
 
 //-----------------------------------------------------------------------
 
-//EDITAR CANCHAS!!
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['accion'] === 'editar') { //Utilizo el mismo filtro que al crear cancha pero en este caso saco su Id, y remplazo los datos utilizando esa ID.
-  $id = $_POST['id_cancha'];
-  $nombre = trim($_POST['nombre']);
-  $lugar = trim($_POST['lugar']);
-  $precio = trim($_POST['precio']);
-  $bio = trim($_POST['bio']);
-  $foto = "";
-
-  if ($nombre === '' || $lugar === '' || $bio === '' || $precio === '') {
-    $msgError[$id] = "Completa todos los campos.";
-  } else {
-    try {
-      $stmt = $pdo->prepare("SELECT 1 FROM cancha WHERE nombre = ? AND id_cancha <> ?"); //<> permite que ponele, si qerés editar la cancha y dejás el mismo nombre, que no te mande q ya existe, sino q entienda q no la cambiaste.
-      $stmt->execute([$nombre, $id]);
-
-      if ($stmt->fetch()) {
-        $msgError[$id] = "Ya existe otra cancha con ese nombre.";
-      } else {
-
-        if (!empty($_FILES['foto']['name'])) {
-          // Buscar la foto vieja
-          $stmt = $pdo->prepare("SELECT foto FROM cancha WHERE id_cancha = ?");
-          $stmt->execute([$id]);
-          $cancha = $stmt->fetch();
-
-          if ($cancha && !empty($cancha['foto'])) {
-            $rutaVieja = __DIR__ . "/uploads/" . $cancha['foto'];
-            if (file_exists($rutaVieja)) {
-              unlink($rutaVieja);
-            }
-          }
-
-          // Guardar nueva foto
-          $nombreArchivo = time() . "_" . basename($_FILES['foto']['name']);
-          $rutaDestino = __DIR__ . "/uploads/" . $nombreArchivo;
-          move_uploaded_file($_FILES['foto']['tmp_name'], $rutaDestino);
-
-          $foto = $nombreArchivo;
-        }
-        if ($foto) {
-          $stmt = $pdo->prepare("UPDATE cancha SET nombre = ?, lugar = ?, bio = ?, foto = ?, precio = ? WHERE id_cancha = ?");
-          $stmt->execute([$nombre, $lugar, $bio, $foto, $precio, $id]);
-        } else {
-          $stmt = $pdo->prepare("UPDATE cancha SET nombre = ?, lugar = ?, bio = ?, precio = ? WHERE id_cancha = ?");
-          $stmt->execute([$nombre, $lugar, $bio, $precio, $id]);
-        }
-
-        $_SESSION['msgOk'] = "Cancha editada correctamente.";
-        header("Location: " . $_SERVER['PHP_SELF']);
-        exit;
-      }
-    } catch (Throwable $e) {
-      $msgError[$id] = "Error: " . $e->getMessage();
-    }
-  }
-}
 //------ BÚSQUEDA DE CANCHAS ------
 
 //Creamos filtros para poder encontrar la cancha que queremos.
@@ -528,15 +470,6 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
 
     </div>
     <?php endif; ?>
-
-
-
-
-
-
-
-
-    
 
 
     <hr class="h-200 mx-auto my-3 border-dark" style="height: 4px; background-color: #000; border: none;">

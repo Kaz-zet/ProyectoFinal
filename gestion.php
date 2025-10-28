@@ -562,7 +562,7 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
                                                         <input type="hidden" name="borrarcancha" value="<?= (int) $cancha['id_cancha'] ?>">
                                                     </form>
 
-                                                    <!-- Modal de Bootstrap para editar -->
+                                                    <!--Modal de Bootstrap para editar-->
                                                     <div class="modal fade" id="modalEditar<?= $cancha['id_cancha'] ?>" tabindex="-1" aria-hidden="true">
                                                         <div class="modal-dialog modal-dialog-centered">
                                                             <div class="modal-content">
