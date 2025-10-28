@@ -11,9 +11,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['borrarcancha'])) {
     $cancha = $stmt->fetch();
 
     if ($cancha && !empty($cancha['foto'])) {
-        $rutaFoto = __DIR__ . "/uploads/" . $cancha['foto'];
+        $rutaFoto = __DIR__ . "/uploads/" . $cancha['foto']; //_DIR_ significa FILE y es para indicar carpeta.
         if (file_exists($rutaFoto)) {
-            unlink($rutaFoto); // Se borra la foto del servidor
+            unlink($rutaFoto); //Se borra la foto automaticamente del servidor y de la carpeta.
         }
     }
 

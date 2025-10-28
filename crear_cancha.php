@@ -2,13 +2,13 @@
 session_start();
 require_once 'conexiones/conDB.php';
 
-if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'duenio') {
+if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'duenio') { //Si el rol no es dueño no puede pasar!
     header("Location: login.php");
     exit;
 }
 
 $id_duenio = $_SESSION['id'];
-$msg = '';
+$msg = ''; //mensaje de error y succes cuando se crea cancha.
 $error = '';
 $easterEggTrigger = null; //JIJIJI
 
@@ -45,11 +45,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errores[] = "La biografía no puede exceder 500 caracteres.";
     }
 
-    // Para subir fotos
-    if (isset($_FILES['foto']) && $_FILES['foto']['error'] !== UPLOAD_ERR_NO_FILE) {
-        if ($_FILES['foto']['error'] !== UPLOAD_ERR_OK) {
+
+
+    //---------------Para subir fotos---------------------------------------------------------------------------------------------------
+    if (isset($_FILES['foto']) && $_FILES['foto']['error'] !== UPLOAD_ERR_NO_FILE) { //Comprueba que exista un archivo, sino se saltea.
+        //UPLOAD_ERR_NO_FILE permite que si no se sube nada que se pueda seguir.
+        if ($_FILES['foto']['error'] !== UPLOAD_ERR_OK) { //Si hay errores se pasa a abajo, que son los tipos de errores que puede haber.
             $uploadErrors = [
-                UPLOAD_ERR_INI_SIZE => 'El archivo es demasiado grande (límite del servidor).',
+                UPLOAD_ERR_INI_SIZE => 'El archivo es demasiado grande.',
                 UPLOAD_ERR_FORM_SIZE => 'El archivo es demasiado grande.',
                 UPLOAD_ERR_PARTIAL => 'El archivo se subió parcialmente.',
                 UPLOAD_ERR_NO_TMP_DIR => 'No se encontró la carpeta temporal.',
@@ -57,26 +60,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 UPLOAD_ERR_EXTENSION => 'Extensión de archivo no permitida.'
             ];
             $errores[] = $uploadErrors[$_FILES['foto']['error']] ?? 'Error desconocido al subir archivo.';
+            //Se crea un array de errores, en caso de cumplirlos se indica el error, sino se sube correctamente.
         } else {
             $allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
-        $maxSize = 5 * 1024 * 1024; // 5MB
+        $maxSize = 5 * 1024 * 1024; //Se valida tamaño 5MB y tipo.
         
         if (!in_array($_FILES['foto']['type'], $allowedTypes)) {
-            $uploadError = 'Solo se permiten archivos JPG, JPEG y PNG.';
+            //Si se cumplen los demás pero no es del tipo indicado o pesa mucho salta error.
+            $uploadError = 'Solo se permiten archivos JPG, JPEG y PNG.'; 
         } elseif ($_FILES['foto']['size'] > $maxSize) {
             $uploadError = 'El archivo es muy grande. Máximo 5MB.';
         } else {
-            // Crea carpeta tploads si no eciste
+            //Crea carpeta uploads si no existe.
             if (!file_exists('uploads')) {
-                mkdir('uploads', 0777, true);
+                mkdir('uploads', 0777, true); //0777 da permisos de lectura escritura y ejecución.
+                //Y el true permite crear supcarpetas.
             }
             
+            //Se crea un nombre único random de la foto para que no haya 2 con el mismo nombre.
             $extension = pathinfo($_FILES['foto']['name'], PATHINFO_EXTENSION);
             $filename = 'cancha_' . time() . '_' . rand(1000, 9999) . '.' . $extension;
             $uploadPath = 'uploads/' . $filename;
             
             
             if (move_uploaded_file($_FILES['foto']['tmp_name'], $uploadPath)) {
+                //Donde se estaba ingresando la foto es una carpeta temporal digamos.
+                //Una vez que se crea esa foto se mueve a la carpeta de fotos. Y se guarda la foto en la base de datos.
                 $foto = $filename; 
             } else {
                 $uploadError = 'Error al subir la imagen.';
@@ -84,11 +93,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
+//--------------------------------------------------------------------------------------------------------------------------------------
 
-    // Si no hay errores, se creaaaa
+
+
+    //Si no hay errores en los datos ingresados:
     if (empty($errores)) {
         try {
-            // Verific si ya existe una cancha con el mismo nombre para este dueñoddo
+            // Verifica si ya existe una cancha con el mismo nombre para este dueño.
             $stmt = $pdo->prepare('SELECT id_cancha FROM cancha WHERE nombre = ? AND id_duenio = ?');
             $stmt->execute([$nombre, $id_duenio]);
 
@@ -361,15 +373,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <div class="neumorphic-card">
                             <h1 class="section-title">Crear Nueva Cancha</h1>
                             
-                            <!-- Mensajes -->
-                            <?php if (!empty($msg)): ?>
+                            <!-- Mensajes-->
+                            <?php if (!empty($msg)): ?> <!--Cancha creada correctamente-->
                                 <div class="alert alert-success-custom alert-custom">
                                     <i class="fas fa-check-circle me-2"></i>
                                     <?= htmlspecialchars($msg) ?>
                                 </div>
                             <?php endif; ?>
 
-                            <?php if (!empty($error)): ?>
+                            <?php if (!empty($error)): ?> <!--Cancha no creada!-->
                                 <div class="alert alert-danger-custom alert-custom">
                                     <i class="fas fa-exclamation-triangle me-2"></i>
                                     <?= $error ?>
@@ -437,8 +449,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                               name="bio" 
                                               class="form-control neumorphic-textarea"
                                               maxlength="500" 
-                                              onkeyup="updateCharCounter()"><?= htmlspecialchars($_POST['bio'] ?? '') ?></textarea>
-                                    <div class="char-counter">
+                                              onkeyup="updateCharCounter()"><?= htmlspecialchars($_POST['bio'] ?? '') ?></textarea> <!--Js que detecta cada vez que se presiona una letra-->
+                                    <div class="char-counter"> <!--Charcounter te cuenta cuantos caracteres vas a escribiendo a tiempo real y cuantos faltan por escribir.-->
                                         <span id="charCount">0</span>/500 caracteres
                                     </div>
                                     <div class="form-help">Información adicional sobre la cancha (servicios, características, etc.)</div>
@@ -462,7 +474,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         <i class="fas fa-plus me-2"></i>Crear Cancha
                                     </button>
                                     <button type="reset" class="btn neumorphic-btn" onclick="resetForm()">
-                                        <i class="fas fa-eraser me-2"></i>Limpiar
+                                        <i class="fas fa-eraser me-2"></i>Limpiar <!--Resetform borra todos los datos del formulario.-->
                                     </button>
                                 </div>
                             </form>
@@ -509,7 +521,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 
     <?php if ($easterEggTrigger): ?>
-        <script>
+        <script> //JavaScript de easteregg. Cambia el color de texto y de fondo.
             document.body.style.backgroundColor = '<?= $easterEggTrigger['color'] ?>';
             document.body.style.color = '<?= $easterEggTrigger['textColor'] ?>';
             setTimeout(() => {
@@ -518,21 +530,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     document.body.style.backgroundColor = '';
                     document.body.style.color = '';
                 }, 3000);
-            }, 500);
+            }, 500); //Luego de 0.5 segundos se muestra por 3 segundos el mensaje y el cambio de color. Y desp vuelve a la normalidad.
         </script>
     <?php endif; ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        // Contador de caracteres para biografía
+        //Contador de caracteres para biografía que vimos arriba.
         function updateCharCounter() {
             const textarea = document.getElementById('bio');
-            const counter = document.getElementById('charCount');
+            const counter = document.getElementById('charCount'); //Cuenta las letras de la bio y calcula su longitud.
             const currentLength = textarea.value.length;
             counter.textContent = currentLength;
             
-            if (currentLength > 450) {
+            if (currentLength > 450) { //Avisa si está muy cerca del limite va tomando distintos colores.
                 counter.style.color = '#dc3545';
             } else if (currentLength > 400) {
                 counter.style.color = '#ffc107';
@@ -541,11 +553,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
 
-        // Vista previa de imagen
+        //Vista previa de imagen al elegirla!
         function previewImage(input) {
             const preview = document.getElementById('preview');
-            if (input.files && input.files[0]) {
-                const reader = new FileReader();
+            if (input.files && input.files[0]) { //toma la foto que se elige en input.files
+                const reader = new FileReader(); //El file reader permite convertir esa imagen elegida en una url temporal para verse.
                 reader.onload = function(e) {
                     preview.src = e.target.result;
                     preview.style.display = 'block';
@@ -556,9 +568,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
 
-        // Limpiar formulario
+        //Limpiar formulario. Borra todo y vuelve a 0 el contador de chars.
         function resetForm() {
-            document.getElementById('preview').style.display = 'none';
+            document.getElementById('preview').style.display = 'none'; //Oculta la imagen de vista previa.
             updateCharCounter();
         }
 
@@ -575,15 +587,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!precio || precio < 0) errores.push('El precio debe ser mayor o igual a 0');
             
             if (errores.length > 0) {
-                e.preventDefault();
-                alert('Por favor corrige los siguientes errores:\n\n• ' + errores.join('\n• '));
+                e.preventDefault(); //Si el formulario no está correcto, se previene de que se cree y se indica cuales son los errores.
+                alert('Por favor corrige los siguientes errores:\n\n• ' + errores.join('\n• ')); //Por cada error una viñeta distinta.
                 return false;
             }
             
             return true;
         });
 
-        // Auto-ocultar mensajes después de 5 segundos
+        //Oculta con la clase .alert-custom a todos los elementos desp que pasen 5 segundos de estar activos.
         setTimeout(function() {
             const alerts = document.querySelectorAll('.alert-custom');
             alerts.forEach(function(alert) {
@@ -593,7 +605,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             });
         }, 5000);
 
-        // Inicializar contador de caracteres
+        //Empieza de una la función de charcounter asi al crear la cancha no hay que esperar.
         updateCharCounter();
     </script>
 </body>

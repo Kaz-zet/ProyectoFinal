@@ -271,7 +271,7 @@ if ($nombre) {
                                             style="object-fit: cover;">
                                     <?php else: ?>
                                         <div class="rounded-circle border border-2 border-white d-flex align-items-center justify-content-center bg-primary text-white"
-                                            style="width: 40px; height: 40px; font-size: 16px; font-weight: bold;">
+                                            style="width: 40px; height: 40px; font-size: 16px; font-weight: bold;"> 
                                             <?= strtoupper(substr($nombre, 0, length: 1)) ?>
                                         </div>
                                     <?php endif; ?>
