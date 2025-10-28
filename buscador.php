@@ -277,9 +277,9 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
   <div class="container-fluid p-0 m-0" style="background-color: #f0f0f0; min-height: 100vh;">
     <section class="text-center text-white d-flex flex-column p-0 m-0 rounded-top-0" id="inicio">
       <!-- Navbar -->
-      <div class="row" id="navbar">
-        <div class="col-12">
-          <nav class="navbar navbar-expand-lg">
+      <div class="row p-3 rounded-bottom-300 px-3" id="navbar">
+        <div class="col-12 rounded-bottom-300 px-3" >
+          <nav class="navbar navbar-expand-lg" >
             <a class="navbar-brand me-auto" href="#">
               <img src="image/icon.png" alt="Logo" width="85" height="60" class="d-inline-block align-text-top">
             </a>
@@ -361,10 +361,10 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
 
      <!-----------------------BUSCAR CANCHA------------------>
 
-      <!--Contiene obviamente boostrap de chatpgt pq no se como hacerlo yo :) -->
-      <div class="row mb-4">
+      <!--nia ichi ni san nia kevin ariel gatoooooooo :) -->
+      <div class="row mb-4 rounded-bottom-300 px-3">
         <div class="col-12">
-          <div class="card text-dark rounded-top-0">
+          <div class="card text-dark rounded-top-300">
             <!--Brad, si estás viendo esto, antes de text-white, ponele esto para ver la caja ""card bg-dark"" (sin las comillas)-->
             <div class="card-header ">
               <h5 class="mb-0">
@@ -446,7 +446,7 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
     
 
     <?php if ($misFavoritos): ?>
-    <h1>Mis Favoritos</h1>
+    <h5 >Mis Favoritos</h5>
     <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4 px-1">
       <?php foreach ($misFavoritos as $cancha): ?>
       <?php
@@ -462,7 +462,11 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
                 <form method="post" class="position-absolute top-0 end-0 m-3">
                     <input type="hidden" name="id_cancha" value="<?= $cancha['id_cancha'] ?>">
                     <button type="submit" name="accion" value="toggle_favorito" class="btn btn-favorito rounded-circle p-2 border-0 shadow-sm" style="width: 40px; height: 40px;">
-                        <span class="fs-5"><?= in_array($cancha['id_cancha'], $favoritosIds) ? '⭐' : '☆' ?></span>
+                        <span class="fs-5"><?= in_array($cancha['id_cancha'], $favoritosIds) ? '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-suit-heart-fill" viewBox="0 0 16 16">
+  <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1"/>
+</svg>' : '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-suit-heart" viewBox="0 0 16 16">
+  <path d="m8 6.236-.894-1.789c-.222-.443-.607-1.08-1.152-1.595C5.418 2.345 4.776 2 4 2 2.324 2 1 3.326 1 4.92c0 1.211.554 2.066 1.868 3.37.337.334.721.695 1.146 1.093C5.122 10.423 6.5 11.717 8 13.447c1.5-1.73 2.878-3.024 3.986-4.064.425-.398.81-.76 1.146-1.093C14.446 6.986 15 6.131 15 4.92 15 3.326 13.676 2 12 2c-.777 0-1.418.345-1.954.852-.545.515-.93 1.152-1.152 1.595zm.392 8.292a.513.513 0 0 1-.784 0c-1.601-1.902-3.05-3.262-4.243-4.381C1.3 8.208 0 6.989 0 4.92 0 2.755 1.79 1 4 1c1.6 0 2.719 1.05 3.404 2.008.26.365.458.716.596.992a7.6 7.6 0 0 1 .596-.992C9.281 2.049 10.4 1 12 1c2.21 0 4 1.755 4 3.92 0 2.069-1.3 3.288-3.365 5.227-1.193 1.12-2.642 2.48-4.243 4.38z"/>
+</svg>' ?></span>
                     </button>
                 </form>
                 
@@ -547,7 +551,7 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
 
     <!------------------------------------------------------------------------------------------------------->
 
-    <h1 style="color: #0a0505ff;">Canchas registradas</h1>
+    <h5 style="color: #0a0505ff;">Canchas registradas</h5>
       <?php if ($canchas && count($canchas) > 0): ?>
         <div class="row g-4 p-1">
           <?php foreach ($canchas as $cancha): ?>

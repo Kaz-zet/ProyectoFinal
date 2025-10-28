@@ -550,7 +550,10 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
                                     <div class="card-body text-center p-4">
                                         <div class="icon-circle mx-auto mb-3" 
                                             style="width: 60px; height: 60px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                                            <i class="bi bi-geo-alt-fill text-white" style="font-size: 1.5rem;"></i>
+                                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-compass" viewBox="0 0 16 16">
+  <path d="M8 16.016a7.5 7.5 0 0 0 1.962-14.74A1 1 0 0 0 9 0H7a1 1 0 0 0-.962 1.276A7.5 7.5 0 0 0 8 16.016m6.5-7.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0"/>
+  <path d="m6.94 7.44 4.95-2.83-2.83 4.95-4.949 2.83 2.828-4.95z"/>
+</svg>
                                         </div>
                                         <h5 class="fw-semibold mb-2" style="color: #1a1a2e;">Dirección</h5>
                                         <p class="text-muted mb-0"><?= htmlspecialchars($cancha['lugar']) ?></p>
@@ -565,7 +568,9 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
                                     <div class="card-body text-center p-4">
                                         <div class="icon-circle mx-auto mb-3" 
                                             style="width: 60px; height: 60px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                                            <i class="bi bi-person-fill text-white" style="font-size: 1.5rem;"></i>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-wheelchair" viewBox="0 0 16 16">
+  <path d="M12 3a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3m-.663 2.146a1.5 1.5 0 0 0-.47-2.115l-2.5-1.508a1.5 1.5 0 0 0-1.676.086l-2.329 1.75a.866.866 0 0 0 1.051 1.375L7.361 3.37l.922.71-2.038 2.445A4.73 4.73 0 0 0 2.628 7.67l1.064 1.065a3.25 3.25 0 0 1 4.574 4.574l1.064 1.063a4.73 4.73 0 0 0 1.09-3.998l1.043-.292-.187 2.991a.872.872 0 1 0 1.741.098l.206-4.121A1 1 0 0 0 12.224 8h-2.79zM3.023 9.48a3.25 3.25 0 0 0 4.496 4.496l1.077 1.077a4.75 4.75 0 0 1-6.65-6.65z"/>
+</svg>
                                         </div>
                                         <h5 class="fw-semibold mb-2" style="color: #1a1a2e;">Propietario</h5>
                                         <p class="text-muted mb-0"><?= htmlspecialchars($cancha['duenio_nombre']) ?></p>
@@ -580,7 +585,11 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
                                     <div class="card-body text-center p-4">
                                         <div class="icon-circle mx-auto mb-3" 
                                             style="width: 60px; height: 60px; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                                            <i class="bi bi-cash-coin text-white" style="font-size: 1.5rem;"></i>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-coin" viewBox="0 0 16 16">
+  <path d="M5.5 9.511c.076.954.83 1.697 2.182 1.785V12h.6v-.709c1.4-.098 2.218-.846 2.218-1.932 0-.987-.626-1.496-1.745-1.76l-.473-.112V5.57c.6.068.982.396 1.074.85h1.052c-.076-.919-.864-1.638-2.126-1.716V4h-.6v.719c-1.195.117-2.01.836-2.01 1.853 0 .9.606 1.472 1.613 1.707l.397.098v2.034c-.615-.093-1.022-.43-1.114-.9zm2.177-2.166c-.59-.137-.91-.416-.91-.836 0-.47.345-.822.915-.925v1.76h-.005zm.692 1.193c.717.166 1.048.435 1.048.91 0 .542-.412.914-1.135.982V8.518z"/>
+  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+  <path d="M8 13.5a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11m0 .5A6 6 0 1 0 8 2a6 6 0 0 0 0 12"/>
+</svg>
                                         </div>
                                         <h5 class="fw-semibold mb-2" style="color: #1a1a2e;">Precio</h5>
                                         <p class="mb-0">

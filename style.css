@@ -2,11 +2,11 @@
 
  .navbar {
      background-color: white;
-     /* height: 80px;
-     margin: 20px;
+     height: 80px;
+     margin: ;
      border-radius: 16px;
      padding: 0.5rem;
-     border: 2px black; */
+     border: 2px black;
  }
 
  .navbar-brand {
@@ -76,6 +76,7 @@
  body {
      background-color: #000;
      overflow-x: hidden;
+     padding: 0.5rem;
  }
 
  body {
@@ -378,8 +379,8 @@
  }
 
 
- /* Mejorar el hero de la página principal */
- #inicio {
+ /* no mejoraste una pija */
+  {
      background: linear-gradient(135deg, #009907, #007a05);
      border-radius: 20px;
      margin: 20px;
