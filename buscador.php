@@ -25,7 +25,6 @@ if ($nombre) {
 }
 //----------------------------------------------------------------
 
-
 //----------------PARA VER EL PROMEDIO DE ESTRELLAS PARA LA CANCHA!--------------------------------------------------
 function obtenerPromedioValoracion($pdo, $id_cancha)
 {
@@ -45,11 +44,6 @@ function obtenerPromedioValoracion($pdo, $id_cancha)
   }
 }
 //--------------------------------------------------------------------------------------------------
-
-//PARA EDITAR CANCHA!!
-
-$msgError = []; //Se usan cuando querés editar una cancha, si hay error, lo guarda en este array.
-$msgOk = [];
 
 //AGREGAR A FAVORITOSS LA CANCHA--------------------------------------------------------------------
 
@@ -218,7 +212,8 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
 <body>
   <div class="container-fluid p-0 m-0" style="background-color: #f0f0f0; min-height: 100vh;">
     <section class="text-center text-white d-flex flex-column p-0 m-0 rounded-top-0" id="inicio">
-      <!-- Navbar -->
+
+      <!-- Navbar ----------------------------------------------------------------------------------------------------->
       <div class="row" id="navbar">
         <div class="col-12">
           <nav class="navbar navbar-expand-lg">
@@ -297,13 +292,10 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
           </nav>
         </div>
       </div>
-      <!-- Fin Navbar -->
+      <!-- Fin Navbar --------------------------------------------------------------------------------------------------------->
 
+     <!-----------------------BUSCAR CANCHA------------------------------------->
 
-
-     <!-----------------------BUSCAR CANCHA------------------>
-
-      <!--Contiene obviamente boostrap de chatpgt pq no se como hacerlo yo :) -->
       <div class="row mb-4">
         <div class="col-12">
           <div class="card text-dark rounded-top-0">
@@ -573,19 +565,19 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
         <div class="alert alert-info text-center">No hay canchas registradas.</div>
         <?php endif; ?>
 
-    <!-- Bootstrap 5 JS Bundle (incluye Popper) -->
+    <!--Bootstrap 5 JS Bundle (incluye Poppers que es una librería)-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-      const collapses = document.querySelectorAll('.collapse');
+      const collapses = document.querySelectorAll('.collapse'); //Busca todos los elementos con clase .collapse.
 
       collapses.forEach((item) => {
-        item.addEventListener('show.bs.collapse', () => {
+        item.addEventListener('show.bs.collapse', () => { //Un .collapse está abierto.
           collapses.forEach((el) => {
             if (el !== item) {
               const collapseInstance = bootstrap.Collapse.getInstance(el);
               if (collapseInstance) {
-                collapseInstance.hide();
+                collapseInstance.hide(); // Esto hace que a lo hora de abrir un .collapse, cierre los demás en caso de haber otro abierto.
               }
             }
           });
@@ -594,7 +586,7 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
     </script>
 
     <script>
-      const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+      const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]') //Todos los objetos que tenga esa clase crea un popover.
       const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
     </script>
   </div>
