@@ -1,11 +1,12 @@
  /* Estilos base existentes*/
+
  .navbar {
      background-color: white;
-     height: 80px;
+     /* height: 80px;
      margin: 20px;
      border-radius: 16px;
      padding: 0.5rem;
-     border: 2px black;
+     border: 2px black; */
  }
 
  .navbar-brand {
@@ -77,7 +78,6 @@
      overflow-x: hidden;
  }
 
- html,
  body {
      overscroll-behavior-y: none;
      overscroll-behavior-x: none;
@@ -415,3 +415,12 @@
     box-shadow: 0 0 5px #000000;   /* brillo alrededor */
 
  }
+
+ /* index */
+ .panel-control {
+            background-image: url('image/padel-fondo.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: #f8f9fa;
+        }

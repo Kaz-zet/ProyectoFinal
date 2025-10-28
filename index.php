@@ -226,19 +226,19 @@ if ($calendario)
     <div id="tutorialOverlay" class="tutorial-overlay"></div>
 
     <!--INICIO-->
-    <div class="row py-5 mb-5 mt-3" id="inicio">
+    <div class="row py-5 mb-5 mt-3" >
       <div class="col-12 d-flex flex-column justify-content-center align-items-center text-center">
-        <h1 class="text-center-left text-white">
+        <h1 class="text-center-left text-dark">
           ¡Hola <?= htmlspecialchars($nombre ?? 'a CanchApp') ?>!
         </h1>
         <?php if ($rol === 'usuario'): ?>
-        <p class="text-center-left text-white">Tu sitio de confianza para reservar canchas.</p>
+        <p class="text-center-left text-dark">Tu sitio de confianza para reservar canchas.</p>
         <?php endif; ?>
         <?php if ($rol === 'duenio'): ?>
-        <p class="text-center-left text-white">Tu sitio de confianza para gestionar canchas.</p>
+        <p class="text-center-left text-dark">Tu sitio de confianza para gestionar canchas.</p>
         <?php endif; ?>
         <?php if ($rol === null): ?>
-        <p class="text-center-left text-white">Tu sitio de confianza para reservar o gestionar canchas.</p>
+        <p class="text-center-left text-dark">Tu sitio de confianza para reservar o gestionar canchas.</p>
         <?php endif; ?>
 
         <!--Botón para iniciar tutorial-->
@@ -318,7 +318,7 @@ if ($calendario)
 
     <!-- Panel de control para dueños -->
     <?php if ($rol === 'duenio'): ?>
-      <div class="row py-5 px-5 mt-5 bg-primary rounded shadow">
+      <div class="row panel-control py-5 px-5 mt-5 rounded shadow">
         <div class="col-12 text-center mb-4">
           <h2 class="text-white fw-bold mb-3">Panel de Dueño</h2>
           <p class="text-light fs-5">Administra tus canchas y reservas desde aquí</p>

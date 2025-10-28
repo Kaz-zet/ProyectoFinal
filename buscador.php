@@ -275,166 +275,176 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
 
 <body>
   <div class="container-fluid p-0 m-0" style="background-color: #f0f0f0; min-height: 100vh;">
-    <!-- Navbar -->
-    <div class="row" id="navbar">
-      <div class="col-12">
-        <nav class="navbar navbar-expand-lg">
-          <a class="navbar-brand me-auto" href="#">
-            <img src="image/icon.png" alt="Logo" width="85" height="60" class="d-inline-block align-text-top">
-          </a>
-          <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
-            aria-labelledby="offcanvasNavbarLabel">
-            <div class="offcanvas-header">
-              <h5 class="offcanvas-title" id="offcanvasNavbarLabel">CanchApp</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-            </div>
-            <div class="offcanvas-body">
-              <ul class="navbar-nav justify-content-center flex-grow-1 pe-3">
-                <li class="nav-item">
-                  <a class="nav-link mx-lg-2 " href="index.php">Inicio</a>
-                </li>
-                <?php if ($rol === 'duenio'): ?>
+    <section class="text-center text-white d-flex flex-column p-0 m-0 rounded-top-0" id="inicio">
+      <!-- Navbar -->
+      <div class="row" id="navbar">
+        <div class="col-12">
+          <nav class="navbar navbar-expand-lg">
+            <a class="navbar-brand me-auto" href="#">
+              <img src="image/icon.png" alt="Logo" width="85" height="60" class="d-inline-block align-text-top">
+            </a>
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
+              aria-labelledby="offcanvasNavbarLabel">
+              <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasNavbarLabel">CanchApp</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+              </div>
+              <div class="offcanvas-body">
+                <ul class="navbar-nav justify-content-center flex-grow-1 pe-3">
                   <li class="nav-item">
-                    <a class="nav-link mx-lg-2" href="gestion.php">Gestión</a>
+                    <a class="nav-link mx-lg-2 " href="index.php">Inicio</a>
                   </li>
-                <?php endif; ?>
-                <li class="nav-item">
-                  <a class="nav-link mx-lg-2 active" aria-current="page" href="buscador.php">Reservar</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link mx-lg-2" href="acerca-de.php">Acerca de</a>
-                </li>
-              </ul>
+                  <?php if ($rol === 'duenio'): ?>
+                    <li class="nav-item">
+                      <a class="nav-link mx-lg-2" href="gestion.php">Gestión</a>
+                    </li>
+                  <?php endif; ?>
+                  <li class="nav-item">
+                    <a class="nav-link mx-lg-2 active" aria-current="page" href="buscador.php">Reservar</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link mx-lg-2" href="acerca-de.php">Acerca de</a>
+                  </li>
+                </ul>
+              </div>
             </div>
-          </div>
 
-          <?php if ($nombre): ?>
-            <div class="dropdown">
-              <button class="btn p-0 border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <?php if (!empty($foto)): ?>
-                  <img src="uploads/usuarios/<?= htmlspecialchars($foto) ?>"
-                    alt="Foto de perfil de <?= htmlspecialchars($nombre) ?>"
-                    class="rounded-circle border border-2 border-white" width="40" height="40" style="object-fit: cover;">
-                <?php else: ?>
-                  <div
-                    class="rounded-circle border border-2 border-white d-flex align-items-center justify-content-center bg-primary text-white"
-                    style="width: 40px; height: 40px; font-size: 16px; font-weight: bold;">
-                    <?= strtoupper(substr($nombre, 0, length: 1)) ?>
-                  </div>
-                <?php endif; ?>
-              </button>
-              <ul class="dropdown-menu dropdown-menu-end">
-                <li>
-                  <h6 class="dropdown-header">¡Hola, <?= htmlspecialchars($nombre) ?>!</h6>
-                </li>
-                <li>
-                  <hr class="dropdown-divider">
-                </li>
-                <?php if ($rol === 'usuario'): ?>
-                  <li><a class="dropdown-item" href="perfil_padel.php">
-                      <i class="fas fa-user me-2"></i>Editar Perfil
-                    </a></li>
+            <?php if ($nombre): ?>
+              <div class="dropdown">
+                <button class="btn p-0 border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <?php if (!empty($foto)): ?>
+                    <img src="uploads/usuarios/<?= htmlspecialchars($foto) ?>"
+                      alt="Foto de perfil de <?= htmlspecialchars($nombre) ?>"
+                      class="rounded-circle border border-2 border-white" width="40" height="40" style="object-fit: cover;">
+                  <?php else: ?>
+                    <div
+                      class="rounded-circle border border-2 border-white d-flex align-items-center justify-content-center bg-primary text-white"
+                      style="width: 40px; height: 40px; font-size: 16px; font-weight: bold;">
+                      <?= strtoupper(substr($nombre, 0, length: 1)) ?>
+                    </div>
+                  <?php endif; ?>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li>
+                    <h6 class="dropdown-header">¡Hola, <?= htmlspecialchars($nombre) ?>!</h6>
+                  </li>
                   <li>
                     <hr class="dropdown-divider">
                   </li>
-                <?php endif; ?>
-                <li><a class="dropdown-item text-danger" href="logout.php">
-                    <i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión
-                  </a></li>
-              </ul>
-            </div>
-          <?php else: ?>
-            <a href="inicioses.php" class="login-button btn btn-primary">Login</a>
-          <?php endif; ?>
+                  <?php if ($rol === 'usuario'): ?>
+                    <li><a class="dropdown-item" href="perfil_padel.php">
+                        <i class="fas fa-user me-2"></i>Editar Perfil
+                      </a></li>
+                    <li>
+                      <hr class="dropdown-divider">
+                    </li>
+                  <?php endif; ?>
+                  <li><a class="dropdown-item text-danger" href="logout.php">
+                      <i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión
+                    </a></li>
+                </ul>
+              </div>
+            <?php else: ?>
+              <a href="inicioses.php" class="login-button btn btn-primary">Login</a>
+            <?php endif; ?>
 
-          <button class="navbar-toggler pe-0 ms-2" type="button" data-bs-toggle="offcanvas"
-            data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-        </nav>
+            <button class="navbar-toggler pe-0 ms-2" type="button" data-bs-toggle="offcanvas"
+              data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          </nav>
+        </div>
       </div>
-    </div>
-    <!-- Fin Navbar -->
+      <!-- Fin Navbar -->
 
 
 
-    <!-----------------------BUSCAR CANCHA------------------>
+     <!-----------------------BUSCAR CANCHA------------------>
 
-    <!--Contiene obviamente boostrap de chatpgt pq no se como hacerlo yo :) -->
-    <div class="row mt-4 mb-4">
-      <div class="col-12">
-        <div class="card bg-dark text-white">
-          <!--Brad, si estás viendo esto, antes de text-white, ponele esto para ver la caja ""card bg-dark"" (sin las comillas)-->
-          <div class="card-header">
-            <h5 class="mb-0">
-              <i class="fas fa-filter"></i> Buscar
-            </h5>
-          </div>
-          <div class="card-body">
-            <form method="GET" action="buscador.php">
-              <div class="row g-3 align-items-end">
+      <!--Contiene obviamente boostrap de chatpgt pq no se como hacerlo yo :) -->
+      <div class="row mb-4">
+        <div class="col-12">
+          <div class="card text-dark rounded-top-0">
+            <!--Brad, si estás viendo esto, antes de text-white, ponele esto para ver la caja ""card bg-dark"" (sin las comillas)-->
+            <div class="card-header ">
+              <h5 class="mb-0">
+                <i class="fas fa-filter"></i> Buscar
+              </h5>
+            </div>
+            <div class="card-body">
+              <form method="GET" action="buscador.php">
+                <div class="row g-3 align-items-end">
 
-                <!--NOMBRE DE CANCHA -->
-                <div class="col-md-2">
-                  <label for="nombre" class="form-label">
-                    <i class="fas fa-font"></i> Nombre
-                  </label>
-                  <input type="text" class="form-control" id="nombre" name="nombre"
-                    value="<?= htmlspecialchars($buscarNombre) ?>">
-                </div>
+                  <!--NOMBRE DE CANCHA -->
+                  <div class="col-md-2">
+                    <label for="nombre" class="form-label">
+                      <i class="fas fa-font"></i> Nombre
+                    </label>
+                    <input type="text" class="form-control" id="nombre" name="nombre"
+                      value="<?= htmlspecialchars($buscarNombre) ?>">
+                  </div>
 
-                <!--LUGAR -->
-                <div class="col-md-2">
-                  <label for="lugar" class="form-label">
-                    <i class="fas fa-map-marker-alt"></i> Ubicación
-                  </label>
-                  <input type="text" class="form-control" id="lugar" name="lugar"
-                    value="<?= htmlspecialchars($buscarLugar) ?>">
-                </div>
+                  <!--LUGAR -->
+                  <div class="col-md-2">
+                    <label for="lugar" class="form-label">
+                      <i class="fas fa-map-marker-alt"></i> Ubicación
+                    </label>
+                    <input type="text" class="form-control" id="lugar" name="lugar"
+                      value="<?= htmlspecialchars($buscarLugar) ?>">
+                  </div>
 
-                <!--FILTRO BIOO -->
-                <div class="col-md-3">
-                  <label for="bio" class="form-label">
-                    <i class="fas fa-align-left"></i> Descripción
-                  </label>
-                  <input type="text" class="form-control" id="bio" name="bio"
-                    value="<?= htmlspecialchars($buscarBio) ?>">
-                </div>
+                  <!--FILTRO BIOO -->
+                  <div class="col-md-3">
+                    <label for="bio" class="form-label">
+                      <i class="fas fa-align-left"></i> Descripción
+                    </label>
+                    <input type="text" class="form-control" id="bio" name="bio"
+                      value="<?= htmlspecialchars($buscarBio) ?>">
+                  </div>
 
-                <!--FILTRO PRECIO -->
-                <div class="col-md-3">
-                  <label class="form-label">
-                    <i class="fas fa-dollar-sign"></i> Rango de Precio
-                  </label>
-                  <div class="input-group">
-                    <input type="number" class="form-control" name="precio_min" placeholder="Mín"
-                      value="<?= htmlspecialchars($buscarPrecioMin) ?>">
-                    <span class="input-group-text">-</span>
-                    <input type="number" class="form-control" name="precio_max" placeholder="Máx"
-                      value="<?= htmlspecialchars($buscarPrecioMax) ?>">
+                  <!--FILTRO PRECIO -->
+                  <div class="col-md-3">
+                    <label class="form-label">
+                      <i class="fas fa-dollar-sign"></i> Rango de Precio
+                    </label>
+                    <div class="input-group">
+                      <input type="number" class="form-control" name="precio_min" placeholder="Mín"
+                        value="<?= htmlspecialchars($buscarPrecioMin) ?>">
+                      <span class="input-group-text">-</span>
+                      <input type="number" class="form-control" name="precio_max" placeholder="Máx"
+                        value="<?= htmlspecialchars($buscarPrecioMax) ?>">
+                    </div>
+                  </div>
+
+                  <!--BOTONES PARA BUSCAR Y LIMPIAR-->
+                  <div class="col-md-2 d-flex gap-2">
+                    <button type="submit" class="btn btn-success w-100">
+                      <i class="fas fa-search"></i> Buscar
+                    </button>
+                    <?php if ($hayFiltros): ?>
+                      <a href="buscador.php" class="btn btn-secondary w-100">
+                        <i class="fas fa-times"></i> Limpiar
+                      </a>
+                    <?php endif; ?>
                   </div>
                 </div>
-
-                <!--BOTONES PARA BUSCAR Y LIMPIAR-->
-                <div class="col-md-2 d-flex gap-2">
-                  <button type="submit" class="btn btn-success w-100">
-                    <i class="fas fa-search"></i> Buscar
-                  </button>
-                  <?php if ($hayFiltros): ?>
-                    <a href="buscador.php" class="btn btn-secondary w-100">
-                      <i class="fas fa-times"></i> Limpiar
-                    </a>
-                  <?php endif; ?>
-                </div>
-              </div>
-            </form>
+              </form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <!-------------------------------TERMINA BUSCAR CANCHA------------------------------->
+      <!-------------------------------TERMINA BUSCAR CANCHA------------------------------->
+    </section>
+    
+
+
+
+
+
 
     <!--------------------------------------FAVORITOS--------------------------------------------------->
+    
+
     <?php if ($misFavoritos): ?>
     <h1>Mis Favoritos</h1>
     <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4 px-1">
@@ -444,80 +454,89 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
       $promedio = $rating['promedio'];
       $total = $rating['total'];
       ?>
-      <div class="col">
-        <div class="card bg-dark h-100 d-flex flex-column">
-
-          <div class="card-head rounded-top-2 bg-primary text-center">
-            <h6 style="color: #ffffffff;">
-              <?= htmlspecialchars($cancha['nombre']) ?>
-            </h6>
-          </div>
-          <div class="rating-container rounded-bottom-2">
-            <strong style="color: #ffffffff;">
-              <?php if ($total > 0): ?>
-                <div class="row">
-                  <div class="col-5">
-                    <span style="color: #ffc107; font-size: 18px;">
-                      <?php
-                      $stars = round($promedio);
-                      for ($i = 1; $i <= 5; $i++) {
-                        echo $i <= $stars ? '★' : '☆';
-                      }
-                      ?>
-                    </span>
-                  </div>
-                  <div class="col-7 align-items-center">
-                    <span style="color: black;">
-                      <?= number_format($promedio, 1) ?>/5 
-
-                      valoraciones <span class="badge text-bg-secondary">(<?= $total ?>)</span>
-                      
-                      
-                    </span>
-                  </div>
-                </div>
-              <?php else: ?>
-                <span style="color: #999;">Sin valoraciones</span>
-              <?php endif; ?>
-            </strong>
-          </div>
-
-          <div class="card-body">
-            <div class="logo-container">
-              <?php if ($cancha['foto']): ?>
-                <img src="uploads/<?= htmlspecialchars($cancha['foto']) ?>" class="img-fluid"
-                  style="height: 140px; width: 40%; object-fit: cover;">
-              <?php endif; ?>
-            </div>
-          </div>
-
-
-          <div class="card-footer mt-auto">
-            <div class="row justify-content-center align-items-center g-2">
-              <div class="col-10">
-                <a href="reservacion.php?id=<?= $cancha['id_cancha'] ?>"
-                  style="color:#f0f0f0; padding: 5px 10px; text-decoration: none; border-radius: 3px;">
-                  Ver Detalles
-                </a>
-              </div>
-              <div class="col-2">
-                <!--PARA AGREGAR FAV CANCHAS (EL CODE ESTÁ EN ESTE PHP, MIS FAVORTIOS.PHP NO ANDA)-->
-                <form method="post" style="display:inline;">
-                  <input type="hidden" name="id_cancha" value="<?= $cancha['id_cancha'] ?>">
-                  <button type="submit" name="accion" value="toggle_favorito">
-                    <?= in_array($cancha['id_cancha'], $favoritosIds) ? '⭐' : '☆' ?>
-                  </button>
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="card shadow-lg rounded-4 overflow-hidden border-0 h-100">
+            <!-- Imagen de la cancha -->
+            <div class="card-image position-relative">
+                <!-- Botón de favoritos -->
+                <form method="post" class="position-absolute top-0 end-0 m-3">
+                    <input type="hidden" name="id_cancha" value="<?= $cancha['id_cancha'] ?>">
+                    <button type="submit" name="accion" value="toggle_favorito" class="btn btn-favorito rounded-circle p-2 border-0 shadow-sm" style="width: 40px; height: 40px;">
+                        <span class="fs-5"><?= in_array($cancha['id_cancha'], $favoritosIds) ? '⭐' : '☆' ?></span>
+                    </button>
                 </form>
-              </div>
+                
+                <!-- Imagen -->
+                <?php if ($cancha['foto']): ?>
+                    <img src="uploads/<?= htmlspecialchars($cancha['foto']) ?>" class="img-fluid" style="height: 300px; width: 100%; object-fit: cover;">
+                <?php endif; ?>
+                
+                <!-- Precio -->
+                <div class="position-absolute bottom-0 end-0 bg-white rounded-pill px-3 py-1 m-3 fw-semibold small">
+                    Desde $<?php echo htmlspecialchars($cancha['precio']); ?>
+                </div>
             </div>
-          </div>
-
+            
+            <!-- Contenido de la tarjeta -->
+            <div class="card-body p-4 d-flex flex-column">
+                <div class="text-secondary text-uppercase small mb-2 fw-medium" style="letter-spacing: 0.5px;">
+                    Cancha Deportiva
+                </div>
+                <h2 class="fs-3 fw-bold mb-3 text-dark"><?php echo htmlspecialchars($cancha['nombre']); ?></h2>
+                <p class="text-secondary mb-3"><?php echo htmlspecialchars($cancha['lugar']); ?></p>
+                
+                <!-- Botón y Rating -->
+                <div class="row align-items-center mt-auto">
+                    <div class="col-auto">
+                        
+                        <a href="reservacion.php?id=<?= $cancha['id_cancha'] ?>" class="btn btn-reservar text-white border-0 rounded-pill px-4 py-2 fw-semibold shadow-sm text-decoration-none">
+                            Reservar
+                        </a>
+                    </div>
+                    <div class="col">
+                        <div class="d-flex flex-column align-items-end">
+                            <small class="text-muted mb-1">Rating</small>
+                            <?php if ($total > 0): ?>
+                            <div class="d-flex gap-1 fs-5">
+                                <?php
+                                $stars = round($promedio);
+                                for ($i = 1; $i <= 5; $i++) {
+                                    echo '<span class="' . ($i <= $stars ? 'star-filled' : 'star-empty') . '">' . ($i <= $stars ? '★' : '☆') . '</span>';
+                                }
+                                ?>
+                            </div>
+                            <small class="text-muted mt-1">
+                                <?= number_format($promedio, 1) ?>/5 (<?= $total ?> valoraciones)
+                            </small>
+                            <?php else: ?>
+                            <div class="d-flex gap-1 fs-5">
+                                <span class="star-empty">☆</span>
+                                <span class="star-empty">☆</span>
+                                <span class="star-empty">☆</span>
+                                <span class="star-empty">☆</span>
+                                <span class="star-empty">☆</span>
+                            </div>
+                            <small class="text-muted mt-1">Sin valoraciones</small>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
       </div>
       <?php endforeach; ?>
 
     </div>
     <?php endif; ?>
+
+
+
+
+
+
+
+
+    
 
 
     <hr class="h-200 mx-auto my-3 border-dark" style="height: 4px; background-color: #000; border: none;">

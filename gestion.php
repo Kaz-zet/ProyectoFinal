@@ -225,8 +225,6 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
         }
 
         .hero-section {
-            background: linear-gradient(135deg, #3f9c43ff 0%, #52a24bff 100%);
-            color: white;
             padding: 3rem 0;
             margin-bottom: 2rem;
         }
@@ -455,11 +453,11 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
         </div>
 
         <!-- Hero Section -->
-        <div class="hero-section" id="inicio">
-            <div class="container">
+        <div class="hero-section" >
+            <div class="container text-dark">
                 <div class="text-center">
-                    <h1 class="display-4 mb-3">Panel de Control</h1>
-                    <p class="lead">Gestiona tus canchas y reservas</p>
+                    <h1 class="text-center-left text-dark mb-3">Panel de Control</h1>
+                    <p class="text-center-left text-dark">Gestiona tus canchas y reservas</p>
                 </div>
             </div>
         </div>
@@ -483,7 +481,7 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
             <?php endif; ?>
 
             <!-- Tabs Para ver reservas y canchas --------------------------------->
-            <ul class="nav nav-tabs mb-4" id="managementTabs" role="tablist">
+            <ul class="nav nav-tabs mb-2" id="managementTabs" role="tablist">
                 <li class="nav-item" role="presentation">
                     <button class="nav-link-2 active" id="courts-tab" data-bs-toggle="tab" data-bs-target="#courts"
                         type="button" role="tab">
@@ -500,11 +498,6 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
 
             <!-- Tab Content -->
             <div class="tab-content" id="managementTabsContent">
-
-
-
-
-
                 <!-- Tab de Canchas -------------------------------------------------------------------------------------->
                 <div class="tab-pane fade show active" id="courts" role="tabpanel">
                     <div class="section-card">
