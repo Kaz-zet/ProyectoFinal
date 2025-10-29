@@ -229,7 +229,7 @@ try {
         }
 
         body {
-            background-color: var(--padel-light);
+            background-color: #D9D4D2;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
@@ -367,7 +367,7 @@ try {
 </head>
 
 <body>
-    <div class="container-fluid p-2 d-flex-justify-content-center bg-dark" style="background-image: url('image/padel-fondo.jpg'); background-size: cover; background-repeat: no-repeat;">
+    <div class="container-fluid p-2 d-flex-justify-content-center " >
         <div class="color-header-bg">
             <!-- Header del Perfil -->
             <div class="profile-header">

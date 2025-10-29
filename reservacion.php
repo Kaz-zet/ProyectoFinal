@@ -617,7 +617,7 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
 
                     <!-- PARA SELECCIONAR DIAS-->
                     <div class="date-picker-container text-center"
-                        style="background-image: url('image/padel-fondo.jpg'); background-size: cover; background-position: center;">
+                        style="background-color: #41644A;">
                         <h5 class="mb-3">Selecciona el día</h5>
                         <p class="text-light mb-3">Mostrando: <span
                                 id="currentDate"><?= date('d/m/Y', strtotime($fecha_mostrar)) ?></span></p>
@@ -1094,7 +1094,7 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
             </div>
             <div class="row bg-dark text-white text-center py-2">
                 <div class="col-12">
-                    <small>&copy; 2024 CanchApp. Todos los derechos reservados.</small>
+                    <small>&copy; 2025 CanchApp. Todos los derechos reservados.</small>
                 </div>
             </div>
         </footer>

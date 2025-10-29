@@ -3,9 +3,6 @@
  .navbar {
      background-color: white;
      height: 80px;
-     margin: ;
-     border-radius: 16px;
-     padding: 0.5rem;
      border: 2px black;
  }
 
@@ -76,7 +73,6 @@
  body {
      background-color: #000;
      overflow-x: hidden;
-     padding: 0.5rem;
  }
 
  body {
@@ -418,10 +414,10 @@
  }
 
  /* index */
- .panel-control {
+ /* .panel-control {
             background-image: url('image/padel-fondo.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             background-color: #f8f9fa;
-        }
+        } */

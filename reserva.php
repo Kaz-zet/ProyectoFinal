@@ -693,7 +693,7 @@ if ($id_cancha && $fecha && $hora_inicio) {
       </div>
       <div class="row bg-dark text-white text-center py-2">
         <div class="col-12">
-          <small>&copy; 2024 CanchApp. Todos los derechos reservados.</small>
+          <small>&copy; 2025 CanchApp. Todos los derechos reservados.</small>
         </div>
       </div>
     </footer>

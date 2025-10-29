@@ -220,7 +220,7 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
 
         .nav-link-2:hover,
         .nav-link-2.active {
-            color: #ffd43b !important;
+            color: #F1F0E9 !important;
             transform: translateY(-2px);
         }
 
@@ -259,14 +259,14 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
         }
 
         .btn-warning {
-            background: linear-gradient(135deg, #ffc107, #e0a800);
+            background: linear-gradient(135deg, #0478f4ff, #0463c9ff);
             border: none;
             color: #212529;
             font-weight: 500;
         }
 
         .btn-warning:hover {
-            background: linear-gradient(135deg, #e0a800, #d39e00);
+            background: linear-gradient(135deg, #0478f4ff, #0463c9ff);
             color: #212529;
         }
 
@@ -366,6 +366,7 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
             background: linear-gradient(135deg, #3f9c43ff, #52a24bff);
         }
     </style>
+
 </head>
 
 <body>
@@ -485,7 +486,7 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
                 <li class="nav-item" role="presentation">
                     <button class="nav-link-2 active" id="courts-tab" data-bs-toggle="tab" data-bs-target="#courts"
                         type="button" role="tab">
-                        <i class="fas fa-tennis-ball me-2"></i>Canchas
+                        <i class="fas fa-table-tennis-paddle-ball me-2"></i>Canchas
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
@@ -798,7 +799,7 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
             </div>
             <div class="row bg-dark text-white text-center py-2">
                 <div class="col-12">
-                    <small>&copy; 2024 CanchApp. Todos los derechos reservados.</small>
+                    <small>&copy; 2025 CanchApp. Todos los derechos reservados.</small>
                 </div>
             </div>
         </footer>

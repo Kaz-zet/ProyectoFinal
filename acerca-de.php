@@ -40,13 +40,14 @@ if ($nombre) {
             background-position: center;
             background-repeat: no-repeat;
             width: 100%;
-            height: 100vh;
+            min-height: 50vh;
+            max-height: auto;
         }
 
 
         .feature-icon {
             font-size: 3rem;
-            color: #007bff;
+            color: #0D4715;
             margin-bottom: 1rem;
         }
 
@@ -69,11 +70,11 @@ if ($nombre) {
 
         /* diseño de la sección de contacto */
         .contact-section {
-            background-image: url('image/padel-fondo.jpg');
+            /* background-image: url('image/padel-fondo.jpg'); */
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            background-color: #f8f9fa;
+            background-color: #0D4715;
         }
 
         .contact-card {
@@ -175,7 +176,7 @@ if ($nombre) {
         }
 
         .accordion-button:not(.collapsed) {
-            background-color: #007bff;
+            background-color: #ff8a50;
             color: white;
             box-shadow: none;
         }
@@ -219,7 +220,7 @@ if ($nombre) {
 </head>
 
 <body>
-    <div class="container-fluid p-0 m-0 bg-light">
+    <div class="container-fluid p-0 m-0 " style="background-color: #F1F0E9 ;">
         <!-- Header Section -->
         <section class="text-center text-white d-flex flex-column">
             <!-- Navbar -->
@@ -312,7 +313,7 @@ if ($nombre) {
 
 
 
-            <div class="d-flex align-items-center justify-content-center text-muted">
+            <div class="d-flex align-items-center justify-content-center text-black">
                 <div class="col-12 col-md-8 text-center my-5 blur-container">
                     <h1>Acerca de Nosotros</h1>
                     <p class="h5">Bienvenido a nuestra página de Acerca de. Aquí puedes encontrar información sobre
@@ -348,7 +349,7 @@ if ($nombre) {
                                 <div class="row g-4 mt-4">
                                     <div class="col-md-6">
                                         <div class="text-center">
-                                            <i class="fas fa-calendar-alt feature-icon">
+                                            <i class="fas fa-calendar-alt feature-icon " >
                                             </i>
                                             <h5>Reservas Fáciles</h5>
                                             <p>Sistema intuitivo para reservar canchas en tiempo real</p>
@@ -523,14 +524,14 @@ if ($nombre) {
 
         <!-- Contacto Section -->
         <div class="row justify-content-center contact-section">
-            <div class="row text-center text-light mb-5">
+            <div class="row text-center text-light mb-4">
                 <div class="col-12">
                     <h2 class="section-title">Contacto</h2>
                     <p class="section-subtitle">¿Tienes alguna pregunta? Estamos aquí para ayudarte</p>
                 </div>
             </div>
 
-            <div class="row g-4">
+            <div class="row g-4 mb-4">
                 <div class="col-lg-3 col-md-6">
                     <div class="contact-card">
                         <i class="fas fa-envelope contact-icon"></i>
@@ -566,7 +567,7 @@ if ($nombre) {
                     </div>
                 </div>
             </div>
-
+<!-- 
             <div class="contact-cta p-5">
                 <h4 class="mb-3">¿Necesitas más información?</h4>
                 <p class="mb-4">Nuestro equipo de soporte está listo para resolver todas tus dudas sobre la
@@ -577,7 +578,7 @@ if ($nombre) {
                 <button class="btn btn-outline-contact btn-contact">
                     <i class="fas fa-phone me-2"></i>Llamar Ahora
                 </button>
-            </div>
+            </div> -->
         </div>
         <!-- Fin Contacto Section -->
 
@@ -610,7 +611,7 @@ if ($nombre) {
             </div>
             <div class="row bg-dark text-white text-center py-2">
                 <div class="col-12">
-                    <small>&copy; 2024 CanchApp. Todos los derechos reservados.</small>
+                    <small>&copy; 2025 CanchApp. Todos los derechos reservados.</small>
                 </div>
             </div>
         </footer>
