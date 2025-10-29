@@ -457,7 +457,7 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
                                     <hr class="dropdown-divider">
                                 </li>
                                 <?php if ($rol === 'usuario'): ?>
-                                    <li><a class="dropdown-item" href="perfil_padel.php">
+                                    <li><a class="dropdown-item" href="perfil_padel.php?from=<?php echo urlencode($_SERVER['REQUEST_URI']); ?>">
                                             Editar Perfil
                                         </a></li>
                                     <li>

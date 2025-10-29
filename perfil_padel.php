@@ -2,6 +2,14 @@
 session_start();
 require_once 'conexiones/conDB.php';
 
+//PROBLEMAS CON LOS TABS!------------------------------------
+if (isset($_GET['from'])) {
+    $_SESSION['pagina_anterior'] = $_GET['from'];
+}
+//-----------------------------------------------------------
+
+
+
 // Solo usuarios pueden ver su perfil
 if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'usuario') {
     die("Solo los usuarios pueden ver su perfil.");
@@ -374,7 +382,7 @@ try {
                 <div class="container">
                     <div class="row align-items-center">
                         <div class="col-md-9">
-                            <button class="btn btn-dark" onclick="history.back()">
+                            <button class="btn btn-dark" onclick="volverPaginaAnterior()">
                             ← Volver 
                             </button>
                             <h2 class="mb-2"><?= htmlspecialchars($usuario['nombre']) ?></h2>
@@ -658,7 +666,21 @@ try {
                 var bsAlert = new bootstrap.Alert(alert);
                 bsAlert.close();
             });
-        }, 5000);
+        }, 2000);
     </script>
+   <script>
+
+//PROBLEMAS VOLVER TAB----------------------------------------
+function volverPaginaAnterior() {
+  //Vuelve a la página anterior de PHP x problemas con los tabs.
+  const anterior = "<?= $_SESSION['pagina_anterior'] ?? '' ?>";
+  
+  if (anterior) {
+    window.location.href = anterior;
+  } else {
+    window.location.href = 'index.php';
+  }
+}
+</script>
 </body>
 </html>
