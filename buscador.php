@@ -268,7 +268,7 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
                     <hr class="dropdown-divider">
                   </li>
                   <?php if ($rol === 'usuario'): ?>
-                    <li><a class="dropdown-item" href="perfil_padel.php">
+                    <li><a class="dropdown-item" href="perfil_padel.php?from=<?php echo urlencode($_SERVER['REQUEST_URI']); ?>">
                         <i class="fas fa-user me-2"></i>Editar Perfil
                       </a></li>
                     <li>
