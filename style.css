@@ -375,12 +375,12 @@
  }
 
 
- /* no mejoraste una pija */
-  {
+/*  
+ #inicio {
      background: linear-gradient(135deg, #009907, #007a05);
      border-radius: 20px;
      margin: 20px;
- }
+ } */
 
  /* Efectos para botones */
  .btn {
