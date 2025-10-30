@@ -568,8 +568,8 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
                                     <div class="card-body text-center p-4">
                                         <div class="icon-circle mx-auto mb-3" 
                                             style="width: 60px; height: 60px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-wheelchair" viewBox="0 0 16 16">
-  <path d="M12 3a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3m-.663 2.146a1.5 1.5 0 0 0-.47-2.115l-2.5-1.508a1.5 1.5 0 0 0-1.676.086l-2.329 1.75a.866.866 0 0 0 1.051 1.375L7.361 3.37l.922.71-2.038 2.445A4.73 4.73 0 0 0 2.628 7.67l1.064 1.065a3.25 3.25 0 0 1 4.574 4.574l1.064 1.063a4.73 4.73 0 0 0 1.09-3.998l1.043-.292-.187 2.991a.872.872 0 1 0 1.741.098l.206-4.121A1 1 0 0 0 12.224 8h-2.79zM3.023 9.48a3.25 3.25 0 0 0 4.496 4.496l1.077 1.077a4.75 4.75 0 0 1-6.65-6.65z"/>
+                                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+  <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
 </svg>
                                         </div>
                                         <h5 class="fw-semibold mb-2" style="color: #1a1a2e;">Propietario</h5>
@@ -799,7 +799,7 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
                                     <?= $i <= round($promedio) ? '★' : '☆' ?>
                                 <?php endfor; ?>
                             </div>
-                            <div class="small">
+                            <div class="small text-dark">
                                 Basado en <?= count($valoraciones) ?>
                                 <?= count($valoraciones) === 1 ? 'valoración' : 'valoraciones' ?> 
                             </div>
@@ -812,21 +812,21 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
                     <div class="col-md-10 offset-md-1">
                         <?php if (!empty($valoraciones)): ?>
                             <?php foreach ($valoraciones as $v): ?>
-                                <div class="card" > <!--Agregar card si querer, pero se ve con el hover auto puesto.-->
-                                    <div class="card-body" style="background-color: white; ">
-                                        <div class="d-flex align-items-center mb-2" style="background-color: white;">
+                                <div class="border-0" > <!--Agregar card si querer, pero se ve con el hover auto puesto.-->
+                                    <div class="card-body" style="background-color: #f0f0f0; ">
+                                        <div class="d-flex align-items-center mb-2" style="background-color: #f0f0f0;">
 
                             <!--FOTO DEL USUARIO PARA EL COMENTARIO-->
                                             <?php if (!empty($v['foto'])): ?>
                                                 <a href="perfil_otro.php?id=<?= $v['id_usuario'] ?>">
                                                     <img src="uploads/usuarios/<?= htmlspecialchars($v['foto']) ?>"
-                                                        alt="<?= htmlspecialchars($v['nombre']) ?>" class="rounded-circle me-3"
+                                                        alt="<?= htmlspecialchars($v['nombre']) ?>" class="rounded-circle me-3 text-dark"
                                                         width="50" height="50" style="object-fit: cover;">
                                                 </a>
                                             <?php else: ?>
                                                 <a href="perfil_otro.php?id=<?= $v['id_usuario'] ?>" style="text-decoration: none;">
-                                                    <div class="rounded-circle text-white me-3 d-flex align-items-center justify-content-center"
-                                                        style="width: 50px; height: 50px; font-size: 20px; font-weight: bold; background-color: gray;  ">
+                                                    <div class="rounded-circle text-dark me-3 d-flex align-items-center justify-content-center"
+                                                        style="width: 50px; height: 50px; font-size: 20px; font-weight: bold; background-color: 0D4715;  ">
                                                         <?= strtoupper(substr($v['nombre'], 0, 1)) ?>
                                                     </div>
                                                 </a>
@@ -835,13 +835,13 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
 
                                             <div class="flex-grow-1">
                                                 <a href="perfil_otro.php?id=<?= $v['id_usuario'] ?>" style="color: inherit; text-decoration: none;">
-                                                    <h5 class="mb-0"><?= htmlspecialchars($v['nombre']) ?></h5>
+                                                    <h5 class="mb-0 text-dark"><?= htmlspecialchars($v['nombre']) ?></h5>
                                                 </a>
                                                 <div class="text-warning">
                                                     <?php for ($i = 1; $i <= 5; $i++): ?>
                                                         <?= $i <= $v['valor'] ? '★' : '☆' ?>
                                                     <?php endfor; ?>
-                                                    <span class="text-white ms-2 small">
+                                                    <span class="text-dark ms-2 small">
                                                         <?= date('d/m/Y', strtotime($v['fecha'])) ?>
                                                     </span>
                                                 </div>

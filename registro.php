@@ -80,14 +80,11 @@ if ($_POST) {
     .neumorphic-card {
       background: var(--bg-color);
       border-radius: 20px;
-      box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
+  
       padding: 3rem;
       max-width: 400px;
       width: 100%;
       transition: all .8s ease-in-out;
-    }
-    .neumorphic-card:hover {
-      box-shadow: 8px 8px 16px var(--shadow-light), -8px -8px 16px var(--shadow-dark);
     }
     .neumorphic-input {
       height: 50px ;
@@ -223,7 +220,7 @@ if ($_POST) {
     <!--fin formulario-->
 
     <!-- Footer -->
-    <footer>
+    <footer class="mt-5">
       <div class="row p-5 bg-secondary text-white">
         <div class="col-xs-12 col-md-6 col-lg-3 mb-3">
           <h3 class="mb-2">CanchApp</h3>

@@ -241,15 +241,12 @@ if ($id_cancha && $fecha && $hora_inicio) {
         .neumorphic-card {
           background: var(--bg-color);
           border-radius: 20px;
-          box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
           padding: 3rem;
           max-width: 500px;
           width: 100%;
           transition: all .8s ease-in-out;
         }
-        .neumorphic-card:hover {
-          box-shadow: 8px 8px 16px var(--shadow-light), -8px -8px 16px var(--shadow-dark);
-        }
+
         .neumorphic-input {
           height: 50px;
           background-color: var(--bg-color);

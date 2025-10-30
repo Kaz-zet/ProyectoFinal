@@ -94,15 +94,10 @@ try {
     .neumorphic-card {
         background: var(--bg-color);
         border-radius: 20px;
-        box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
         padding: 2.5rem;
         max-width: 1200px;
         width: 100%;
         transition: all 0.3s ease-in-out;
-    }
-
-    .neumorphic-card:hover {
-        box-shadow: 12px 12px 20px var(--shadow-dark), -12px -12px 20px var(--shadow-light);
     }
 
     .neumorphic-btn-approve {

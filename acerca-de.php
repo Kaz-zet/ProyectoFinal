@@ -35,12 +35,12 @@ if ($nombre) {
     <link rel="stylesheet" href="style.css">
     <style>
         section {
-            background-image: url('image/Tavola_da_disegno_1_2.jpg');
+            background-image: url('image/padel-2.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             width: 100%;
-            min-height: 50vh;
+            min-height: 90vh;
             max-height: auto;
         }
 

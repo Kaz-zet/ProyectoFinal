@@ -257,7 +257,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <!--fin formulario-->
 
     <!-- Footer -->
-    <footer>
+    <footer class="mt-5" >
       <div class="row p-5 bg-secondary text-white">
         <div class="col-xs-12 col-md-6 col-lg-3 mb-3">
           <h3 class="mb-2">CanchApp</h3>

@@ -234,6 +234,8 @@ try {
             --padel-secondary: #4a7c59;
             --padel-accent: #8bc34a;
             --padel-light: #f8f9fa;
+            --padel-light2: #D9D4D2;
+            --padel-orange: #ff6b35;
         }
 
         body {
@@ -242,7 +244,7 @@ try {
         }
 
         .color-header-bg{
-            background: linear-gradient(135deg, var(--padel-primary) 0%, var(--padel-secondary) 100%);
+            background: linear-gradient(135deg, var(--padel-primary) 0%, var(--padel-orange) 100%);
         }
 
         .profile-header {
