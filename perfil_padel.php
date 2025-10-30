@@ -196,11 +196,8 @@ try {
     $stmt->execute([$id_usuario]);
     $reservas = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
-<<<<<<< HEAD
-    //Calcula estado de la reserva!!
-=======
-    // Calcular estado en PHP en lugar de SQL
->>>>>>> 84a833be5ebe1f74373f2c010e92078fd16883d7
+
+    //Calcula estado de la reserva!
     $fecha_actual = date('Y-m-d');
     $hora_actual = date('H:i:s');
     
@@ -217,15 +214,12 @@ try {
             $reserva['estado_calculado'] = 'confirmada';
         }
     }
-<<<<<<< HEAD
     unset($reserva);
     
     //Separa las reservas entre próximas y el historial.
-=======
-    unset($reserva); // Romper referencia
+
+    unset($reserva);
     
-    // Separar reservas próximas y historial
->>>>>>> 84a833be5ebe1f74373f2c010e92078fd16883d7
     $reservas_proximas = array_filter($reservas, function($r) {
         return $r['estado'] === 'activa' && 
                ($r['estado_calculado'] === 'confirmada' || $r['estado_calculado'] === 'hoy');
