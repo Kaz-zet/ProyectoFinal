@@ -230,7 +230,7 @@ try {
                     <p><i class="fas fa-check me-2 text-success"></i>Crear y gestionar tus canchas</p>
                     <p><i class="fas fa-check me-2 text-success"></i>Ver todas las reservas</p>
                     <p><i class="fas fa-check me-2 text-success"></i>Panel de control personalizado</p>
-                    <p><i class="fas fa-check me-2 text-success"></i>Gestionar horarios y precios</p>
+                    <p><i class="fas fa-check me-2 text-success"></i>Gestionar precios</p>
                 </div>
 
                 <!-- Formulario de solicitud -->

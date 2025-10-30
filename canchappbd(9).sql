@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 09, 2025 at 12:31 AM
+-- Generation Time: Oct 30, 2025 at 03:55 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -51,7 +51,8 @@ CREATE TABLE `cancha` (
   `id_cancha` int(11) NOT NULL,
   `id_duenio` int(11) NOT NULL,
   `nombre` varchar(120) NOT NULL,
-  `lugar` varchar(120) NOT NULL,
+  `ciudad` varchar(120) NOT NULL,
+  `direccion` varchar(120) NOT NULL,
   `foto` varchar(255) NOT NULL,
   `bio` text NOT NULL,
   `verificado` tinyint(1) NOT NULL,
@@ -63,11 +64,11 @@ CREATE TABLE `cancha` (
 -- Dumping data for table `cancha`
 --
 
-INSERT INTO `cancha` (`id_cancha`, `id_duenio`, `nombre`, `lugar`, `foto`, `bio`, `verificado`, `valoracion`, `precio`) VALUES
-(73, 2, 'Talleres', 'Alsina 1567', 'cancha_1757704787_8018.png', 'Cancha de Padel 1v1 y 2v2', 0, 5, 2000),
-(74, 2, 'Club Atlético Boca Juniors', 'Alsina 1244', 'cancha_1757718101_6684.png', 'Canchas de 1v1 y 2v2', 0, 5, 5000),
-(76, 4, 'asdfadfsadf', 'dsfwfwsfs', 'cancha_4_1758056658_3815.png', 'dsasdgwera', 0, 0, 4000),
-(78, 2, 'aa', 'aaaaa', 'cancha_1758144522_7981.png', '124124', 0, 0, 124124);
+INSERT INTO `cancha` (`id_cancha`, `id_duenio`, `nombre`, `ciudad`, `direccion`, `foto`, `bio`, `verificado`, `valoracion`, `precio`) VALUES
+(73, 2, 'Talleres', 'Tandil', 'Alsina 1567', 'cancha_1757704787_8018.png', 'Cancha de Padel 1v1 y 2v2', 0, 5, 2000),
+(74, 2, 'Club Atlético Boca Juniors', 'Buenos Aires', 'Alsina 1244', 'cancha_1757718101_6684.png', 'Canchas de 1v1 y 2v2', 0, 5, 5000),
+(76, 4, 'asdfadfsadf', 'assdasda', 'dsfwfwsfs', 'cancha_4_1758056658_3815.png', 'dsasdgwera', 0, 0, 4000),
+(78, 2, 'aa', 'bbbbbb', 'aaaaa', 'cancha_1758144522_7981.png', '124124', 0, 0, 124124);
 
 -- --------------------------------------------------------
 
@@ -111,7 +112,7 @@ CREATE TABLE `favoritos` (
 --
 
 INSERT INTO `favoritos` (`id_favorito`, `id_usuario`, `id_cancha`, `fecha_agregado`) VALUES
-(39, 10, 73, '2025-10-08 22:20:13');
+(46, 10, 73, '2025-10-28 16:19:00');
 
 -- --------------------------------------------------------
 
@@ -255,7 +256,8 @@ CREATE TABLE `verificacion` (
 --
 
 INSERT INTO `verificacion` (`id_verificacion`, `estado`, `fecha`, `observacion`, `id_usuario`) VALUES
-(4, 'aprobado', '2025-09-16', '', 4);
+(4, 'aprobado', '2025-09-16', '', 4),
+(5, 'pendiente', '2025-10-29', '', 10);
 
 --
 -- Indexes for dumped tables
@@ -345,7 +347,7 @@ ALTER TABLE `duenio`
 -- AUTO_INCREMENT for table `favoritos`
 --
 ALTER TABLE `favoritos`
-  MODIFY `id_favorito` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id_favorito` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `reserva`
@@ -369,7 +371,7 @@ ALTER TABLE `valoracion`
 -- AUTO_INCREMENT for table `verificacion`
 --
 ALTER TABLE `verificacion`
-  MODIFY `id_verificacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_verificacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables

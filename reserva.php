@@ -483,9 +483,10 @@ if ($id_cancha && $fecha && $hora_inicio) {
             <!-- Información de la Cancha -->
             <div class="cancha-info">
                 <h3><?= htmlspecialchars($cancha['nombre']) ?></h3>
-                <p><strong></strong> <?= htmlspecialchars($cancha['lugar']) ?></p>
-                <p><strong></strong> <?= htmlspecialchars($cancha['bio']) ?></p>
-                <p><strong></strong> $<?= number_format($cancha['precio']) ?> por hora</p>
+                <p><strong>Ciudad:</strong> <?= htmlspecialchars($cancha['ciudad']) ?></p>
+                <p><strong>Dirección:</strong> <?= htmlspecialchars($cancha['direccion']) ?></p>
+                <p><strong>Descripción:</strong> <?= htmlspecialchars($cancha['bio']) ?></p>
+                <p><strong>Precio:</strong> $<?= number_format($cancha['precio']) ?> por hora</p>
             </div>
             
             <?php if ($fecha && $hora_inicio): ?>

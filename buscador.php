@@ -108,7 +108,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['accion'] === 'toggle_favori
 //De esta forma indicamos parámetros y con el LIKE y %% podemos encontrar alguna similitud.
 
 $buscarNombre = $_GET['nombre'] ?? '';
-$buscarLugar = $_GET['lugar'] ?? '';
+$buscarCiudad = $_GET['ciudad'] ?? '';
+$buscarDireccion = $_GET['direccion'] ?? '';
 $buscarBio = $_GET['bio'] ?? '';
 $buscarPrecioMin = $_GET['precio_min'] ?? '';
 $buscarPrecioMax = $_GET['precio_max'] ?? '';
@@ -122,9 +123,14 @@ try {
     $params[] = "%$buscarNombre%";
   }
 
-  if (!empty($buscarLugar)) {
-    $sql .= " AND lugar LIKE ?";
-    $params[] = "%$buscarLugar%";
+  if (!empty($buscarCiudad)) {
+    $sql .= " AND ciudad LIKE ?";
+    $params[] = "%$buscarCiudad%";
+  }
+
+  if (!empty($buscarDireccion)) {
+    $sql .= " AND direccion LIKE ?";
+    $params[] = "%$buscarDireccion%";
   }
 
   if (!empty($buscarBio)) {
@@ -161,8 +167,7 @@ try {
 
 
 //verifica si hay filtros activos (sirve para poder limpiar y realizar la búsqueeda).
-$hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio) || !empty($buscarPrecioMin) || !empty($buscarPrecioMax);
-
+$hayFiltros = !empty($buscarNombre) || !empty($buscarCiudad) || !empty($buscarDireccion) || !empty($buscarBio) || !empty($buscarPrecioMin) || !empty($buscarPrecioMax);
 //---------------------------------------------------------------------------------
 ?>
 
@@ -320,17 +325,26 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
                       value="<?= htmlspecialchars($buscarNombre) ?>">
                   </div>
 
-                  <!--LUGAR -->
+                  <!--CIUDAD -->
                   <div class="col-md-2">
-                    <label for="lugar" class="form-label">
-                      <i class="fas fa-map-marker-alt"></i> Ubicación
+                    <label for="ciudad" class="form-label">
+                      <i class="fas fa-map-marker-alt"></i> Ciudad
                     </label>
-                    <input type="text" class="form-control" id="lugar" name="lugar"
-                      value="<?= htmlspecialchars($buscarLugar) ?>">
+                    <input type="text" class="form-control" id="ciudad" name="ciudad"
+                      value="<?= htmlspecialchars($buscarCiudad) ?>">
+                  </div>
+
+                  <!--DIRECCIÓN -->
+                  <div class="col-md-2">
+                    <label for="direccion" class="form-label">
+                      <i class="fas fa-location-dot"></i> Dirección
+                    </label>
+                    <input type="text" class="form-control" id="direccion" name="direccion"
+                      value="<?= htmlspecialchars($buscarDireccion) ?>">
                   </div>
 
                   <!--FILTRO BIOO -->
-                  <div class="col-md-3">
+                  <div class="col-md-2">
                     <label for="bio" class="form-label">
                       <i class="fas fa-align-left"></i> Descripción
                     </label>
@@ -339,7 +353,7 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
                   </div>
 
                   <!--FILTRO PRECIO -->
-                  <div class="col-md-3">
+                  <div class="col-md-2">
                     <label class="form-label">
                       <i class="fas fa-dollar-sign"></i> Rango de Precio
                     </label>
@@ -423,7 +437,8 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarLugar) || !empty($buscarBio
                           Cancha Deportiva
                       </div>
                       <h2 class="fs-3 fw-bold mb-3 text-dark"><?php echo htmlspecialchars($cancha['nombre']); ?></h2>
-                      <p class="text-secondary mb-3"><?php echo htmlspecialchars($cancha['lugar']); ?></p>
+                      <p class="text-secondary mb-3">Ciudad: <?php echo htmlspecialchars($cancha['ciudad']); ?></p>
+                      <p class="text-secondary mb-3">Direccion: <?php echo htmlspecialchars($cancha['direccion']); ?></p>
                       
                       <!-- Descripción -->
                       <button type="button" class="btn btn-outline-secondary btn-sm mb-4" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-content="<?php echo htmlspecialchars($cancha['bio']); ?>">

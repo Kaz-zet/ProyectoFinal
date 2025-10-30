@@ -563,49 +563,49 @@ if ($calendario)
 
               <!-- Contenido de la tarjeta -->
               <div class="card-body p-4 d-flex flex-column">
-                <div class="text-secondary text-uppercase small mb-2 fw-medium" style="letter-spacing: 0.5px;">
-                  Cancha Deportiva
-                </div>
-                <h2 class="fs-3 fw-bold mb-3 text-dark"><?php echo htmlspecialchars($cancha['nombre']); ?></h2>
-                <p class="text-secondary mb-3"><?php echo htmlspecialchars($cancha['lugar']); ?></p>
-
-                <!-- Botón y Rating -->
-                <div class="row align-items-center mt-auto">
-                  <div class="col-auto">
-
-                    <a href="reservacion.php?id=<?= $cancha['id_cancha'] ?>"
-                      class="btn btn-reservar text-white border-0 rounded-pill px-4 py-2 fw-semibold shadow-sm text-decoration-none">
-                      Reservar
-                    </a>
+                  <div class="text-secondary text-uppercase small mb-2 fw-medium" style="letter-spacing: 0.5px;">
+                      Cancha Deportiva
                   </div>
-                  <div class="col">
-                    <div class="d-flex flex-column align-items-end">
-                      <small class="text-muted mb-1">Rating</small>
-                      <?php if ($total > 0): ?>
-                        <div class="d-flex gap-1 fs-5">
-                          <?php
-                          $stars = round($promedio);
-                          for ($i = 1; $i <= 5; $i++) {
-                            echo '<span class="' . ($i <= $stars ? 'star-filled' : 'star-empty') . '">' . ($i <= $stars ? '★' : '☆') . '</span>';
-                          }
-                          ?>
-                        </div>
-                        <small class="text-muted mt-1">
-                          <?= number_format($promedio, 1) ?>/5 (<?= $total ?> valoraciones)
-                        </small>
-                      <?php else: ?>
-                        <div class="d-flex gap-1 fs-5">
-                          <span class="star-empty">☆</span>
-                          <span class="star-empty">☆</span>
-                          <span class="star-empty">☆</span>
-                          <span class="star-empty">☆</span>
-                          <span class="star-empty">☆</span>
-                        </div>
-                        <small class="text-muted mt-1">Sin valoraciones</small>
-                      <?php endif; ?>
-                    </div>
+                  <h2 class="fs-3 fw-bold mb-3 text-dark"><?php echo htmlspecialchars($cancha['nombre']); ?></h2>
+                  <p class="text-secondary mb-3">Ciudad: <?php echo htmlspecialchars($cancha['ciudad']); ?></p>
+                  <p class="text-secondary mb-3">Direccion: <?php echo htmlspecialchars($cancha['direccion']); ?></p>
+                  
+                  <!-- Botón y Rating -->
+                  <div class="row align-items-center mt-auto">
+                      <div class="col-auto">
+                          
+                          <a href="reservacion.php?id=<?= $cancha['id_cancha'] ?>" class="btn btn-reservar text-white border-0 rounded-pill px-4 py-2 fw-semibold shadow-sm text-decoration-none">
+                              Reservar
+                          </a>
+                      </div>
+                      <div class="col">
+                          <div class="d-flex flex-column align-items-end">
+                              <small class="text-muted mb-1">Rating</small>
+                              <?php if ($total > 0): ?>
+                              <div class="d-flex gap-1 fs-5">
+                                  <?php
+                                  $stars = round($promedio);
+                                  for ($i = 1; $i <= 5; $i++) {
+                                      echo '<span class="' . ($i <= $stars ? 'star-filled' : 'star-empty') . '">' . ($i <= $stars ? '★' : '☆') . '</span>';
+                                  }
+                                  ?>
+                              </div>
+                              <small class="text-muted mt-1">
+                                  <?= number_format($promedio, 1) ?>/5 (<?= $total ?> valoraciones)
+                              </small>
+                              <?php else: ?>
+                              <div class="d-flex gap-1 fs-5">
+                                  <span class="star-empty">☆</span>
+                                  <span class="star-empty">☆</span>
+                                  <span class="star-empty">☆</span>
+                                  <span class="star-empty">☆</span>
+                                  <span class="star-empty">☆</span>
+                              </div>
+                              <small class="text-muted mt-1">Sin valoraciones</small>
+                              <?php endif; ?>
+                          </div>
+                      </div>
                   </div>
-                </div>
               </div>
             </div>
           </div>

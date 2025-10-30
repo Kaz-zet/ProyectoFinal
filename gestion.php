@@ -46,11 +46,12 @@ try {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['accion'] ?? '') === 'editar') {
     $id = $_POST['id_cancha'];
     $nombre = trim($_POST['nombre'] ?? '');
-    $lugar = trim($_POST['lugar'] ?? '');
+    $ciudad = trim($_POST['ciudad'] ?? '');
+    $direccion = trim($_POST['direccion'] ?? '');
     $bio = trim($_POST['bio'] ?? '');
     $precio = trim($_POST['precio'] ?? '');
 
-    if ($nombre === '' || $lugar === '' || $bio === '' || $precio === '') {
+    if ($nombre === '' || $ciudad === '' || $direccion === '' || $bio === '' || $precio === '') {
         $error = "Completa todos los campos.";
     } else {
         try {
@@ -163,7 +164,8 @@ function obtenerreservasduenio($pdo, $id_duenio, $fecha_desde = null, $filtro_es
             r.observaciones,
             r.estado,
             c.nombre as cancha_nombre,
-            c.lugar as cancha_lugar,
+            c.ciudad as cancha_ciudad,
+            c.direccion as cancha_direccion,
             u.nombre as usuario_nombre,
             u.email as usuario_email
         FROM reserva r
@@ -528,7 +530,8 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
                                                     </div>
                                                     <p class="card-text text-muted mb-2">
                                                         <i class="fas fa-map-marker-alt me-1"></i>
-                                                        <?= htmlspecialchars($cancha['lugar']) ?>
+                                                        <?= htmlspecialchars($cancha['ciudad']) ?>
+                                                        <?= htmlspecialchars($cancha['direccion']) ?>
                                                     </p>
                                                     <p class="card-text mb-2">
                                                         <strong>Precio:</strong>
@@ -550,7 +553,8 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
                                                                 data-bs-target="#modalEditar<?= $cancha['id_cancha'] ?>"
                                                                 data-id="<?= $cancha['id_cancha'] ?>"
                                                                 data-nombre="<?= htmlspecialchars($cancha['nombre'], ENT_QUOTES) ?>"
-                                                                data-lugar="<?= htmlspecialchars($cancha['lugar'], ENT_QUOTES) ?>"
+                                                                data-ciudad="<?= htmlspecialchars($cancha['ciudad'], ENT_QUOTES) ?>"
+                                                                data-direccion="<?= htmlspecialchars($cancha['direccion'], ENT_QUOTES) ?>"
                                                                 data-bio="<?= htmlspecialchars($cancha['bio'], ENT_QUOTES) ?>"
                                                                 data-precio="<?= htmlspecialchars($cancha['precio'], ENT_QUOTES) ?>"
                                                                 data-foto="<?= htmlspecialchars($cancha['foto'], ENT_QUOTES) ?>">
@@ -587,11 +591,16 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
 
                                                                         <div class="mb-3">
                                                                             <label class="form-label fw-semibold">Ubicación</label>
-                                                                            <input class="form-control" type="text" name="lugar" 
-                                                                                value="<?= htmlspecialchars($cancha['lugar']) ?>"
-                                                                                required placeholder="Ej: Buenos Aires, Tandil, Av. Principal 123">
+                                                                            <input class="form-control" type="text" name="ciudad" 
+                                                                                value="<?= htmlspecialchars($cancha['ciudad']) ?>"
+                                                                                required placeholder="Ej: Tandil">
                                                                         </div>
-
+                                                                        <div class="mb-3">
+                                                                            <label class="form-label fw-semibold">Dirección</label>
+                                                                            <input class="form-control" type="text" name="direccion" 
+                                                                                value="<?= htmlspecialchars($cancha['direccion']) ?>"
+                                                                                required placeholder="Ej: Calle Falsa 123">
+                                                                        </div>
                                                                         <div class="mb-3">
                                                                             <label class="form-label fw-semibold">Descripción</label>
                                                                             <textarea class="form-control" name="bio" 
