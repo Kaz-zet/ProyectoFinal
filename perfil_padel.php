@@ -129,7 +129,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['actualizar_datos'])) 
                     
                     $_SESSION['nombre'] = $nombre;
                     
-                    // Recargar datos del usuario
+                    //Actualiza los datos del usuario
                     $usuario['nombre'] = $nombre;
                     $usuario['email'] = $email;
                     $usuario['telefono'] = $telefono;
@@ -137,7 +137,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['actualizar_datos'])) 
                     $usuario['categoria'] = $categoria;
                     $usuario['posicion'] = $posicion;
                     
-                    $msg = 'Datos actualizados correctamente.';
+                    $msg = 'Datos actualizados correctamente.'; //MSG
                 }
             }
         } catch (PDOException $e) {
@@ -186,15 +186,8 @@ try {
             r.observaciones,
             r.estado,
             c.nombre as cancha_nombre,
-            c.lugar as cancha_lugar,
-            c.precio,
-            CASE 
-                WHEN r.estado = 'cancelada' THEN 'cancelada'
-                WHEN r.fecha < CURDATE() THEN 'completado'
-                WHEN r.fecha = CURDATE() AND r.hora_final <= CURTIME() THEN 'completado'
-                WHEN r.fecha = CURDATE() THEN 'hoy'
-                ELSE 'confirmada'
-            END as estado_calculado
+            CONCAT(c.direccion, ', ', c.ciudad) as cancha_lugar,
+            c.precio
         FROM reserva r
         INNER JOIN cancha c ON r.id_cancha = c.id_cancha
         WHERE r.id_usuario = ?
@@ -203,9 +196,39 @@ try {
     $stmt->execute([$id_usuario]);
     $reservas = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
+<<<<<<< HEAD
+    //Calcula estado de la reserva!!
+=======
+    // Calcular estado en PHP en lugar de SQL
+>>>>>>> 84a833be5ebe1f74373f2c010e92078fd16883d7
+    $fecha_actual = date('Y-m-d');
+    $hora_actual = date('H:i:s');
+    
+    foreach ($reservas as &$reserva) {
+        if ($reserva['estado'] === 'cancelada') {
+            $reserva['estado_calculado'] = 'cancelada';
+        } elseif ($reserva['fecha'] < $fecha_actual) {
+            $reserva['estado_calculado'] = 'completado';
+        } elseif ($reserva['fecha'] == $fecha_actual && $reserva['hora_final'] <= $hora_actual) {
+            $reserva['estado_calculado'] = 'completado';
+        } elseif ($reserva['fecha'] == $fecha_actual) {
+            $reserva['estado_calculado'] = 'hoy';
+        } else {
+            $reserva['estado_calculado'] = 'confirmada';
+        }
+    }
+<<<<<<< HEAD
+    unset($reserva);
+    
+    //Separa las reservas entre próximas y el historial.
+=======
+    unset($reserva); // Romper referencia
+    
     // Separar reservas próximas y historial
+>>>>>>> 84a833be5ebe1f74373f2c010e92078fd16883d7
     $reservas_proximas = array_filter($reservas, function($r) {
-        return $r['estado'] === 'activa' && ($r['estado_calculado'] === 'confirmada' || $r['estado_calculado'] === 'hoy');
+        return $r['estado'] === 'activa' && 
+               ($r['estado_calculado'] === 'confirmada' || $r['estado_calculado'] === 'hoy');
     });
     
     $historial = array_filter($reservas, function($r) {
@@ -413,7 +436,7 @@ try {
         <div class="container">
             <!-- Mostrar mensajes -->
             <?php if (!empty($msg)): ?>
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <div class="alert alert-success alert-dismissible fade show" role="alert"> <!--.Alert-->
                     <?= htmlspecialchars($msg) ?>
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
@@ -510,7 +533,7 @@ try {
                             </div>
                         </div>
 
-                        <!-- Tab Datos Personales -->
+                        <!-- Tab Datos Personales -------------------------------------------------------------->
                         <div class="tab-pane fade" id="datos" role="tabpanel">
                             <div class="row">
                                 <div class="col-lg-8">
@@ -609,7 +632,7 @@ try {
                             </div>
                         </div>
 
-                        <!-- Tab Historial -->
+                        <!-- Tab Historial ------------------------------------------------------------------------------------------>
                         <div class="tab-pane fade" id="historial" role="tabpanel">
                             <div class="card">
                                 <div class="card-header">
@@ -647,7 +670,7 @@ try {
                                         <div class="text-center py-5">
                                             <i class="fas fa-history fa-3x text-muted mb-3"></i>
                                             <h5>No hay historial aún</h5>
-                                            <p class="text-muted">Tu historial de partidos aparecerá aquí una vez que completes tus primeras reservas.</p>
+                                            <p class="text-muted">Tu historial de partidos aparecerá acá una vez que completes tus primeras reservas.</p>
                                         </div>
                                     <?php endif; ?>
                                 </div>
@@ -661,7 +684,7 @@ try {
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Auto-dismiss alerts after 5 seconds
+        //Saca las alertas desp de 2 segundos.
         setTimeout(function() {
             var alerts = document.querySelectorAll('.alert');
             alerts.forEach(function(alert) {

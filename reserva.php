@@ -438,7 +438,7 @@ if ($id_cancha && $fecha && $hora_inicio) {
         <?php endif; ?>
         
         <div class="col-12">
-                <h3 class="text-center mb-4">Valoraciones!</h3>
+                <h3 class="text-center mb-4"></h3>
 
                 <?php
                 try {

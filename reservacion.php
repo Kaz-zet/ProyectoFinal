@@ -69,7 +69,7 @@ if ($id_cancha) {
     exit;
 }
 
-// Generar reservas
+//FUNCIÓN PARA OBTENER RESERVAS
 function obtenerreservas($pdo, $id_cancha, $fecha)
 {
     $stmt = $pdo->prepare("
@@ -83,7 +83,7 @@ function obtenerreservas($pdo, $id_cancha, $fecha)
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-// Se crean los horarios disponibles
+//Se crean los horarios disponibles
 function generarhorarios()
 {
     $horarios = [];
@@ -93,7 +93,7 @@ function generarhorarios()
     return $horarios;
 }
 
-// Verificar disponibilidad del horario
+//Verifica disponibilidad del horario
 function verificarDisponibilidad($reservas, $hora, $fecha_mostrar, $espacios_total = 4)
 {
     $hora_fin = date('H:i', strtotime($hora . ' +1 hour'));
@@ -111,12 +111,12 @@ function verificarDisponibilidad($reservas, $hora, $fecha_mostrar, $espacios_tot
         }
     }
 
-    // Contar espacios ocupados en este horario
+    //Cuenta los espacios ocupados de la reserva.
     foreach ($reservas as $reserva) {
         $r_inicio = substr($reserva['hora_inicio'], 0, 5);
         $r_final = substr($reserva['hora_final'], 0, 5);
 
-        // Verificar si hay conflicto de horarios
+        //Verifica si hay  algún conflicto de horarios.
         if (
             ($hora >= $r_inicio && $hora < $r_final) ||
             ($hora_fin > $r_inicio && $hora_fin <= $r_final) ||
@@ -125,7 +125,7 @@ function verificarDisponibilidad($reservas, $hora, $fecha_mostrar, $espacios_tot
             $espacios_reservados = $reserva['espacios_reservados'] ?? 1;
             $espacios_ocupados += $espacios_reservados;
 
-            // La primera reserva define la categoría del horario. x ej, si la primera reserva es categoria 2, solo los usuarios de categoria 2 podran reservar
+            //La primera reserva define la categoría del horario. x ej, si la primera reserva es categoria 2, solo los usuarios de categoria 2 podran reservar.
             if ($categoria_horario === null) {
                 $categoria_horario = $reserva['categoria_reserva'];
             }
@@ -141,7 +141,7 @@ function verificarDisponibilidad($reservas, $hora, $fecha_mostrar, $espacios_tot
 
     $espacios_disponibles = $espacios_total - $espacios_ocupados;
 
-    // Determinar el estado del horario
+    //Determina el estado de las reservas!!
     if ($espacios_disponibles <= 0) {
         return [
             'tipo' => 'ocupado',
@@ -169,7 +169,7 @@ function verificarDisponibilidad($reservas, $hora, $fecha_mostrar, $espacios_tot
     }
 }
 
-// Pasa de ingles a español
+//Pasa de ingles a español.
 function diasespanol($dia_ingles)
 {
     $dias = [
@@ -549,7 +549,7 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
                                 <div class="card border-0 shadow-sm h-100 hover-lift">
                                     <div class="card-body text-center p-4">
                                         <div class="icon-circle mx-auto mb-3" 
-                                            style="width: 60px; height: 60px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                            style="width: 60px; height: 60px; background: linear-gradient(135deg, #ffffffff 0%, #ffffffff 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-compass" viewBox="0 0 16 16">
   <path d="M8 16.016a7.5 7.5 0 0 0 1.962-14.74A1 1 0 0 0 9 0H7a1 1 0 0 0-.962 1.276A7.5 7.5 0 0 0 8 16.016m6.5-7.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0"/>
   <path d="m6.94 7.44 4.95-2.83-2.83 4.95-4.949 2.83 2.828-4.95z"/>
@@ -565,7 +565,7 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
                                 <div class="card border-0 shadow-sm h-100 hover-lift">
                                     <div class="card-body text-center p-4">
                                         <div class="icon-circle mx-auto mb-3" 
-                                            style="width: 60px; height: 60px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                            style="width: 60px; height: 60px; background: linear-gradient(135deg, #ffffffff 0%, #ffffffff 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-compass" viewBox="0 0 16 16">
   <path d="M8 16.016a7.5 7.5 0 0 0 1.962-14.74A1 1 0 0 0 9 0H7a1 1 0 0 0-.962 1.276A7.5 7.5 0 0 0 8 16.016m6.5-7.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0"/>
   <path d="m6.94 7.44 4.95-2.83-2.83 4.95-4.949 2.83 2.828-4.95z"/>
@@ -583,7 +583,7 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
                                 <div class="card border-0 shadow-sm h-100 hover-lift">
                                     <div class="card-body text-center p-4">
                                         <div class="icon-circle mx-auto mb-3" 
-                                            style="width: 60px; height: 60px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                            style="width: 60px; height: 60px; background: linear-gradient(135deg, #ffffffff 0%rgba(255, 255, 255, 1)6c 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
   <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
 </svg>
@@ -600,7 +600,7 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
                                 <div class="card border-0 shadow-sm h-100 hover-lift">
                                     <div class="card-body text-center p-4">
                                         <div class="icon-circle mx-auto mb-3" 
-                                            style="width: 60px; height: 60px; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                            style="width: 60px; height: 60px; background: linear-gradient(135deg, #ffffffff 0%, #ffffffff 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-coin" viewBox="0 0 16 16">
   <path d="M5.5 9.511c.076.954.83 1.697 2.182 1.785V12h.6v-.709c1.4-.098 2.218-.846 2.218-1.932 0-.987-.626-1.496-1.745-1.76l-.473-.112V5.57c.6.068.982.396 1.074.85h1.052c-.076-.919-.864-1.638-2.126-1.716V4h-.6v.719c-1.195.117-2.01.836-2.01 1.853 0 .9.606 1.472 1.613 1.707l.397.098v2.034c-.615-.093-1.022-.43-1.114-.9zm2.177-2.166c-.59-.137-.91-.416-.91-.836 0-.47.345-.822.915-.925v1.76h-.005zm.692 1.193c.717.166 1.048.435 1.048.91 0 .542-.412.914-1.135.982V8.518z"/>
   <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
@@ -609,7 +609,7 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
                                         </div>
                                         <h5 class="fw-semibold mb-2" style="color: #1a1a2e;">Precio</h5>
                                         <p class="mb-0">
-                                            <span class="fs-4 fw-bold" style="color: #667eea;">$<?= number_format($cancha['precio']) ?></span>
+                                            <span class="fs-4 fw-bold" style="color: #000000ff;">$<?= number_format($cancha['precio']) ?></span>
                                             <span class="text-muted"> / hora</span>
                                         </p>
                                     </div>
@@ -688,7 +688,7 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
 
                     <!-- Horas disponibles -->
                     <div class="row g-3" id="timeSlots">
-                        <?php foreach ($horarios as $hora): ?>
+                        <?php foreach ($horarios as $hora): //Horarios es una variable que contiene la función generar horarios.?> 
                             <?php
                             $disponibilidad = verificarDisponibilidad($reservas, $hora, $fecha_mostrar, 4);
                             $hora_fin = date('H:i', strtotime($hora . ' +1 hour'));
@@ -871,7 +871,7 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
                             <?php endforeach; ?>
                         <?php else: ?>
                             <div class="text-center py-5">
-                                <p class="fs-5">Todavía no hay valoraciones para esta cancha.</p>
+                                <p class="fs-5" style="color: #0B0519">Todavía no hay valoraciones para esta cancha.</p>
                             </div>
                         <?php endif; ?>
                     </div>
