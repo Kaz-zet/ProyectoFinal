@@ -871,7 +871,7 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
                             <?php endforeach; ?>
                         <?php else: ?>
                             <div class="text-center py-5">
-                                <p class="fs-5">Todavía no hay valoraciones para esta cancha.</p>
+                                <p class="fs-5" style="color: #0B0519">Todavía no hay valoraciones para esta cancha.</p>
                             </div>
                         <?php endif; ?>
                     </div>

@@ -186,15 +186,8 @@ try {
             r.observaciones,
             r.estado,
             c.nombre as cancha_nombre,
-            c.lugar as cancha_lugar,
-            c.precio,
-            CASE 
-                WHEN r.estado = 'cancelada' THEN 'cancelada'
-                WHEN r.fecha < CURDATE() THEN 'completado'
-                WHEN r.fecha = CURDATE() AND r.hora_final <= CURTIME() THEN 'completado'
-                WHEN r.fecha = CURDATE() THEN 'hoy'
-                ELSE 'confirmada'
-            END as estado_calculado
+            CONCAT(c.direccion, ', ', c.ciudad) as cancha_lugar,
+            c.precio
         FROM reserva r
         INNER JOIN cancha c ON r.id_cancha = c.id_cancha
         WHERE r.id_usuario = ?
@@ -203,9 +196,29 @@ try {
     $stmt->execute([$id_usuario]);
     $reservas = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
+    // Calcular estado en PHP en lugar de SQL
+    $fecha_actual = date('Y-m-d');
+    $hora_actual = date('H:i:s');
+    
+    foreach ($reservas as &$reserva) {
+        if ($reserva['estado'] === 'cancelada') {
+            $reserva['estado_calculado'] = 'cancelada';
+        } elseif ($reserva['fecha'] < $fecha_actual) {
+            $reserva['estado_calculado'] = 'completado';
+        } elseif ($reserva['fecha'] == $fecha_actual && $reserva['hora_final'] <= $hora_actual) {
+            $reserva['estado_calculado'] = 'completado';
+        } elseif ($reserva['fecha'] == $fecha_actual) {
+            $reserva['estado_calculado'] = 'hoy';
+        } else {
+            $reserva['estado_calculado'] = 'confirmada';
+        }
+    }
+    unset($reserva); // Romper referencia
+    
     // Separar reservas próximas y historial
     $reservas_proximas = array_filter($reservas, function($r) {
-        return $r['estado'] === 'activa' && ($r['estado_calculado'] === 'confirmada' || $r['estado_calculado'] === 'hoy');
+        return $r['estado'] === 'activa' && 
+               ($r['estado_calculado'] === 'confirmada' || $r['estado_calculado'] === 'hoy');
     });
     
     $historial = array_filter($reservas, function($r) {

@@ -3,7 +3,7 @@
 date_default_timezone_set('America/Argentina/Buenos_Aires');
 
 $host = 'localhost';
-$db   = 'placebd';
+$db   = 'canchappbd';
 $user = 'root';
 $pass = '';
 $charset = 'utf8mb4';
