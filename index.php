@@ -499,7 +499,8 @@ if ($calendario)
                       Cancha Deportiva
                   </div>
                   <h2 class="fs-3 fw-bold mb-3 text-dark"><?php echo htmlspecialchars($cancha['nombre']); ?></h2>
-                  <p class="text-secondary mb-3"><?php echo htmlspecialchars($cancha['lugar']); ?></p>
+                  <p class="text-secondary mb-3">Ciudad: <?php echo htmlspecialchars($cancha['ciudad']); ?></p>
+                  <p class="text-secondary mb-3">Direccion: <?php echo htmlspecialchars($cancha['direccion']); ?></p>
                   
                   <!-- Botón y Rating -->
                   <div class="row align-items-center mt-auto">

@@ -14,7 +14,8 @@ $easterEggTrigger = null; //JIJIJI
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nombre = trim($_POST['nombre'] ?? '');
-    $lugar = trim($_POST['lugar'] ?? '');
+    $ciudad = trim($_POST['ciudad'] ?? '');
+    $direccion = trim($_POST['direccion'] ?? '');
     $precio = trim($_POST['precio'] ?? '');
     $bio = trim($_POST['bio'] ?? '');
     $foto = null;
@@ -28,11 +29,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (strlen($nombre) > 100) {
         $errores[] = "El nombre no puede exceder 100 caracteres.";
     }
-    
-    if (empty($lugar)) {
-        $errores[] = "La ubicación es obligatoria.";
-    } elseif (strlen($lugar) > 150) {
-        $errores[] = "La ubicación no puede exceder 150 caracteres.";
+
+    if (empty($ciudad)) {
+        $errores[] = "La ciudad es obligatoria.";
+    } elseif (strlen($ciudad) > 100) {
+        $errores[] = "La ciudad no puede exceder 100 caracteres.";
+    }
+
+    if (empty($direccion)) {
+        $errores[] = "La dirección es obligatoria.";
+    } elseif (strlen($direccion) > 150) {
+        $errores[] = "La dirección no puede exceder 150 caracteres.";
     }
     
     if (empty($precio) || !is_numeric($precio) || $precio < 0) {
@@ -109,13 +116,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } else {
                 //Sino se crea.
                 $stmt = $pdo->prepare('
-                    INSERT INTO cancha (nombre, lugar, bio, foto, id_duenio, precio) 
+                    INSERT INTO cancha (nombre, ciudad, direccion, bio, foto, id_duenio, precio) 
                     VALUES (?, ?, ?, ?, ?, ?)
                 ');
                 
                 $resultado = $stmt->execute([
                     $nombre, 
-                    $lugar, 
+                    $ciudad, 
+                    $direccion, 
                     $bio, 
                     $foto, 
                     $id_duenio, 
@@ -124,35 +132,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 if ($resultado) {
                     $msg = 'Cancha creada exitosamente!';
-
-
-
-//---------------------------------Easter eggs---------------------------------------------------------------------
-                    $easterEggs = [
-                        'Vegetta|777' => [
-                            'color' => '#6a0dad',
-                            'textColor' => 'white',
-                            'mensaje' => '¡Vegetta777! ¡Épico!'
-                        ],
-                        'Pikachu|025' => [
-                            'color' => '#ffff00',
-                            'textColor' => '#000000',
-                            'mensaje' => '¡Pikachuuuuuuuuuuu! ⚡'
-                        ],
-                        'Mario|Luigi' => [
-                            'color' => '#ff0000',
-                            'textColor' => '#ffffff',
-                            'mensaje' => '¡IAJUUU! ¡Mamma mia!'
-                        ]
-                    ];
-
-                    $key = $nombre . '|' . $lugar;
-                    if (isset($easterEggs[$key])) {
-                        $easterEggTrigger = $easterEggs[$key];
-                    }
-//--------------------------------------------------------------------------------------------------------------------------
-
-
                 } else {
                     $error = 'Error al crear la cancha en la base de datos.';
                 }
@@ -413,18 +392,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     </div>
 
                                     <div class="col-md-6 mb-3">
-                                        <label for="lugar" class="form-label">
-                                            Ubicación <span class="required">*</span>
+                                        <label for="ciudad" class="form-label">
+                                            Ciudad <span class="required">*</span>
                                         </label>
                                         <input type="text" 
-                                               id="lugar" 
-                                               name="lugar" 
+                                               id="ciudad" 
+                                               name="ciudad" 
                                                class="form-control neumorphic-input"
-                                               value="<?= htmlspecialchars($_POST['lugar'] ?? '') ?>" 
+                                               value="<?= htmlspecialchars($_POST['ciudad'] ?? '') ?>" 
                                                maxlength="150" 
                                                required>
                                         <div class="form-help">Dirección o zona (máximo 150 caracteres)</div>
                                     </div>
+
+                                    <div class="col-md-6 mb-3">
+                                        <label for="direccion" class="form-label">
+                                            Dirección <span class="required">*</span>
+                                        </label>
+                                        <input type="text" 
+                                               id="direccion" 
+                                               name="direccion" 
+                                               class="form-control neumorphic-input"
+                                               value="<?= htmlspecialchars($_POST['direccion'] ?? '') ?>" 
+                                               maxlength="150" 
+                                               required>
+                                        <div class="form-help">Dirección completa (máximo 150 caracteres)</div>
                                 </div>
 
                                 <div class="mb-3">
@@ -577,13 +569,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Validación del formulario
         document.getElementById('formCrearCancha').addEventListener('submit', function(e) {
             const nombre = document.getElementById('nombre').value.trim();
-            const lugar = document.getElementById('lugar').value.trim();
+            const ciudad = document.getElementById('ciudad').value.trim();
+            const direccion = document.getElementById('direccion').value.trim();
             const precio = document.getElementById('precio').value;
             
             let errores = [];
             
             if (!nombre) errores.push('El nombre es obligatorio');
-            if (!lugar) errores.push('La ubicación es obligatoria');
+            if (!ciudad) errores.push('La ciudad es obligatoria');
+            if (!direccion) errores.push('La dirección es obligatoria');
             if (!precio || precio < 0) errores.push('El precio debe ser mayor o igual a 0');
             
             if (errores.length > 0) {
