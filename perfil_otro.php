@@ -42,26 +42,43 @@ try {
             r.observaciones,
             r.estado,
             c.nombre as cancha_nombre,
-            c.lugar as cancha_lugar,
-            c.precio,
-            CASE 
-                WHEN r.estado = 'cancelada' THEN 'cancelada'
-                WHEN r.fecha < CURDATE() THEN 'completado'
-                WHEN r.fecha = CURDATE() AND r.hora_final <= CURTIME() THEN 'completado'
-                WHEN r.fecha = CURDATE() THEN 'hoy'
-                ELSE 'confirmada'
-            END as estado_calculado
+            CONCAT(c.direccion, ', ', c.ciudad) as cancha_lugar,
+            c.precio
         FROM reserva r
         INNER JOIN cancha c ON r.id_cancha = c.id_cancha
         WHERE r.id_usuario = ?
         ORDER BY r.fecha DESC, r.hora_inicio DESC
     ");
-    $stmt->execute([$id_perfil]);
+    $stmt->execute([$id_usuario]);
     $reservas = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
-    // Separar reservas próximas y historial
+
+    //Calcula estado de la reserva!
+    $fecha_actual = date('Y-m-d');
+    $hora_actual = date('H:i:s');
+    
+    foreach ($reservas as &$reserva) {
+        if ($reserva['estado'] === 'cancelada') {
+            $reserva['estado_calculado'] = 'cancelada';
+        } elseif ($reserva['fecha'] < $fecha_actual) {
+            $reserva['estado_calculado'] = 'completado';
+        } elseif ($reserva['fecha'] == $fecha_actual && $reserva['hora_final'] <= $hora_actual) {
+            $reserva['estado_calculado'] = 'completado';
+        } elseif ($reserva['fecha'] == $fecha_actual) {
+            $reserva['estado_calculado'] = 'hoy';
+        } else {
+            $reserva['estado_calculado'] = 'confirmada';
+        }
+    }
+    unset($reserva);
+    
+    //Separa las reservas entre próximas y el historial.
+
+    unset($reserva);
+    
     $reservas_proximas = array_filter($reservas, function($r) {
-        return $r['estado'] === 'activa' && ($r['estado_calculado'] === 'confirmada' || $r['estado_calculado'] === 'hoy');
+        return $r['estado'] === 'activa' && 
+               ($r['estado_calculado'] === 'confirmada' || $r['estado_calculado'] === 'hoy');
     });
     
     $historial = array_filter($reservas, function($r) {
@@ -90,15 +107,17 @@ try {
             --padel-secondary: #4a7c59;
             --padel-accent: #8bc34a;
             --padel-light: #f8f9fa;
+            --padel-light2: #D9D4D2;
+            --padel-orange: #ff6b35;
         }
 
         body {
-            background-color: var(--padel-light);
+            background-color: #D9D4D2;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         .color-header-bg{
-            background: linear-gradient(135deg, var(--padel-primary) 0%, var(--padel-secondary) 100%);
+            background: linear-gradient(135deg, var(--padel-primary) 0%, var(--padel-orange) 100%);
         }
 
         .profile-header {
@@ -231,8 +250,8 @@ try {
 </head>
 
 <body>
-    <div class="container-fluid p-2 d-flex-justify-content-center bg-dark" style="background-image: url('image/padel-fondo.jpg'); background-size: cover; background-repeat: no-repeat;">
-        <div class="color-header-bg">
+    <div class="container-fluid p-2 d-flex-justify-content-center" >
+        <div class="color-header-bg rounded">
             <!-- Header del Perfil -->
             <div class="profile-header">
                 <div class="container">

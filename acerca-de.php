@@ -339,8 +339,7 @@ if ($nombre) {
                                 <h2 class="section-title">¿Quiénes Somos?</h2>
 
                                 <p class="mb-4">Somos una plataforma innovadora dedicada a revolucionar la forma en que
-                                    los jugadores de pádel reservan y gestionan sus partidos. Desde 2020, hemos
-                                    facilitado más de 100,000 reservas en canchas de toda España.</p>
+                                    los jugadores de pádel reservan y gestionan sus partidos.</p>
 
                                 <p class="mb-4">Nuestro objetivo es hacer que el pádel sea más accesible para todos,
                                     proporcionando una experiencia de reserva fluida y conectando a la comunidad de

@@ -306,7 +306,7 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
         }
 
         .day-selector.active {
-            background-color: #007bff;
+            background-color: #ff6b35;
             color: white;
         }
 
@@ -318,7 +318,7 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
         .day-selector:hover {
             transform: translateY(-2px);
             text-decoration: none;
-            color: #007bff;
+            color: #ff6b35;
         }
 
         .day-selector.active:hover {
@@ -394,7 +394,7 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
 </head>
 
 <body>
-    <div class="container-fluid text-light p-2" style= "background-color: #f0f0f0; min-height: 100vh;">
+    <div class="container-fluid p-0 m-0 text-light " style= "background-color: #f0f0f0; min-height: 100vh;">
 
 
         <!-- Navbar -->
@@ -550,10 +550,9 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
                                     <div class="card-body text-center p-4">
                                         <div class="icon-circle mx-auto mb-3" 
                                             style="width: 60px; height: 60px; background: linear-gradient(135deg, #ffffffff 0%, #ffffffff 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-compass" viewBox="0 0 16 16">
-  <path d="M8 16.016a7.5 7.5 0 0 0 1.962-14.74A1 1 0 0 0 9 0H7a1 1 0 0 0-.962 1.276A7.5 7.5 0 0 0 8 16.016m6.5-7.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0"/>
-  <path d="m6.94 7.44 4.95-2.83-2.83 4.95-4.949 2.83 2.828-4.95z"/>
-</svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cursor" viewBox="0 0 16 16">
+                                            <path d="M14.082 2.182a.5.5 0 0 1 .103.557L8.528 15.467a.5.5 0 0 1-.917-.007L5.57 10.694.803 8.652a.5.5 0 0 1-.006-.916l12.728-5.657a.5.5 0 0 1 .556.103zM2.25 8.184l3.897 1.67a.5.5 0 0 1 .262.263l1.67 3.897L12.743 3.52z"/>
+                                            </svg>
                                         </div>
                                         <h5 class="fw-semibold mb-2 " style="color: #1a1a2e;">Ciudad</h5>
                                         <p class="text-muted mb-0"><?= htmlspecialchars($cancha['ciudad']) ?></p>
@@ -627,7 +626,7 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
             <?php endif; ?>
 
             <!-- Sistema de reserva-->
-            <div class="row mt-4">
+            <div class="row p-1 m-1 mt-4">
                 <div class="col-12">
                     <h3 class="text-center mb-4" style= "color: #0B0519" ><?= $id_usuario ? 'Haz clic para reservar' : 'Horarios disponibles' ?></h3>
 

@@ -103,8 +103,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['accion'] ?? '') === 'edita
 
                 // Solo actualizar si no hubo errores
                 if (empty($error)) {
-                    $stmt = $pdo->prepare("UPDATE cancha SET nombre = ?, lugar = ?, bio = ?, precio = ?, foto = ? WHERE id_cancha = ?");
-                    $stmt->execute([$nombre, $lugar, $bio, $precio, $foto_final, $id]);
+                    $stmt = $pdo->prepare("UPDATE cancha SET nombre = ?, ciudad = ?, direccion = ?, bio = ?, precio = ?, foto = ? WHERE id_cancha = ?");
+                    $stmt->execute([$nombre, $ciudad, $direccion, $bio, $precio, $foto_final, $id]);
                     
                     $msg = "Cancha editada correctamente.";
                     
@@ -725,7 +725,7 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
                                                     <td>
                                                         <strong><?= htmlspecialchars($reserva['cancha_nombre']) ?></strong><br>
                                                         <small
-                                                            class="text-muted"><?= htmlspecialchars($reserva['cancha_lugar']) ?></small>
+                                                            class="text-muted"><?= htmlspecialchars($reserva['cancha_direccion']) ?></small>
                                                     </td>
                                                     <td>
                                                         <strong><?= htmlspecialchars($reserva['usuario_nombre']) ?></strong><br>

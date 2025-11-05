@@ -390,12 +390,19 @@ try {
             font-size: 48px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
+
+        .tab-datos-personales {
+            border: 1px solid #000000ff;
+            border-radius: 10px;
+            padding: 8px;
+            transition: box-shadow 0.3s ease;
+        }
     </style>
 </head>
 
 <body>
     <div class="container-fluid p-2 d-flex-justify-content-center " >
-        <div class="color-header-bg">
+        <div class="color-header-bg rounded">
             <!-- Header del Perfil -->
             <div class="profile-header">
                 <div class="container">
@@ -540,26 +547,26 @@ try {
                                                 <div class="row">
                                                     <div class="col-12 mb-3">
                                                         <label class="form-label">Foto de Perfil</label>
-                                                        <input type="file" name="foto" class="form-control" accept="image/*">
+                                                        <input type="file" name="foto" class="form-control tab-datos-personales" accept="image/*">
                                                         <small class="text-muted">Formatos: JPG, JPEG, PNG. Máximo 5MB.</small>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-6 mb-3">
                                                         <label class="form-label">Nombre</label>
-                                                        <input type="text" name="nombre" class="form-control" 
+                                                        <input type="text" name="nombre" class="form-control tab-datos-personales" 
                                                                value="<?= htmlspecialchars($usuario['nombre']) ?>" required>
                                                     </div>
                                                     <div class="col-md-6 mb-3">
                                                         <label class="form-label">Email</label>
-                                                        <input type="email" name="email" class="form-control"
+                                                        <input type="email" name="email" class="form-control tab-datos-personales"
                                                             value="<?= htmlspecialchars($usuario['email']) ?>" required>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-6 mb-3">
                                                         <label class="form-label">Teléfono</label>
-                                                        <input type="tel" name="telefono" class="form-control" 
+                                                        <input type="tel" name="telefono" class="form-control tab-datos-personales" 
                                                                value="<?= htmlspecialchars($usuario['telefono'] ?? '') ?>">
                                                     </div>
                                                 </div>
@@ -567,7 +574,7 @@ try {
                                                 <div class="row">
                                                     <div class="col-md-6 mb-3">
                                                         <label class="form-label">Categoría</label>
-                                                        <select class="form-control neumorphic-input" id="categoria" name="categoria" required>
+                                                        <select class="form-control tab-datos-personales neumorphic-input" id="categoria" name="categoria" required>
                                                         <option value="1" <?= ($usuario['categoria'] == 1) ? 'selected' : '' ?>>Categoría 1</option>
                                                         <option value="2" <?= ($usuario['categoria'] == 2) ? 'selected' : '' ?>>Categoría 2</option>
                                                         <option value="3" <?= ($usuario['categoria'] == 3) ? 'selected' : '' ?>>Categoría 3</option>
@@ -581,7 +588,7 @@ try {
                                                 <div class="row">
                                                     <div class="col-md-6 mb-3">
                                                         <label class="form-label">Posición</label>
-                                                        <select class="form-control neumorphic-input" id="posicion" name="posicion" required>
+                                                        <select class="form-control tab-datos-personales neumorphic-input" id="posicion" name="posicion" required>
                                                             <option value="Derecha" <?= ($usuario['posicion'] == 'Derecha') ? 'selected' : '' ?>>Derecha</option>
                                                             <option value="Izquierda" <?= ($usuario['posicion'] == 'Izquierda') ? 'selected' : '' ?>>Izquierda</option>
                                                             <option value="SinPreferencia" <?= ($usuario['posicion'] == 'SinPreferencia') ? 'selected' : '' ?>>Sin Preferencia</option>
@@ -606,15 +613,15 @@ try {
                                             <form method="POST">
                                                 <div class="mb-3">
                                                     <label class="form-label">Contraseña Actual</label>
-                                                    <input type="password" name="password_actual" class="form-control" required>
+                                                    <input type="password" name="password_actual" class="form-control tab-datos-personales" required>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label class="form-label">Nueva Contraseña</label>
-                                                    <input type="password" name="nueva_password" class="form-control" required>
+                                                    <input type="password" name="nueva_password" class="form-control tab-datos-personales" required>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label class="form-label">Confirmar Contraseña</label>
-                                                    <input type="password" name="confirmar_password" class="form-control" required>
+                                                    <input type="password" name="confirmar_password" class="form-control tab-datos-personales" required>
                                                 </div>
                                                 <button type="submit" name="cambiar_password" class="btn btn-primary w-100">
                                                     Cambiar Contraseña
