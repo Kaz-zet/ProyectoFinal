@@ -74,7 +74,7 @@ if ($nombre) {
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            background-color: #0D4715;
+            background-color: #F1F0E9;
         }
 
         .contact-card {
@@ -522,8 +522,8 @@ if ($nombre) {
         <!-- Fin FAQ Section -->
 
         <!-- Contacto Section -->
-        <div class="row justify-content-center contact-section">
-            <div class="row text-center text-light mb-4">
+        <div class="row justify-content-center contact-section mt-4 mb-5 p-4">
+            <div class="row text-center text-dark ">
                 <div class="col-12">
                     <h2 class="section-title">Contacto</h2>
                     <p class="section-subtitle">¿Tienes alguna pregunta? Estamos aquí para ayudarte</p>

@@ -215,14 +215,14 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
         }
 
         .nav-link-2 {
-            color: black !important;
+            color: #3f9c43ff !important;
             font-weight: 500;
             transition: all 0.3s ease;
         }
 
         .nav-link-2:hover,
         .nav-link-2.active {
-            color: #F1F0E9 !important;
+            color: black !important;
             transform: translateY(-2px);
         }
 
@@ -261,15 +261,16 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
         }
 
         .btn-warning {
-            background: linear-gradient(135deg, #0478f4ff, #0463c9ff);
+            background: linear-gradient(135deg, #ff6b35, #e05530);
             border: none;
             color: #212529;
             font-weight: 500;
         }
 
         .btn-warning:hover {
-            background: linear-gradient(135deg, #0478f4ff, #0463c9ff);
+            background: linear-gradient(135deg, #ff6b35, #e05530);
             color: #212529;
+        }
         }
 
         .btn-danger {
@@ -366,6 +367,13 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
 
         .nav-tabs .nav-link-2.active:hover {
             background: linear-gradient(135deg, #3f9c43ff, #52a24bff);
+        }
+
+        .modal-editar {
+            border: 1px solid #000000ff;
+            border-radius: 10px;
+            padding: 8px;
+            transition: box-shadow 0.3s ease;
         }
     </style>
 
@@ -584,26 +592,26 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
                                                                         
                                                                         <div class="mb-3">
                                                                             <label class="form-label fw-semibold">Nombre de la cancha</label>
-                                                                            <input class="form-control" type="text" name="nombre" 
+                                                                            <input class="form-control modal-editar" type="text" name="nombre" 
                                                                                 value="<?= htmlspecialchars($cancha['nombre']) ?>"
                                                                                 required placeholder="Ej: Cancha El Crack">
                                                                         </div>
 
                                                                         <div class="mb-3">
                                                                             <label class="form-label fw-semibold">Ubicación</label>
-                                                                            <input class="form-control" type="text" name="ciudad" 
+                                                                            <input class="form-control modal-editar" type="text" name="ciudad" 
                                                                                 value="<?= htmlspecialchars($cancha['ciudad']) ?>"
                                                                                 required placeholder="Ej: Tandil">
                                                                         </div>
                                                                         <div class="mb-3">
                                                                             <label class="form-label fw-semibold">Dirección</label>
-                                                                            <input class="form-control" type="text" name="direccion" 
+                                                                            <input class="form-control modal-editar" type="text" name="direccion" 
                                                                                 value="<?= htmlspecialchars($cancha['direccion']) ?>"
                                                                                 required placeholder="Ej: Calle Falsa 123">
                                                                         </div>
                                                                         <div class="mb-3">
                                                                             <label class="form-label fw-semibold">Descripción</label>
-                                                                            <textarea class="form-control" name="bio" 
+                                                                            <textarea class="form-control modal-editar" name="bio" 
                                                                                     rows="3" required 
                                                                                     placeholder="Describe la cancha..."><?= htmlspecialchars($cancha['bio']) ?></textarea>
                                                                         </div>
@@ -612,7 +620,7 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
                                                                             <label class="form-label fw-semibold">Precio por hora</label>
                                                                             <div class="input-group">
                                                                                 <span class="input-group-text">$</span>
-                                                                                <input class="form-control" type="number" name="precio" 
+                                                                                <input class="form-control modal-editar" type="number" name="precio" 
                                                                                     value="<?= htmlspecialchars($cancha['precio']) ?>"
                                                                                     required placeholder="0" min="0" step="0.01">
                                                                             </div>
@@ -625,7 +633,7 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
                                                                                     class="img-thumbnail" style="max-height: 100px;" 
                                                                                     alt="Foto actual">
                                                                             </div>
-                                                                            <input class="form-control" type="file" name="foto" 
+                                                                            <input class="form-control modal-editar" type="file" name="foto" 
                                                                                 accept="image/*">
                                                                             <div class="form-text">Deja en blanco si no quieres cambiar la foto</div>
                                                                         </div>

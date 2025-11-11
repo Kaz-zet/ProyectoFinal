@@ -337,7 +337,6 @@
      background: linear-gradient(135deg, #009907, #007a05);
      border: none;
      font-weight: 600;
-     transition: transform 0.3s ease;
  }
 
  .btn-primary:hover {
@@ -417,12 +416,9 @@
     box-shadow: 0 0 5px #000000;   /* brillo alrededor */
 
  }
-
- /* index */
- /* .panel-control {
-            background-image: url('image/padel-fondo.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-color: #f8f9fa;
-        } */
+#fondo-iniciosesion, #fondo-registro {
+    background-color: #F1F0E9;
+    background-image: url(image/padel-fondo-light.png); 
+    background-repeat: no-repeat; 
+    background-size: cover;
+}

@@ -360,22 +360,6 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
             display: none;
         }
 
-        .confirm-btn {
-            background-color: #28a745;
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .confirm-btn:hover {
-            background-color: #218838;
-            transform: translateY(-2px);
-        }
-
         .alert-login {
             background-color: #fff3cd;
             border: 1px solid #ffeaa7;

@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     //Valida lo q se le entregue a la cancha.
     $errores = [];
-    
+
     if (empty($nombre)) {
         $errores[] = "El nombre de la cancha es obligatorio.";
     } elseif (strlen($nombre) > 100) {
@@ -41,13 +41,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (strlen($direccion) > 150) {
         $errores[] = "La dirección no puede exceder 150 caracteres.";
     }
-    
+
     if (empty($precio) || !is_numeric($precio) || $precio < 0) {
         $errores[] = "El precio debe ser un número válido mayor o igual a 0.";
     } elseif ($precio > 999999.99) {
         $errores[] = "El precio no puede exceder 999,999.99.";
     }
-    
+
     if (strlen($bio) > 500) {
         $errores[] = "La biografía no puede exceder 500 caracteres.";
     }
@@ -70,37 +70,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             //Se crea un array de errores, en caso de cumplirlos se indica el error, sino se sube correctamente.
         } else {
             $allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
-        $maxSize = 5 * 1024 * 1024; //Se valida tamaño 5MB y tipo.
-        
-        if (!in_array($_FILES['foto']['type'], $allowedTypes)) {
-            //Si se cumplen los demás pero no es del tipo indicado o pesa mucho salta error.
-            $uploadError = 'Solo se permiten archivos JPG, JPEG y PNG.'; 
-        } elseif ($_FILES['foto']['size'] > $maxSize) {
-            $uploadError = 'El archivo es muy grande. Máximo 5MB.';
-        } else {
-            //Crea carpeta uploads si no existe.
-            if (!file_exists('uploads')) {
-                mkdir('uploads', 0777, true); //0777 da permisos de lectura escritura y ejecución.
-                //Y el true permite crear supcarpetas.
-            }
-            
-            //Se crea un nombre único random de la foto para que no haya 2 con el mismo nombre.
-            $extension = pathinfo($_FILES['foto']['name'], PATHINFO_EXTENSION);
-            $filename = 'cancha_' . time() . '_' . rand(1000, 9999) . '.' . $extension;
-            $uploadPath = 'uploads/' . $filename;
-            
-            
-            if (move_uploaded_file($_FILES['foto']['tmp_name'], $uploadPath)) {
-                //Donde se estaba ingresando la foto es una carpeta temporal digamos.
-                //Una vez que se crea esa foto se mueve a la carpeta de fotos. Y se guarda la foto en la base de datos.
-                $foto = $filename; 
+            $maxSize = 5 * 1024 * 1024; //Se valida tamaño 5MB y tipo.
+
+            if (!in_array($_FILES['foto']['type'], $allowedTypes)) {
+                //Si se cumplen los demás pero no es del tipo indicado o pesa mucho salta error.
+                $uploadError = 'Solo se permiten archivos JPG, JPEG y PNG.';
+            } elseif ($_FILES['foto']['size'] > $maxSize) {
+                $uploadError = 'El archivo es muy grande. Máximo 5MB.';
             } else {
-                $uploadError = 'Error al subir la imagen.';
+                //Crea carpeta uploads si no existe.
+                if (!file_exists('uploads')) {
+                    mkdir('uploads', 0777, true); //0777 da permisos de lectura escritura y ejecución.
+                    //Y el true permite crear supcarpetas.
+                }
+
+                //Se crea un nombre único random de la foto para que no haya 2 con el mismo nombre.
+                $extension = pathinfo($_FILES['foto']['name'], PATHINFO_EXTENSION);
+                $filename = 'cancha_' . time() . '_' . rand(1000, 9999) . '.' . $extension;
+                $uploadPath = 'uploads/' . $filename;
+
+
+                if (move_uploaded_file($_FILES['foto']['tmp_name'], $uploadPath)) {
+                    //Donde se estaba ingresando la foto es una carpeta temporal digamos.
+                    //Una vez que se crea esa foto se mueve a la carpeta de fotos. Y se guarda la foto en la base de datos.
+                    $foto = $filename;
+                } else {
+                    $uploadError = 'Error al subir la imagen.';
+                }
             }
         }
     }
-}
-//--------------------------------------------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -119,14 +119,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     INSERT INTO cancha (nombre, ciudad, direccion, bio, foto, id_duenio, precio) 
                     VALUES (?, ?, ?, ?, ?, ?)
                 ');
-                
+
                 $resultado = $stmt->execute([
-                    $nombre, 
-                    $ciudad, 
-                    $direccion, 
-                    $bio, 
-                    $foto, 
-                    $id_duenio, 
+                    $nombre,
+                    $ciudad,
+                    $direccion,
+                    $bio,
+                    $foto,
+                    $id_duenio,
                     $precio
                 ]);
 
@@ -149,6 +149,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -329,12 +330,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             margin: 1rem;
             padding: 1.5rem;
         }
-        
+
         .nav-buttons {
             flex-direction: column;
             align-items: center;
         }
-        
+
         .neumorphic-btn {
             width: 100%;
             max-width: 300px;
@@ -343,15 +344,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </style>
 
 <body>
-    <div class="container-fluid p-2" style="background-image: url('image/padel-fondo.jpg'); background-size: cover; background-repeat: no-repeat;">       
-      <!-- Contenido Principal -->
-        <div id="main" class="d-flex justify-content-center align-items-center min-vh-100 py-4">
+    <div class="container-fluid p-2">
+        <!-- Contenido Principal -->
+        <div id="main" class="justify-content-center align-items-center min-vh-100 py-4">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-8 col-md-10">
                         <div class="neumorphic-card">
                             <h1 class="section-title">Crear Nueva Cancha</h1>
-                            
+
                             <!-- Mensajes-->
                             <?php if (!empty($msg)): ?> <!--Cancha creada correctamente-->
                                 <div class="alert alert-success-custom alert-custom">
@@ -377,17 +378,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <!-- Formulario -->
                             <form method="post" enctype="multipart/form-data" id="formCrearCancha">
                                 <div class="row">
+                                    <!-- Fila 1: Nombre y Ciudad -->
                                     <div class="col-md-6 mb-3">
                                         <label for="nombre" class="form-label">
                                             Nombre de la Cancha <span class="required">*</span>
                                         </label>
-                                        <input type="text" 
-                                               id="nombre" 
-                                               name="nombre" 
-                                               class="form-control neumorphic-input"
-                                               value="<?= htmlspecialchars($_POST['nombre'] ?? '') ?>" 
-                                               maxlength="100" 
-                                               required>
+                                        <input type="text" id="nombre" name="nombre"
+                                            class="form-control neumorphic-input"
+                                            value="<?= htmlspecialchars($_POST['nombre'] ?? '') ?>" maxlength="100"
+                                            required>
                                         <div class="form-help">Máximo 100 caracteres</div>
                                     </div>
 
@@ -395,67 +394,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         <label for="ciudad" class="form-label">
                                             Ciudad <span class="required">*</span>
                                         </label>
-                                        <input type="text" 
-                                               id="ciudad" 
-                                               name="ciudad" 
-                                               class="form-control neumorphic-input"
-                                               value="<?= htmlspecialchars($_POST['ciudad'] ?? '') ?>" 
-                                               maxlength="150" 
-                                               required>
-                                        <div class="form-help">Dirección o zona (máximo 150 caracteres)</div>
+                                        <input type="text" id="ciudad" name="ciudad"
+                                            class="form-control neumorphic-input"
+                                            value="<?= htmlspecialchars($_POST['ciudad'] ?? '') ?>" maxlength="150"
+                                            required>
+                                        <div class="form-help">Ciudad o zona (máximo 150 caracteres)</div>
                                     </div>
 
+                                    <!-- Fila 2: Dirección y Precio -->
                                     <div class="col-md-6 mb-3">
                                         <label for="direccion" class="form-label">
                                             Dirección <span class="required">*</span>
                                         </label>
-                                        <input type="text" 
-                                               id="direccion" 
-                                               name="direccion" 
-                                               class="form-control neumorphic-input"
-                                               value="<?= htmlspecialchars($_POST['direccion'] ?? '') ?>" 
-                                               maxlength="150" 
-                                               required>
+                                        <input type="text" id="direccion" name="direccion"
+                                            class="form-control neumorphic-input"
+                                            value="<?= htmlspecialchars($_POST['direccion'] ?? '') ?>" maxlength="150"
+                                            required>
                                         <div class="form-help">Dirección completa (máximo 150 caracteres)</div>
+                                    </div>
+
+                                    <div class="col-md-6 mb-3">
+                                        <label for="precio" class="form-label">
+                                            Precio por Espacio <span class="required">*</span>
+                                        </label>
+                                        <input type="number" id="precio" name="precio"
+                                            class="form-control neumorphic-input"
+                                            value="<?= htmlspecialchars($_POST['precio'] ?? '') ?>" step="0.01" min="0"
+                                            max="999999.99" required>
+                                        <div class="form-help">Precio por cada espacio de la cancha</div>
+                                    </div>
                                 </div>
 
-                                <div class="mb-3">
-                                    <label for="precio" class="form-label">
-                                        Precio por Espacio <span class="required">*</span>
-                                    </label>
-                                    <input type="number" 
-                                           id="precio" 
-                                           name="precio" 
-                                           class="form-control neumorphic-input"
-                                           value="<?= htmlspecialchars($_POST['precio'] ?? '') ?>" 
-                                           step="0.01" 
-                                           min="0" 
-                                           max="999999.99" 
-                                           required>
-                                    <div class="form-help">Precio que se cobra por cada espacio de la cancha</div>
-                                </div>
-
+                                <!-- Fuera del row: campos de ancho completo -->
                                 <div class="mb-3">
                                     <label for="bio" class="form-label">Biografía</label>
-                                    <textarea id="bio" 
-                                              name="bio" 
-                                              class="form-control neumorphic-textarea"
-                                              maxlength="500" 
-                                              onkeyup="updateCharCounter()"><?= htmlspecialchars($_POST['bio'] ?? '') ?></textarea> <!--Js que detecta cada vez que se presiona una letra-->
-                                    <div class="char-counter"> <!--Charcounter te cuenta cuantos caracteres vas a escribiendo a tiempo real y cuantos faltan por escribir.-->
+                                    <textarea id="bio" name="bio" class="form-control neumorphic-textarea"
+                                        maxlength="500"
+                                        onkeyup="updateCharCounter()"><?= htmlspecialchars($_POST['bio'] ?? '') ?></textarea>
+                                    <div class="char-counter">
                                         <span id="charCount">0</span>/500 caracteres
                                     </div>
-                                    <div class="form-help">Información adicional sobre la cancha (servicios, características, etc.)</div>
+                                    <div class="form-help">Información adicional sobre la cancha</div>
                                 </div>
 
                                 <div class="mb-4">
                                     <label for="foto" class="form-label">Foto de la Cancha</label>
-                                    <input type="file" 
-                                           id="foto" 
-                                           name="foto" 
-                                           class="form-control neumorphic-input"
-                                           accept="image/jpeg,image/png,image/jpg"
-                                           onchange="previewImage(this)">
+                                    <input type="file" id="foto" name="foto" class="form-control neumorphic-input"
+                                        accept="image/jpeg,image/png,image/jpg" onchange="previewImage(this)">
                                     <div class="form-help">Formatos: JPG, JPEG, PNG. Tamaño máximo: 5MB</div>
                                     <img id="preview" class="file-preview" alt="Vista previa">
                                 </div>
@@ -466,7 +451,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         <i class="fas fa-plus me-2"></i>Crear Cancha
                                     </button>
                                     <button type="reset" class="btn neumorphic-btn" onclick="resetForm()">
-                                        <i class="fas fa-eraser me-2"></i>Limpiar <!--Resetform borra todos los datos del formulario.-->
+                                        <i class="fas fa-eraser me-2"></i>Limpiar
+                                        <!--Resetform borra todos los datos del formulario.-->
                                     </button>
                                 </div>
                             </form>
@@ -535,7 +521,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             const counter = document.getElementById('charCount'); //Cuenta las letras de la bio y calcula su longitud.
             const currentLength = textarea.value.length;
             counter.textContent = currentLength;
-            
+
             if (currentLength > 450) { //Avisa si está muy cerca del limite va tomando distintos colores.
                 counter.style.color = '#dc3545';
             } else if (currentLength > 400) {
@@ -550,7 +536,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             const preview = document.getElementById('preview');
             if (input.files && input.files[0]) { //toma la foto que se elige en input.files
                 const reader = new FileReader(); //El file reader permite convertir esa imagen elegida en una url temporal para verse.
-                reader.onload = function(e) {
+                reader.onload = function (e) {
                     preview.src = e.target.result;
                     preview.style.display = 'block';
                 };
@@ -567,32 +553,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         // Validación del formulario
-        document.getElementById('formCrearCancha').addEventListener('submit', function(e) {
+        document.getElementById('formCrearCancha').addEventListener('submit', function (e) {
             const nombre = document.getElementById('nombre').value.trim();
             const ciudad = document.getElementById('ciudad').value.trim();
             const direccion = document.getElementById('direccion').value.trim();
             const precio = document.getElementById('precio').value;
-            
+
             let errores = [];
-            
+
             if (!nombre) errores.push('El nombre es obligatorio');
             if (!ciudad) errores.push('La ciudad es obligatoria');
             if (!direccion) errores.push('La dirección es obligatoria');
             if (!precio || precio < 0) errores.push('El precio debe ser mayor o igual a 0');
-            
+
             if (errores.length > 0) {
                 e.preventDefault(); //Si el formulario no está correcto, se previene de que se cree y se indica cuales son los errores.
                 alert('Por favor corrige los siguientes errores:\n\n• ' + errores.join('\n• ')); //Por cada error una viñeta distinta.
                 return false;
             }
-            
+
             return true;
         });
 
         //Oculta con la clase .alert-custom a todos los elementos desp que pasen 5 segundos de estar activos.
-        setTimeout(function() {
+        setTimeout(function () {
             const alerts = document.querySelectorAll('.alert-custom');
-            alerts.forEach(function(alert) {
+            alerts.forEach(function (alert) {
                 alert.style.transition = 'opacity 0.5s ease';
                 alert.style.opacity = '0';
                 setTimeout(() => alert.remove(), 500);
@@ -603,4 +589,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         updateCharCounter();
     </script>
 </body>
+
 </html>

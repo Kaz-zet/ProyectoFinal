@@ -102,101 +102,101 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <link rel="stylesheet" href="style.css">
+  <style>
+    :root {
+      --bg-color: #e0e5ec;
+      --main-color: #3f4e6d;
+      --shadow-light: #ffffff;
+      --shadow-dark: #a3b1c6;
+    }
+
+    body {
+      background-color: var(--bg-color);
+    }
+
+    .neumorphic-card {
+      background: var(--bg-color);
+      border-radius: 20px;
+      padding: 3rem;
+      max-width: 450px;
+      width: 100%;
+      transition: all .8s ease-in-out;
+    }
+
+  
+
+    .neumorphic-input {
+      height: 50px;
+      background-color: var(--bg-color);
+      border: none;
+      border-radius: 10px;
+      box-shadow: inset 5px 5px 10px var(--shadow-dark), inset -5px -5px 10px var(--shadow-light);
+      transition: all 0.3s ease;
+    }
+
+    .neumorphic-input:focus {
+      background-color: var(--bg-color);
+      box-shadow: inset 2px 2px 5px var(--shadow-dark), inset -2px -2px 5px var(--shadow-light), 0 0 0 3px var(--main-color);
+      border: none;
+      outline: none;
+    }
+
+    .neumorphic-btn {
+      margin-top: 15px;
+      background-color: var(--bg-color);
+      column-rule: var(--main-color);
+      border-radius: 10px;
+      font-weight: 600;
+      box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
+      transition: all 0.5s ease-in-out;
+      border: none;
+      padding: 1rem;
+
+    }
+
+    .neumorphic-btn:hover {
+      transform: scale(0.98);
+      background-color: var(--main-color);
+      color: var(--shadow-light);
+    }
+
+    .form.label {
+      color: var(--main-color);
+      font-weight: 500;
+    }
+
+    .alert-custom {
+      border-radius: 10px;
+      border: none;
+      box-shadow: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light);
+      margin-bottom: 1rem;
+    }
+
+    .role-info {
+      background: var(--bg-color);
+      border-radius: 15px;
+      box-shadow: inset 3px 3px 6px var(--shadow-dark), inset -3px -3px 6px var(--shadow-light);
+      padding: 1rem;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+      color: var(--main-color);
+    }
+
+    .role-info h6 {
+      color: var(--main-color);
+      margin-bottom: 0.5rem;
+    }
+
+    .role-info small {
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+  </style>
 </head>
-<style>
-  :root {
-    --bg-color: #e0e5ec;
-    --main-color: #3f4e6d;
-    --shadow-light: #ffffff;
-    --shadow-dark: #a3b1c6;
-  }
 
-  body {
-    background-color: var(--bg-color);
-  }
-
-  .neumorphic-card {
-    background: var(--bg-color);
-    border-radius: 20px;
-    padding: 3rem;
-    max-width: 450px;
-    width: 100%;
-    transition: all .8s ease-in-out;
-  }
-
- 
-
-  .neumorphic-input {
-    height: 50px;
-    background-color: var(--bg-color);
-    border: none;
-    border-radius: 10px;
-    box-shadow: inset 5px 5px 10px var(--shadow-dark), inset -5px -5px 10px var(--shadow-light);
-    transition: all 0.3s ease;
-  }
-
-  .neumorphic-input:focus {
-    background-color: var(--bg-color);
-    box-shadow: inset 2px 2px 5px var(--shadow-dark), inset -2px -2px 5px var(--shadow-light), 0 0 0 3px var(--main-color);
-    border: none;
-    outline: none;
-  }
-
-  .neumorphic-btn {
-    margin-top: 15px;
-    background-color: var(--bg-color);
-    column-rule: var(--main-color);
-    border-radius: 10px;
-    font-weight: 600;
-    box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
-    transition: all 0.5s ease-in-out;
-    border: none;
-    padding: 1rem;
-
-  }
-
-  .neumorphic-btn:hover {
-    transform: scale(0.98);
-    background-color: var(--main-color);
-    color: var(--shadow-light);
-  }
-
-  .form.label {
-    color: var(--main-color);
-    font-weight: 500;
-  }
-
-  .alert-custom {
-    border-radius: 10px;
-    border: none;
-    box-shadow: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light);
-    margin-bottom: 1rem;
-  }
-
-  .role-info {
-    background: var(--bg-color);
-    border-radius: 15px;
-    box-shadow: inset 3px 3px 6px var(--shadow-dark), inset -3px -3px 6px var(--shadow-light);
-    padding: 1rem;
-    margin-bottom: 1rem;
-    font-size: 0.9rem;
-    color: var(--main-color);
-  }
-
-  .role-info h6 {
-    color: var(--main-color);
-    margin-bottom: 0.5rem;
-  }
-
-  .role-info small {
-    display: block;
-    margin-bottom: 0.3rem;
-  }
-</style>
 
 <body>
-  <div class="container-fluid p-2"
-    style="background-image: url('image/padel-fondo.jpg'); background-size: cover; background-repeat: no-repeat;">
+  <div class="container-fluid p-2" id="fondo-iniciosesion">
 
     <!--formulario-->
     <div id="main" class="d-flex justify-content-center align-items-center min-vh-100">
