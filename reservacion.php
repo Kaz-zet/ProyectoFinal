@@ -1023,68 +1023,108 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
                     </div>
                 <?php endif; ?>
 
-                <!--COMENTARIOS Y VALORACIONES DE USUARIOS (SE VE RARO)-->
-                <div class="row" style="background-color: #f0f0f0f0; border-radius: 16px;">
-                    <div class="col-md-10 offset-md-1">
-                        <?php if (!empty($valoraciones)): ?>
-                            <?php foreach ($valoraciones as $v): ?>
-                                <div class="border-0"> <!--Agregar card si querer, pero se ve con el hover auto puesto.-->
-                                    <div class="card-body" style="background-color: #f0f0f0; ">
-                                        <div class="d-flex align-items-center mb-2" style="background-color: #f0f0f0;">
+                <!--COMENTARIOS Y VALORACIONES DE USUARIOS-->
+<div class="row" style="background-color: #f0f0f0f0; border-radius: 16px;">
+    <div class="col-md-10 offset-md-1">
+        <?php if (!empty($valoraciones)): ?>
+            <div id="contenedorValoraciones">
+                <?php foreach ($valoraciones as $index => $v): ?>
+                    <div class="valoracion-item border-0 <?= $index >= 1 ? 'valoracion-oculta' : '' ?>" 
+                         style="<?= $index >= 1? 'display: none;' : '' ?>">
+                        <div class="card-body" style="background-color: #f0f0f0;">
+                            <div class="d-flex align-items-center mb-2" style="background-color: #f0f0f0;">
 
-                                            <!--FOTO DEL USUARIO PARA EL COMENTARIO-->
-                                            <?php if (!empty($v['foto'])): ?>
-                                                <a href="perfil_otro.php?id=<?= $v['id_usuario'] ?>">
-                                                    <img src="uploads/usuarios/<?= htmlspecialchars($v['foto']) ?>"
-                                                        alt="<?= htmlspecialchars($v['nombre']) ?>"
-                                                        class="rounded-circle me-3 text-dark" width="50" height="50"
-                                                        style="object-fit: cover;">
-                                                </a>
-                                            <?php else: ?>
-                                                <a href="perfil_otro.php?id=<?= $v['id_usuario'] ?>" style="text-decoration: none;">
-                                                    <div class="rounded-circle text-dark me-3 d-flex align-items-center justify-content-center"
-                                                        style="width: 50px; height: 50px; font-size: 20px; font-weight: bold; background-color: 0D4715;  ">
-                                                        <?= strtoupper(substr($v['nombre'], 0, 1)) ?>
-                                                    </div>
-                                                </a>
-                                            <?php endif; ?>
-
-
-                                            <div class="flex-grow-1">
-                                                <a href="perfil_otro.php?id=<?= $v['id_usuario'] ?>"
-                                                    style="color: inherit; text-decoration: none;">
-                                                    <h5 class="mb-0 text-dark"><?= htmlspecialchars($v['nombre']) ?></h5>
-                                                </a>
-                                                <div class="text-warning">
-                                                    <?php for ($i = 1; $i <= 5; $i++): ?>
-                                                        <?= $i <= $v['valor'] ? '★' : '☆' ?>
-                                                    <?php endfor; ?>
-                                                    <span class="text-dark ms-2 small">
-                                                        <?= date('d/m/Y', strtotime($v['fecha'])) ?>
-                                                    </span>
-                                                </div>
-                                            </div>
+                                <!--FOTO DEL USUARIO PARA EL COMENTARIO-->
+                                <?php if (!empty($v['foto'])): ?>
+                                    <a href="perfil_otro.php?id=<?= $v['id_usuario'] ?>">
+                                        <img src="uploads/usuarios/<?= htmlspecialchars($v['foto']) ?>"
+                                            alt="<?= htmlspecialchars($v['nombre']) ?>" class="rounded-circle me-3 text-dark"
+                                            width="50" height="50" style="object-fit: cover;">
+                                    </a>
+                                <?php else: ?>
+                                    <a href="perfil_otro.php?id=<?= $v['id_usuario'] ?>" style="text-decoration: none;">
+                                        <div class="rounded-circle text-dark me-3 d-flex align-items-center justify-content-center"
+                                            style="width: 50px; height: 50px; font-size: 20px; font-weight: bold; background-color: 0D4715;">
+                                            <?= strtoupper(substr($v['nombre'], 0, 1)) ?>
                                         </div>
-                                        <?php if (!empty($v['comentario'])): ?>
-                                            <p class="card-text mb-0" style="color: #0B0519">
-                                                <?= nl2br(htmlspecialchars($v['comentario'])) ?></p>
-                                        <?php endif; ?>
+                                    </a>
+                                <?php endif; ?>
+
+                                <div class="flex-grow-1">
+                                    <a href="perfil_otro.php?id=<?= $v['id_usuario'] ?>" style="color: inherit; text-decoration: none;">
+                                        <h5 class="mb-0 text-dark"><?= htmlspecialchars($v['nombre']) ?></h5>
+                                    </a>
+                                    <div class="text-warning">
+                                        <?php for ($i = 1; $i <= 5; $i++): ?>
+                                            <?= $i <= $v['valor'] ? '★' : '☆' ?>
+                                        <?php endfor; ?>
+                                        <span class="text-dark ms-2 small">
+                                            <?= date('d/m/Y', strtotime($v['fecha'])) ?>
+                                        </span>
                                     </div>
                                 </div>
-                            <?php endforeach; ?>
-                        <?php else: ?>
-                            <div class="text-center py-5">
-                                <p class="fs-5" style="color: #0B0519">Todavía no hay valoraciones para esta cancha.</p>
                             </div>
-                        <?php endif; ?>
+                            <?php if (!empty($v['comentario'])): ?>
+                                <p class="card-text mb-0" style="color: #0B0519"><?= nl2br(htmlspecialchars($v['comentario'])) ?></p>
+                            <?php endif; ?>
+                        </div>
                     </div>
-                </div>
+                <?php endforeach; ?>
             </div>
-        </div>
 
+            <!-- Botón Ver más / Ver menos -->
+            <?php if (count($valoraciones) > 1): ?>
+                <div class="text-center mt-4 mb-3">
+                    <button id="btnVerMas" class="btn btn-outline-primary px-5" onclick="toggleValoraciones()">
+                        Ver más valoraciones (<?= count($valoraciones) - 1 ?> más)
+                    </button>
+                </div>
+            <?php endif; ?>
 
+        <?php else: ?>
+            <div class="text-center py-5">
+                <p class="fs-5" style="color: #0B0519">Todavía no hay valoraciones para esta cancha.</p>
+            </div>
+        <?php endif; ?>
+    </div>
+</div>
 
-
+<script>
+// JavaScript para Ver más/menos valoraciones
+function toggleValoraciones() {
+    const valoracionesOcultas = document.querySelectorAll('.valoracion-oculta');
+    const btnVerMas = document.getElementById('btnVerMas');
+    const totalOcultas = valoracionesOcultas.length;
+    
+    // Verificar si están ocultas o visibles
+    const primerElemento = valoracionesOcultas[0];
+    const estaOculto = primerElemento.style.display === 'none';
+    
+    if (estaOculto) {
+        // Mostrar todas
+        valoracionesOcultas.forEach(val => {
+            val.style.display = 'block';
+        });
+        btnVerMas.textContent = 'Ver menos';
+        btnVerMas.classList.remove('btn-outline-primary');
+        btnVerMas.classList.add('btn-outline-secondary');
+    } else {
+        // Ocultar
+        valoracionesOcultas.forEach(val => {
+            val.style.display = 'none';
+        });
+        btnVerMas.textContent = `Ver más valoraciones (${totalOcultas} más)`;
+        btnVerMas.classList.remove('btn-outline-secondary');
+        btnVerMas.classList.add('btn-outline-primary');
+        
+        // Scroll suave hacia las valoraciones
+        document.querySelector('.row.mt-5 h3').scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'start' 
+        });
+    }
+}
+</script>
 
         <!-- Footer -->
         <footer class="mt-5">
