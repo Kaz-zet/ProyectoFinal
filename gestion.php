@@ -9,6 +9,22 @@ $idduenio = $_SESSION['id'] ?? null; //Creo variable para sacar la ID
 
 $id_usuario = $_SESSION['id'] ?? null;
 
+//---------------FOTO DE PERFIL----------------------------------------------
+if ($nombre) {
+  require_once 'conexiones/conDB.php';
+  try {
+    $stmt = $pdo->prepare("SELECT foto FROM usuario WHERE nombre = ?");
+    $stmt->execute([$nombre]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($row && !empty($row['foto'])) {
+      $foto = $row['foto'];
+    }
+  } catch (PDOException $e) {
+    error_log("Error fetching foto: " . $e->getMessage());
+  }
+}
+//----------------------------------------------------------------
+
 if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'duenio') {
     die("Solo los dueños pueden acceder a esta página.");
 }

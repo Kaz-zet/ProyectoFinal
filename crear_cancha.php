@@ -117,7 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 //Sino se crea.
                 $stmt = $pdo->prepare('
                     INSERT INTO cancha (nombre, ciudad, direccion, bio, foto, id_duenio, precio) 
-                    VALUES (?, ?, ?, ?, ?, ?)
+                    VALUES (?, ?, ?, ?, ?, ?, ?)
                 ');
 
                 $resultado = $stmt->execute([

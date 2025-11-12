@@ -1084,7 +1084,7 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
                                 <div class="text-center mt-4 mb-3">
                                     <button id="btnVerMas" class="btn px-5"
                                         onclick="toggleValoraciones()"
-                                        style="background-color: #52a24bff; color: white; border: none;">
+                                        style="background-color: #ff8a50; color: white; border: none;">
                                         Ver más valoraciones (<?= count($valoraciones) - 1 ?> más)
                                     </button>
                                 </div>
