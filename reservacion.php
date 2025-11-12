@@ -9,6 +9,7 @@ date_default_timezone_set('America/Argentina/Buenos_Aires');
 $id_usuario = $_SESSION['id'] ?? null;
 $msg = '';
 $error = '';
+$puede_reservar = ($id_usuario && $rol !== 'duenio');
 
 //---------------FOTO DE PERFIL----------------------------------------------
 if ($nombre) {
@@ -612,11 +613,15 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
                 </div>
             </div>
 
-            <?php if (!$id_usuario): ?>
-                <div class="alert-login">
-                    <a href="inicioses.php">Inicia sesión</a> para poder reservar esta cancha
-                </div>
-            <?php endif; ?>
+           <?php if (!$id_usuario): ?>
+    <div class="alert-login">
+        <a href="inicioses.php">Inicia sesión</a> para poder reservar esta cancha
+    </div>
+<?php elseif ($rol === 'duenio'): ?>
+    <div class="alert alert-warning text-center" style="background-color: #fff3cd; border: 1px solid #ffeaa7; color: #856404; padding: 15px; border-radius: 8px; margin: 20px 0;">
+        Los dueños no pueden realizar reservas. Esta función es solo para jugadores.
+    </div>
+<?php endif; ?>
 
             <!-- Sistema de reserva-->
             <div class="row p-1 m-1 mt-4">
@@ -735,7 +740,7 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
                                     <?php endif; ?>
 
                                 <?php else: // disponible ?>
-                                    <?php if ($id_usuario): ?>
+                                    <?php if ($puede_reservar): ?>
                                         <a href="reserva.php?id_cancha=<?= $id_cancha ?>&fecha=<?= $fecha_mostrar ?>&hora_inicio=<?= $hora ?>"
                                             class="time-slot disponible">
                                             <div class="fs-5 fw-bold"><?= $hora ?></div>
