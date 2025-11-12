@@ -114,51 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       background-color: var(--bg-color);
     }
 
-    .neumorphic-card {
-      background: var(--bg-color);
-      border-radius: 20px;
-      padding: 3rem;
-      max-width: 450px;
-      width: 100%;
-      transition: all .8s ease-in-out;
-    }
-
-  
-
-    .neumorphic-input {
-      height: 50px;
-      background-color: var(--bg-color);
-      border: none;
-      border-radius: 10px;
-      box-shadow: inset 5px 5px 10px var(--shadow-dark), inset -5px -5px 10px var(--shadow-light);
-      transition: all 0.3s ease;
-    }
-
-    .neumorphic-input:focus {
-      background-color: var(--bg-color);
-      box-shadow: inset 2px 2px 5px var(--shadow-dark), inset -2px -2px 5px var(--shadow-light), 0 0 0 3px var(--main-color);
-      border: none;
-      outline: none;
-    }
-
-    .neumorphic-btn {
-      margin-top: 15px;
-      background-color: var(--bg-color);
-      column-rule: var(--main-color);
-      border-radius: 10px;
-      font-weight: 600;
-      box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
-      transition: all 0.5s ease-in-out;
-      border: none;
-      padding: 1rem;
-
-    }
-
-    .neumorphic-btn:hover {
-      transform: scale(0.98);
-      background-color: var(--main-color);
-      color: var(--shadow-light);
-    }
+    
 
     .form.label {
       color: var(--main-color);
@@ -196,7 +152,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 <body>
-  <div class="container-fluid p-2" id="fondo-iniciosesion">
+  <div class="container-fluid pt-2 pb-0 m-0" id="fondo-iniciosesion" style="min-height: 100vh;">
 
     <!--formulario-->
     <div id="main" class="d-flex justify-content-center align-items-center min-vh-100">

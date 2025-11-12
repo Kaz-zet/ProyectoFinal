@@ -271,7 +271,6 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
             background: linear-gradient(135deg, #ff6b35, #e05530);
             color: #212529;
         }
-        }
 
         .btn-danger {
             background: linear-gradient(135deg, #dc3545, #c82333);
@@ -375,6 +374,13 @@ $reservas = obtenerreservasduenio($pdo, $id_duenio, $_GET['desde'] ?? null, $fil
             padding: 8px;
             transition: box-shadow 0.3s ease;
         }
+        .hero-section {
+            backdrop-filter: blur(20px);
+            background-color: rgba(63, 156, 67, 0.8);
+            /* semitransparente */
+            padding: 20px;
+            border-end-end-radius: 10px;
+         }
     </style>
 
 </head>

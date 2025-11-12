@@ -144,6 +144,16 @@ if ($calendario)
 
   <!-- Estilos para el tutorial -->
   <style>
+    .btn-dueño {
+      background: linear-gradient(135deg, #ff8a50 0%, #ff6b35 100%);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: 600;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: background 0.3s ease;
+    }
     .tutorial-overlay {
       position: fixed;
       top: 0;
@@ -399,7 +409,7 @@ if ($calendario)
           <?php endif; ?>
 
           <!--Botón para iniciar tutorial-->
-          <button id="btnIniciarTutorial" class="btn btn-info mt-2 mb-3">
+          <button id="btnIniciarTutorial" class="btn btn-info mt-2 mb-3 d-none d-lg-block">
             <i class="fas fa-question-circle"></i> Ver Tutorial
           </button>
 
@@ -411,7 +421,7 @@ if ($calendario)
 
             <?php if ($rol === 'usuario'): ?>
               <form method="post" class="d-inline">
-                <button type="submit" name="pedir" class="btn btn-warning" id="btnDueño">Ser Dueño</button>
+                <button type="submit" name="pedir" class="btn btn-dueño" id="btnDueño">Ser Dueño</button>
               </form>
             <?php elseif (!$nombre): ?>
               <a href="inicioses.php" class="btn btn-primary">Iniciar Sesión</a>

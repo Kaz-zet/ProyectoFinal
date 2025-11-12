@@ -160,105 +160,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 
 <style>
-    :root {
-        --bg-color: #e0e5ec;
-        --main-color: #3f4e6d;
-        --shadow-light: #ffffff;
-        --shadow-dark: #a3b1c6;
-        --success-color: #28a745;
-        --error-color: #dc3545;
-    }
-
-    body {
-        background-color: var(--bg-color);
-        min-height: 100vh;
-    }
-
-    .neumorphic-card {
-        background: var(--bg-color);
-        border-radius: 20px;
-        box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
-        padding: 2rem;
-        margin-bottom: 2rem;
-        transition: all 0.3s ease-in-out;
-    }
-
-    .neumorphic-card:hover {
-        box-shadow: 12px 12px 20px var(--shadow-dark), -12px -12px 20px var(--shadow-light);
-    }
-
-    .neumorphic-input {
-        height: 50px;
-        background-color: var(--bg-color);
-        border: none;
-        border-radius: 10px;
-        box-shadow: inset 5px 5px 10px var(--shadow-dark), inset -5px -5px 10px var(--shadow-light);
-        transition: all 0.3s ease;
-        padding: 0 15px;
-        color: var(--main-color);
-    }
-
-    .neumorphic-input:focus {
-        background-color: var(--bg-color);
-        box-shadow: inset 2px 2px 5px var(--shadow-dark), inset -2px -2px 5px var(--shadow-light), 0 0 0 3px rgba(63, 78, 109, 0.3);
-        border: none;
-        outline: none;
-        color: var(--main-color);
-    }
-
-    .neumorphic-textarea {
-        min-height: 100px;
-        background-color: var(--bg-color);
-        border: none;
-        border-radius: 10px;
-        box-shadow: inset 5px 5px 10px var(--shadow-dark), inset -5px -5px 10px var(--shadow-light);
-        transition: all 0.3s ease;
-        padding: 15px;
-        color: var(--main-color);
-        resize: vertical;
-    }
-
-    .neumorphic-textarea:focus {
-        background-color: var(--bg-color);
-        box-shadow: inset 2px 2px 5px var(--shadow-dark), inset -2px -2px 5px var(--shadow-light), 0 0 0 3px rgba(63, 78, 109, 0.3);
-        border: none;
-        outline: none;
-        color: var(--main-color);
-    }
-
-    .neumorphic-btn {
-        background-color: var(--bg-color);
-        color: var(--main-color);
-        border-radius: 10px;
-        font-weight: 600;
-        box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
-        transition: all 0.3s ease-in-out;
-        border: none;
-        padding: 1rem 2rem;
-    }
-
-    .neumorphic-btn:hover {
-        transform: scale(0.98);
-        background-color: var(--main-color);
-        color: var(--shadow-light);
-    }
-
-    .neumorphic-btn-success {
-        background-color: var(--success-color);
-        color: white;
-        border-radius: 10px;
-        font-weight: 600;
-        box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
-        transition: all 0.3s ease-in-out;
-        border: none;
-        padding: 1rem 2rem;
-    }
-
-    .neumorphic-btn-success:hover {
-        transform: scale(0.98);
-        background-color: #218838;
-        color: white;
-    }
+    
 
     .form-label {
         color: var(--main-color);
@@ -344,11 +246,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </style>
 
 <body>
-    <div class="container-fluid p-2">
+    <div class="container-fluid pt-2 pb-0 m-0" id="fondo-crear-cancha" style="min-height: 100vh;">
         <!-- Contenido Principal -->
-        <div id="main" class="justify-content-center align-items-center min-vh-100 py-4">
+        <div id="main" class="d-flex justify-content-center align-items-center py-4">
             <div class="container">
-                <div class="row justify-content-center">
+                <div class="row justify-content-center w-100">
                     <div class="col-lg-8 col-md-10">
                         <div class="neumorphic-card">
                             <h1 class="section-title">Crear Nueva Cancha</h1>
@@ -462,7 +364,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </div>
 
-        <!-- Footer -->
+       <!-- Footer -->
         <footer>
             <div class="row p-5 bg-secondary text-white">
                 <div class="col-xs-12 col-md-6 col-lg-3 mb-3">
@@ -478,9 +380,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                 <div class="col-xs-12 col-md-6 col-lg-3 mb-3">
                     <h5 class="mb-2">Contacto</h5>
-                    <p class="mb-1">Email: info@canchapp.com</p>
-                    <p class="mb-1">Tel: +54 11 1234-5678</p>
-                    <p class="mb-1">Dirección: Av. Pádel 123, Buenos Aires</p>
+                    <p class="mb-1">Email: canchappcorp@gmail.com</p>
+                    <p class="mb-1">Tel: +54 2494-648225</p>
+                    <p class="mb-1">Dirección: Av. Pádel 123 ,Tandil ,Buenos Aires</p>
                 </div>
                 <div class="col-xs-12 col-md-6 col-lg-3 mb-3">
                     <h5 class="mb-2">Síguenos</h5>

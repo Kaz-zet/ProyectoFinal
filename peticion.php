@@ -52,80 +52,7 @@ try {
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
-    .neumorphic-card {
-        background: var(--bg-color);
-        border-radius: 20px;
-        box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
-        padding: 3rem;
-        max-width: 500px;
-        width: 100%;
-        transition: all 0.8s ease-in-out;
-    }
-
-    .neumorphic-card:hover {
-        box-shadow: 8px 8px 16px var(--shadow-light), -8px -8px 16px var(--shadow-dark);
-    }
-
-    .neumorphic-btn {
-        background-color: var(--bg-color);
-        color: var(--main-color);
-        border-radius: 10px;
-        font-weight: 600;
-        box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
-        transition: all 0.5s ease-in-out;
-        border: none;
-        padding: 1rem 2rem;
-        width: 100%;
-        margin: 1rem 0;
-    }
-
-    .neumorphic-btn:hover {
-        transform: scale(0.98);
-        background-color: var(--main-color);
-        color: var(--shadow-light);
-    }
-
-    .neumorphic-btn-success {
-        background-color: var(--success-color);
-        color: white;
-        border-radius: 10px;
-        font-weight: 600;
-        box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
-        transition: all 0.5s ease-in-out;
-        border: none;
-        padding: 1rem 2rem;
-        width: 100%;
-        margin: 1rem 0;
-    }
-
-    .neumorphic-btn-success:hover {
-        transform: scale(0.98);
-        background-color: #218838;
-        color: white;
-    }
-
-    .neumorphic-btn-back {
-        background-color: var(--bg-color);
-        color: var(--main-color);
-        border-radius: 10px;
-        font-weight: 600;
-        box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
-        transition: all 0.5s ease-in-out;
-        border: none;
-        padding: 0.75rem 1.5rem;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .neumorphic-btn-back:hover {
-        transform: scale(0.98);
-        background-color: var(--main-color);
-        color: var(--shadow-light);
-        text-decoration: none;
-    }
-
+    
     .alert-custom {
         border-radius: 15px;
         border: none;
@@ -216,7 +143,7 @@ try {
 </style>
 
 <body>
-    <div class="container-fluid p-2" style="background-image: url('image/padel-fondo.jpg'); background-size: cover; background-repeat: no-repeat;">
+    <div class="container-fluid pt-2 pb-0 m-0" style="background-image: url('image/padel-fondo-dark.png'); background-size: cover; background-repeat: no-repeat; min-height: 100vh;">
         <div id="main" class="d-flex justify-content-center align-items-center min-vh-100">
             <div class="neumorphic-card">
                 <h1 class="title">Solicitar ser Dueño</h1>
@@ -241,7 +168,7 @@ try {
                             <p>Al enviar esta solicitud, un administrador revisará tu petición. El proceso puede demorar indefinidamente.</p>
                         </div>
                         
-                        <button type="submit" class="btn neumorphic-btn-success">
+                        <button type="submit" class="btn neumorphic-btn-success justify-content-center d-flex mx-auto mb-3">
                             <i class="fas fa-paper-plane me-2"></i>Enviar Solicitud
                         </button>
                     </form>
@@ -261,6 +188,41 @@ try {
             </div>
         </div>
     </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="row p-5 bg-secondary text-white">
+            <div class="col-xs-12 col-md-6 col-lg-3 mb-3">
+                <h3 class="mb-2">CanchApp</h3>
+                <p>Tu sitio de confianza para reservar y gestionar canchas de pádel.</p>
+            </div>
+            <div class="col-xs-12 col-md-6 col-lg-3 mb-3">
+                <h5 class="mb-2">Enlaces</h5>
+                <a href="#" class="d-block text-white text-decoration-none mb-1">Inicio</a>
+                <a href="#" class="d-block text-white text-decoration-none mb-1">Sobre Nosotros</a>
+                <a href="#" class="d-block text-white text-decoration-none mb-1">Servicios</a>
+                <a href="#" class="d-block text-white text-decoration-none mb-1">Contacto</a>
+            </div>
+            <div class="col-xs-12 col-md-6 col-lg-3 mb-3">
+                <h5 class="mb-2">Contacto</h5>
+                <p class="mb-1">Email: canchappcorp@gmail.com</p>
+                <p class="mb-1">Tel: +54 2494-648225</p>
+                <p class="mb-1">Dirección: Av. Pádel 123 ,Tandil ,Buenos Aires</p>
+            </div>
+            <div class="col-xs-12 col-md-6 col-lg-3 mb-3">
+                <h5 class="mb-2">Síguenos</h5>
+                <a href="#" class="d-block text-white text-decoration-none mb-1">Instagram</a>
+                <a href="#" class="d-block text-white text-decoration-none mb-1">Facebook</a>
+                <a href="#" class="d-block text-white text-decoration-none mb-1">Twitter</a>
+            </div>
+        </div>
+        <div class="row bg-dark text-white text-center py-2">
+            <div class="col-12">
+                <small>&copy; 2025 CanchApp. Todos los derechos reservados.</small>
+            </div>
+        </div>
+    </footer>
+    <!-- Fin Footer -->
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
