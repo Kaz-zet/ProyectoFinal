@@ -144,88 +144,94 @@ if ($calendario)
 
   <!-- Estilos para el tutorial -->
   <style>
-    .btn-dueño {
-      background: linear-gradient(135deg, #ff8a50 0%, #ff6b35 100%);
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 16px;
-      font-weight: 600;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      transition: background 0.3s ease;
-    }
-    .tutorial-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.7);
-      /*Esto cambia el fondo que se ilumina*/
-      display: none;
-      z-index: 9998;
-    }
+  .btn-dueño {
+    background: linear-gradient(135deg, #ff8a50 0%, #ff6b35 100%);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s ease;
+  }
+  
+  .tutorial-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    display: none;
+    z-index: 9998;
+    pointer-events: none;
+    background: transparent;
+  }
 
-    .tutorial-highlight {
-      position: relative;
-      z-index: 9999 !important;
-      box-shadow: 0 0 0 4px rgba(255, 255, 0, 0.8), 0 0 20px rgba(255, 255, 0, 0.5);
-      /*Esto cambia el recuadro que se ilumina*/
-      border-radius: 6px;
-      transition: all 0.3s ease;
-    }
+  .tutorial-highlight {
+    position: relative;
+    z-index: 9999 !important;
+    box-shadow: 0 0 0 4px rgba(255, 255, 0, 0.8), 
+                0 0 20px rgba(255, 255, 0, 0.5),
+                0 0 0 9999px rgba(0, 0, 0, 0.7) !important;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    background-color: inherit; 
+  }
+  
 
-    .tutorial-tooltip {
-      position: absolute;
-      background: white;
-      color: #333;
-      padding: 15px 20px;
-      border-radius: 10px;
-      font-size: 14px;
-      max-width: 280px;
-      z-index: 10000;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-      /*Esto cambia la letra de color*/
-      text-align: center;
-    }
+  .tutorial-highlight * {
+    position: relative;
+    z-index: 10000 !important;
+  }
 
-    .tutorial-tooltip p {
-      margin: 0 0 10px 0;
-      /*Para la letra tamb*/
-      line-height: 1.4;
-    }
+  .tutorial-tooltip {
+    position: absolute;
+    background: white;
+    color: #333;
+    padding: 15px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    max-width: 280px;
+    z-index: 10001;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    pointer-events: auto; 
+  }
 
-    .tutorial-btn-container {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-      /*Contenedor del tutorial!*/
-      margin-top: 10px;
-    }
+  .tutorial-tooltip p {
+    margin: 0 0 10px 0;
+    line-height: 1.4;
+  }
 
-    .tutorial-btn {
-      background: #088d03ff;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      padding: 8px 16px;
-      cursor: pointer;
-      font-size: 13px;
-      transition: background 0.2s;
-    }
+  .tutorial-btn-container {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 10px;
+  }
 
-    .tutorial-btn:hover {
-      background: #088d03ff;
-    }
+  .tutorial-btn {
+    background: #088d03ff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: background 0.2s;
+  }
 
+  .tutorial-btn:hover {
+    background: #077502ff;
+  }
 
-    .tutorial-progress {
-      font-size: 11px;
-      color: #666;
-      /*Esto es lo que dice 1/7 y asi*/
-      margin-top: 8px;
-    }
-
+  .tutorial-progress {
+    font-size: 11px;
+    color: #666;
+    margin-top: 8px;
+  }
+  
     /* cards de favoritos */
     .card-image {
       background: linear-gradient(135deg, #e0e0e0 0%, #f5f5f5 100%);
@@ -396,7 +402,7 @@ if ($calendario)
         <div
           class="col-12 d-flex flex-column justify-content-center align-items-center text-center rounded blur-container">
           <h1 class="text-center-left text-white">
-            ¡Hola, <?= htmlspecialchars($nombre ?? 'a CanchApp') ?>!
+            ¡Bienvenido/a, <?= htmlspecialchars($nombre ?? 'a CanchApp') ?>!
           </h1>
           <?php if ($rol === 'usuario'): ?>
             <p class="text-center-left text-white">Tu sitio de confianza para reservar canchas.</p>
