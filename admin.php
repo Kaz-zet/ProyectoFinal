@@ -327,7 +327,7 @@ try {
 </style>
 
 <body>
-    <div class="container-fluid p-2" style="background-image: url('image/padel-fondo.jpg'); background-size: cover; background-repeat: no-repeat;">
+    <div class="container-fluid p-2" style="background-image: url('image/padel-fondo-dark.png'); background-size: cover; background-repeat: no-repeat;">
         <div id="main" class="d-flex justify-content-center align-items-center min-vh-100 py-4">
             <div class="neumorphic-card">
                 <h1 class="title">

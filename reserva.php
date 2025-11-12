@@ -350,42 +350,6 @@ if ($id_cancha && $fecha && $hora_inicio) {
       color: white;
     }
 
-    .neumorphic-select {
-      height: 50px;
-      background-color: var(--bg-color);
-      border: none;
-      border-radius: 10px;
-      box-shadow: inset 5px 5px 10px var(--shadow-dark), inset -5px -5px 10px var(--shadow-light);
-      transition: all 0.3s ease;
-      padding: 0 15px;
-      color: var(--main-color);
-    }
-
-    .neumorphic-select:focus {
-      background-color: var(--bg-color);
-      box-shadow: inset 2px 2px 5px var(--shadow-dark), inset -2px -2px 5px var(--shadow-light), 0 0 0 3px var(--main-color);
-      border: none;
-      outline: none;
-    }
-
-    .neumorphic-textarea {
-      background-color: var(--bg-color);
-      border: none;
-      border-radius: 10px;
-      box-shadow: inset 5px 5px 10px var(--shadow-dark), inset -5px -5px 10px var(--shadow-light);
-      transition: all 0.3s ease;
-      padding: 15px;
-      min-height: 80px;
-      resize: vertical;
-    }
-
-    .neumorphic-textarea:focus {
-      background-color: var(--bg-color);
-      box-shadow: inset 2px 2px 5px var(--shadow-dark), inset -2px -2px 5px var(--shadow-light), 0 0 0 3px var(--main-color);
-      border: none;
-      outline: none;
-    }
-
     .info-badge {
       background: var(--bg-color);
       padding: 8px 12px;
@@ -419,7 +383,7 @@ if ($id_cancha && $fecha && $hora_inicio) {
 </head>
 
 <body>
-  <div class="container-fluid p-2">
+  <div class="container-fluid pt-2 pb-0 m-0">
 
     <!-- Formulario de Reserva -->
     <div id="main" class="d-flex justify-content-center align-items-center min-vh-100">
@@ -604,7 +568,7 @@ if ($id_cancha && $fecha && $hora_inicio) {
 
                 <div class="mb-4">
                   <label for="categoria" class="form-label">Tu Categoría <span style="color: #dc3545;">*</span></label>
-                  <select name="categoria" class="form-control neumorphic-select" required id="categoria">
+                  <select name="categoria" class="form-select neumorphic-select" required id="categoria">
                     <option value="<?= $usuario_data['categoria'] ?? 1 ?>" selected>
                       Categoría <?= $usuario_data['categoria'] ?? 1 ?>
                     </option>
@@ -613,7 +577,7 @@ if ($id_cancha && $fecha && $hora_inicio) {
 
                 <div class="mb-4">
                   <label for="espacios" class="form-label">Espacios a Reservar <span style="color: #dc3545;">*</span></label>
-                  <select name="espacios" class="form-control neumorphic-select" required id="espacios">
+                  <select name="espacios" class="form-select neumorphic-select" required id="espacios">
                     <?php for ($i = 1; $i <= min(4, $espacios_disponibles_actual); $i++): ?>
                       <option value="<?= $i ?>" <?= (isset($_POST['espacios']) && $_POST['espacios'] == $i) ? 'selected' : '' ?>>
                         <?= $i ?> espacio<?= $i > 1 ? 's' : '' ?> (<?= $i ?> jugador<?= $i > 1 ? 'es' : '' ?>)

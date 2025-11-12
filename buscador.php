@@ -109,7 +109,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['accion'] === 'toggle_favori
 
 $buscarNombre = $_GET['nombre'] ?? '';
 $buscarCiudad = $_GET['ciudad'] ?? '';
-$buscarDireccion = $_GET['direccion'] ?? '';
 $buscarBio = $_GET['bio'] ?? '';
 $buscarPrecioMin = $_GET['precio_min'] ?? '';
 $buscarPrecioMax = $_GET['precio_max'] ?? '';
@@ -128,10 +127,7 @@ try {
     $params[] = "%$buscarCiudad%";
   }
 
-  if (!empty($buscarDireccion)) {
-    $sql .= " AND direccion LIKE ?";
-    $params[] = "%$buscarDireccion%";
-  }
+  // Se eliminó el filtro por 'direccion' para simplificar la búsqueda.
 
   if (!empty($buscarBio)) {
     $sql .= " AND bio LIKE ?";
@@ -167,7 +163,7 @@ try {
 
 
 //verifica si hay filtros activos (sirve para poder limpiar y realizar la búsqueeda).
-$hayFiltros = !empty($buscarNombre) || !empty($buscarCiudad) || !empty($buscarDireccion) || !empty($buscarBio) || !empty($buscarPrecioMin) || !empty($buscarPrecioMax);
+$hayFiltros = !empty($buscarNombre) || !empty($buscarCiudad) || !empty($buscarBio) || !empty($buscarPrecioMin) || !empty($buscarPrecioMax);
 //---------------------------------------------------------------------------------
 ?>
 
@@ -302,11 +298,9 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarCiudad) || !empty($buscarDi
 
      <!-----------------------BUSCAR CANCHA------------------>
 
-      <!--Contiene obviamente boostrap de chatpgt pq no se como hacerlo yo :) -->
       <div class="row mb-4">
         <div class="col-12">
           <div class="card text-dark rounded-top-0">
-            <!--Brad, si estás viendo esto, antes de text-white, ponele esto para ver la caja ""card bg-dark"" (sin las comillas)-->
             <div class="card-header ">
               <h5 class="mb-0">
                 <i class="fas fa-filter"></i> Buscar
@@ -314,46 +308,37 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarCiudad) || !empty($buscarDi
             </div>
             <div class="card-body">
               <form method="GET" action="buscador.php">
-                <div class="row g-3 align-items-end">
+                <div class="row g-3">
 
-                  <!--NOMBRE DE CANCHA -->
-                  <div class="col-md-2">
+                  <!-- NOMBRE DE CANCHA -->
+                  <div class="col-12 col-sm-6 col-lg-4">
                     <label for="nombre" class="form-label">
                       <i class="fas fa-font"></i> Nombre
                     </label>
                     <input type="text" class="form-control" id="nombre" name="nombre"
-                      value="<?= htmlspecialchars($buscarNombre) ?>">
+                      value="<?= htmlspecialchars($buscarNombre) ?>" placeholder="Buscar por nombre">
                   </div>
 
-                  <!--CIUDAD -->
-                  <div class="col-md-2">
+                  <!-- CIUDAD -->
+                  <div class="col-12 col-sm-6 col-lg-4">
                     <label for="ciudad" class="form-label">
                       <i class="fas fa-map-marker-alt"></i> Ciudad
                     </label>
                     <input type="text" class="form-control" id="ciudad" name="ciudad"
-                      value="<?= htmlspecialchars($buscarCiudad) ?>">
+                      value="<?= htmlspecialchars($buscarCiudad) ?>" placeholder="Buscar por ciudad">
                   </div>
 
-                  <!--DIRECCIÓN -->
-                  <div class="col-md-2">
-                    <label for="direccion" class="form-label">
-                      <i class="fas fa-location-dot"></i> Dirección
-                    </label>
-                    <input type="text" class="form-control" id="direccion" name="direccion"
-                      value="<?= htmlspecialchars($buscarDireccion) ?>">
-                  </div>
-
-                  <!--FILTRO BIOO -->
-                  <div class="col-md-2">
+                  <!-- FILTRO BIO -->
+                  <div class="col-12 col-sm-6 col-lg-4">
                     <label for="bio" class="form-label">
                       <i class="fas fa-align-left"></i> Descripción
                     </label>
                     <input type="text" class="form-control" id="bio" name="bio"
-                      value="<?= htmlspecialchars($buscarBio) ?>">
+                      value="<?= htmlspecialchars($buscarBio) ?>" placeholder="Buscar en descripción">
                   </div>
 
-                  <!--FILTRO PRECIO -->
-                  <div class="col-md-2">
+                  <!-- FILTRO PRECIO -->
+                  <div class="col-12 col-sm-6 col-lg-6">
                     <label class="form-label">
                       <i class="fas fa-dollar-sign"></i> Rango de Precio
                     </label>
@@ -366,17 +351,26 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarCiudad) || !empty($buscarDi
                     </div>
                   </div>
 
-                  <!--BOTONES PARA BUSCAR Y LIMPIAR-->
-                  <div class="col-md-2 d-flex gap-2">
-                    <button type="submit" class="btn btn-success w-100">
-                      <i class="fas fa-search"></i> Buscar
-                    </button>
-                    <?php if ($hayFiltros): ?>
-                      <a href="buscador.php" class="btn btn-secondary w-100">
-                        <i class="fas fa-times"></i> Limpiar
-                      </a>
-                    <?php endif; ?>
+                  <!-- BOTONES PARA BUSCAR Y LIMPIAR -->
+                  <div class="col-12 col-lg-6">
+                    <div class="d-flex flex-column" style="height: 100%;">
+                      <!-- Otros contenidos arriba -->
+
+                      <div class="mt-auto">
+                        <div class="d-flex gap-2 flex-column flex-sm-row">
+                          <button type="submit" class="btn btn-success flex-fill">
+                            <i class="fas fa-search"></i> Buscar
+                          </button>
+                          <?php if ($hayFiltros): ?>
+                            <a href="buscador.php" class="btn btn-secondary flex-fill">
+                              <i class="fas fa-times"></i> Limpiar
+                            </a>
+                          <?php endif; ?>
+                        </div>
+                      </div>
+                    </div>
                   </div>
+
                 </div>
               </form>
             </div>
@@ -399,7 +393,7 @@ $hayFiltros = !empty($buscarNombre) || !empty($buscarCiudad) || !empty($buscarDi
 
     <h4 class="text-center " style="color: #0a0505ff;">Canchas registradas</h4>
       <?php if ($canchas && count($canchas) > 0): ?>
-        <div class="row g-4 p-1">
+        <div class="row g-4 p-3">
           <?php foreach ($canchas as $cancha): ?>
           <?php
           $rating = obtenerPromedioValoracion($pdo, $cancha['id_cancha']);

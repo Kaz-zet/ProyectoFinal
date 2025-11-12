@@ -566,18 +566,7 @@ if ($nombre) {
                     </div>
                 </div>
             </div>
-<!-- 
-            <div class="contact-cta p-5">
-                <h4 class="mb-3">¿Necesitas más información?</h4>
-                <p class="mb-4">Nuestro equipo de soporte está listo para resolver todas tus dudas sobre la
-                    plataforma, reservas, pagos o cualquier aspecto técnico.</p>
-                <button class="btn btn-primary-contact btn-contact" href="">
-                    <i class="fas fa-envelope me-2"></i>Enviar Email
-                </button>
-                <button class="btn btn-outline-contact btn-contact">
-                    <i class="fas fa-phone me-2"></i>Llamar Ahora
-                </button>
-            </div> -->
+
         </div>
         <!-- Fin Contacto Section -->
 

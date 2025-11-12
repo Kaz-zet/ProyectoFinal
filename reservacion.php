@@ -488,9 +488,9 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
         <?php endif; ?>
 
         <!-- Volver -->
-        <div class="row mt-3">
+        <div class="row mt-3 m-3">
             <div class="col-12">
-                <button class="btn btn-outline-secondary" onclick="window.location.href='buscador.php'">
+                <button class="btn btn-dark" onclick="window.location.href='buscador.php'">
                     ← Volver al buscador
                 </button>
             </div>
@@ -500,7 +500,7 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
             <!-- Busca imagen -->
             <div class="row justify-content-center align-items-center p-4 g-4">
                 <!-- Imagen de la cancha -->
-                <div class="col-md-5 col-sm-12">
+                <div class="col-lg-5 col-sm-12">
                     <div class="position-relative overflow-hidden rounded-4 shadow-lg">
                         <?php if (!empty($cancha['foto'])): ?>
                             <img src="uploads/<?= htmlspecialchars($cancha['foto']) ?>" class="img-fluid w-100 court-image"
@@ -613,24 +613,27 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
                 </div>
             </div>
 
-           <?php if (!$id_usuario): ?>
-    <div class="alert-login">
-        <a href="inicioses.php">Inicia sesión</a> para poder reservar esta cancha
-    </div>
-<?php elseif ($rol === 'duenio'): ?>
-    <div class="alert alert-warning text-center" style="background-color: #fff3cd; border: 1px solid #ffeaa7; color: #856404; padding: 15px; border-radius: 8px; margin: 20px 0;">
-        Los dueños no pueden realizar reservas. Esta función es solo para jugadores.
-    </div>
-<?php endif; ?>
+            <?php if (!$id_usuario): ?>
+                <div class="alert-login">
+                    <a href="inicioses.php">Inicia sesión</a> para poder reservar esta cancha
+                </div>
+            <?php elseif ($rol === 'duenio'): ?>
+                <div class="alert alert-warning text-center"
+                    style="background-color: #fff3cd; border: 1px solid #ffeaa7; color: #856404; padding: 15px; border-radius: 8px; margin: 20px 0;">
+                    Los dueños no pueden realizar reservas. Esta función es solo para jugadores.
+                </div>
+            <?php endif; ?>
 
             <!-- Sistema de reserva-->
             <div class="row p-1 m-1 mt-4">
                 <div class="col-12">
                     <h3 class="text-center mb-4" style="color: #0B0519">
-                        <?= $id_usuario ? 'Haz clic para reservar' : 'Horarios disponibles' ?></h3>
+                        <?= $id_usuario ? 'Haz clic para reservar' : 'Horarios disponibles' ?>
+                    </h3>
 
                     <!-- PARA SELECCIONAR DIAS-->
-                    <div class="date-picker-container text-center" style="background-color: #41644A;">
+                    <div class="date-picker-container text-center" style="backdrop-filter: blur(20px); background-color: rgba(63, 156, 67, 0.8);">
+            
                         <h5 class="mb-3">Selecciona el día</h5>
                         <p class="text-light mb-3">Mostrando: <span
                                 id="currentDate"><?= date('d/m/Y', strtotime($fecha_mostrar)) ?></span></p>
@@ -771,7 +774,7 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
         <?php endif; ?>
 
         <hr class="h-200 mx-auto my-3 border-dark" style="height: 4px; background-color: #000; border: none;">
-        
+
         <!--VALORACIONES LO MAYOR FUNCIONAL ESTÁ EN (PROCESAR_VALORACIÓN.PHP)-------------------------------->
 
         <?php if ($id_usuario): ?>
@@ -1024,175 +1027,182 @@ $reservas = obtenerreservas($pdo, $id_cancha, $fecha_mostrar);
                 <?php endif; ?>
 
                 <!--COMENTARIOS Y VALORACIONES DE USUARIOS-->
-<div class="row" style="background-color: #f0f0f0f0; border-radius: 16px;">
-    <div class="col-md-10 offset-md-1">
-        <?php if (!empty($valoraciones)): ?>
-            <div id="contenedorValoraciones">
-                <?php foreach ($valoraciones as $index => $v): ?>
-                    <div class="valoracion-item border-0 <?= $index >= 1 ? 'valoracion-oculta' : '' ?>" 
-                         style="<?= $index >= 1? 'display: none;' : '' ?>">
-                        <div class="card-body" style="background-color: #f0f0f0;">
-                            <div class="d-flex align-items-center mb-2" style="background-color: #f0f0f0;">
+                <div class="row m-2" style="background-color: #f0f0f0f0; border-radius: 16px;">
+                    <div class="col-md-10 offset-md-1">
+                        <?php if (!empty($valoraciones)): ?>
+                            <div id="contenedorValoraciones">
+                                <?php foreach ($valoraciones as $index => $v): ?>
+                                    <div class="valoracion-item border-0 <?= $index >= 1 ? 'valoracion-oculta' : '' ?>"
+                                        style="<?= $index >= 1 ? 'display: none;' : '' ?>">
+                                        <div class="card-body mb-3" style="background-color: #f0f0f0;">
+                                            <div class="d-flex align-items-center mb-2" style="background-color: #f0f0f0;">
 
-                                <!--FOTO DEL USUARIO PARA EL COMENTARIO-->
-                                <?php if (!empty($v['foto'])): ?>
-                                    <a href="perfil_otro.php?id=<?= $v['id_usuario'] ?>">
-                                        <img src="uploads/usuarios/<?= htmlspecialchars($v['foto']) ?>"
-                                            alt="<?= htmlspecialchars($v['nombre']) ?>" class="rounded-circle me-3 text-dark"
-                                            width="50" height="50" style="object-fit: cover;">
-                                    </a>
-                                <?php else: ?>
-                                    <a href="perfil_otro.php?id=<?= $v['id_usuario'] ?>" style="text-decoration: none;">
-                                        <div class="rounded-circle text-dark me-3 d-flex align-items-center justify-content-center"
-                                            style="width: 50px; height: 50px; font-size: 20px; font-weight: bold; background-color: 0D4715;">
-                                            <?= strtoupper(substr($v['nombre'], 0, 1)) ?>
+                                                <!--FOTO DEL USUARIO PARA EL COMENTARIO-->
+                                                <?php if (!empty($v['foto'])): ?>
+                                                    <a href="perfil_otro.php?id=<?= $v['id_usuario'] ?>">
+                                                        <img src="uploads/usuarios/<?= htmlspecialchars($v['foto']) ?>"
+                                                            alt="<?= htmlspecialchars($v['nombre']) ?>"
+                                                            class="rounded-circle me-3 text-dark" width="50" height="50"
+                                                            style="object-fit: cover;">
+                                                    </a>
+                                                <?php else: ?>
+                                                    <a href="perfil_otro.php?id=<?= $v['id_usuario'] ?>"
+                                                        style="text-decoration: none;">
+                                                        <div class="rounded-circle text-dark me-3 d-flex align-items-center justify-content-center"
+                                                            style="width: 50px; height: 50px; font-size: 20px; font-weight: bold; background-color: 0D4715;">
+                                                            <?= strtoupper(substr($v['nombre'], 0, 1)) ?>
+                                                        </div>
+                                                    </a>
+                                                <?php endif; ?>
+
+                                                <div class="flex-grow-1">
+                                                    <a href="perfil_otro.php?id=<?= $v['id_usuario'] ?>"
+                                                        style="color: inherit; text-decoration: none;">
+                                                        <h5 class="mb-0 text-dark"><?= htmlspecialchars($v['nombre']) ?></h5>
+                                                    </a>
+                                                    <div class="text-warning">
+                                                        <?php for ($i = 1; $i <= 5; $i++): ?>
+                                                            <?= $i <= $v['valor'] ? '★' : '☆' ?>
+                                                        <?php endfor; ?>
+                                                        <span class="text-dark ms-2 small">
+                                                            <?= date('d/m/Y', strtotime($v['fecha'])) ?>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <?php if (!empty($v['comentario'])): ?>
+                                                <p class="card-text mb-0" style="color: #0B0519">
+                                                    <?= nl2br(htmlspecialchars($v['comentario'])) ?></p>
+                                            <?php endif; ?>
                                         </div>
-                                    </a>
-                                <?php endif; ?>
-
-                                <div class="flex-grow-1">
-                                    <a href="perfil_otro.php?id=<?= $v['id_usuario'] ?>" style="color: inherit; text-decoration: none;">
-                                        <h5 class="mb-0 text-dark"><?= htmlspecialchars($v['nombre']) ?></h5>
-                                    </a>
-                                    <div class="text-warning">
-                                        <?php for ($i = 1; $i <= 5; $i++): ?>
-                                            <?= $i <= $v['valor'] ? '★' : '☆' ?>
-                                        <?php endfor; ?>
-                                        <span class="text-dark ms-2 small">
-                                            <?= date('d/m/Y', strtotime($v['fecha'])) ?>
-                                        </span>
                                     </div>
-                                </div>
+                                <?php endforeach; ?>
                             </div>
-                            <?php if (!empty($v['comentario'])): ?>
-                                <p class="card-text mb-0" style="color: #0B0519"><?= nl2br(htmlspecialchars($v['comentario'])) ?></p>
+
+                            <!-- Botón Ver más / Ver menos -->
+                            <?php if (count($valoraciones) > 1): ?>
+                                <div class="text-center mt-4 mb-3">
+                                    <button id="btnVerMas" class="btn px-5"
+                                        onclick="toggleValoraciones()"
+                                        style="background-color: #52a24bff; color: white; border: none;">
+                                        Ver más valoraciones (<?= count($valoraciones) - 1 ?> más)
+                                    </button>
+                                </div>
                             <?php endif; ?>
+
+                        <?php else: ?>
+                            <div class="text-center py-5">
+                                <p class="fs-5" style="color: #0B0519">Todavía no hay valoraciones para esta cancha.</p>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+
+                <script>
+                    // JavaScript para Ver más/menos valoraciones
+                    function toggleValoraciones() {
+                        const valoracionesOcultas = document.querySelectorAll('.valoracion-oculta');
+                        const btnVerMas = document.getElementById('btnVerMas');
+                        const totalOcultas = valoracionesOcultas.length;
+
+                        // Verificar si están ocultas o visibles
+                        const primerElemento = valoracionesOcultas[0];
+                        const estaOculto = primerElemento.style.display === 'none';
+
+                        if (estaOculto) {
+                            // Mostrar todas
+                            valoracionesOcultas.forEach(val => {
+                                val.style.display = 'block';
+                            });
+                            btnVerMas.textContent = 'Ver menos';
+                            btnVerMas.classList.remove('btn-outline-primary');
+                            btnVerMas.classList.add('btn-outline-secondary');
+                        } else {
+                            // Ocultar
+                            valoracionesOcultas.forEach(val => {
+                                val.style.display = 'none';
+                            });
+                            btnVerMas.textContent = `Ver más valoraciones (${totalOcultas} más)`;
+                            btnVerMas.classList.remove('btn-outline-secondary');
+                            btnVerMas.classList.add('btn-outline-primary');
+
+                            // Scroll suave hacia las valoraciones
+                            document.querySelector('.row.mt-5 h3').scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                        }
+                    }
+                </script>
+
+                <!-- Footer -->
+                <footer class="mt-5">
+                    <div class="row p-5 bg-secondary text-white">
+                        <div class="col-xs-12 col-md-6 col-lg-3 mb-3">
+                            <h3 class="mb-2">CanchApp</h3>
+                            <p>Tu sitio de confianza para reservar y gestionar canchas de pádel.</p>
+                        </div>
+                        <div class="col-xs-12 col-md-6 col-lg-3 mb-3">
+                            <h5 class="mb-2">Enlaces</h5>
+                            <a href="#" class="d-block text-white text-decoration-none mb-1">Inicio</a>
+                            <a href="#" class="d-block text-white text-decoration-none mb-1">Sobre Nosotros</a>
+                            <a href="#" class="d-block text-white text-decoration-none mb-1">Servicios</a>
+                            <a href="#" class="d-block text-white text-decoration-none mb-1">Contacto</a>
+                        </div>
+                        <div class="col-xs-12 col-md-6 col-lg-3 mb-3">
+                            <h5 class="mb-2">Contacto</h5>
+                            <p class="mb-1">Email: info@canchapp.com</p>
+                            <p class="mb-1">Tel: +54 11 1234-5678</p>
+                            <p class="mb-1">Dirección: Av. Pádel 123, Buenos Aires</p>
+                        </div>
+                        <div class="col-xs-12 col-md-6 col-lg-3 mb-3">
+                            <h5 class="mb-2">Síguenos</h5>
+                            <a href="#" class="d-block text-white text-decoration-none mb-1">Instagram</a>
+                            <a href="#" class="d-block text-white text-decoration-none mb-1">Facebook</a>
+                            <a href="#" class="d-block text-white text-decoration-none mb-1">Twitter</a>
                         </div>
                     </div>
-                <?php endforeach; ?>
+                    <div class="row bg-dark text-white text-center py-2">
+                        <div class="col-12">
+                            <small>&copy; 2025 CanchApp. Todos los derechos reservados.</small>
+                        </div>
+                    </div>
+                </footer>
             </div>
 
-            <!-- Botón Ver más / Ver menos -->
-            <?php if (count($valoraciones) > 1): ?>
-                <div class="text-center mt-4 mb-3">
-                    <button id="btnVerMas" class="btn btn-outline-primary px-5" onclick="toggleValoraciones()">
-                        Ver más valoraciones (<?= count($valoraciones) - 1 ?> más)
-                    </button>
+
+
+
+            <!--MODAL DE ELIMINACIÓN------------------------------------------------------------------------------------>
+            <!--Está abajo del todo pq sino me tira eeror :( -->
+            <?php if ($id_usuario && $miValoracion): ?>
+                <div class="modal fade" id="modalEliminar" tabindex="-1" aria-labelledby="modalEliminarLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-body text-center">
+                                <h5 class="mb-3">¿Estás seguro de que deseas eliminar tu valoración?</h5>
+                            </div>
+                            <div class="modal-footer justify-content-center">
+                                <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">
+                                    No!
+                                </button>
+                                <form method="POST" action="procesar_valoracion.php" class="d-inline">
+                                    <input type="hidden" name="id_cancha" value="<?= htmlspecialchars($id_cancha) ?>">
+                                    <input type="hidden" name="modo" value="eliminar">
+                                    <button type="submit" class="btn btn-danger px-4">
+                                        Si!
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             <?php endif; ?>
 
-        <?php else: ?>
-            <div class="text-center py-5">
-                <p class="fs-5" style="color: #0B0519">Todavía no hay valoraciones para esta cancha.</p>
-            </div>
-        <?php endif; ?>
-    </div>
-</div>
 
-<script>
-// JavaScript para Ver más/menos valoraciones
-function toggleValoraciones() {
-    const valoracionesOcultas = document.querySelectorAll('.valoracion-oculta');
-    const btnVerMas = document.getElementById('btnVerMas');
-    const totalOcultas = valoracionesOcultas.length;
-    
-    // Verificar si están ocultas o visibles
-    const primerElemento = valoracionesOcultas[0];
-    const estaOculto = primerElemento.style.display === 'none';
-    
-    if (estaOculto) {
-        // Mostrar todas
-        valoracionesOcultas.forEach(val => {
-            val.style.display = 'block';
-        });
-        btnVerMas.textContent = 'Ver menos';
-        btnVerMas.classList.remove('btn-outline-primary');
-        btnVerMas.classList.add('btn-outline-secondary');
-    } else {
-        // Ocultar
-        valoracionesOcultas.forEach(val => {
-            val.style.display = 'none';
-        });
-        btnVerMas.textContent = `Ver más valoraciones (${totalOcultas} más)`;
-        btnVerMas.classList.remove('btn-outline-secondary');
-        btnVerMas.classList.add('btn-outline-primary');
-        
-        // Scroll suave hacia las valoraciones
-        document.querySelector('.row.mt-5 h3').scrollIntoView({ 
-            behavior: 'smooth', 
-            block: 'start' 
-        });
-    }
-}
-</script>
-
-        <!-- Footer -->
-        <footer class="mt-5">
-            <div class="row p-5 bg-secondary text-white">
-                <div class="col-xs-12 col-md-6 col-lg-3 mb-3">
-                    <h3 class="mb-2">CanchApp</h3>
-                    <p>Tu sitio de confianza para reservar y gestionar canchas de pádel.</p>
-                </div>
-                <div class="col-xs-12 col-md-6 col-lg-3 mb-3">
-                    <h5 class="mb-2">Enlaces</h5>
-                    <a href="#" class="d-block text-white text-decoration-none mb-1">Inicio</a>
-                    <a href="#" class="d-block text-white text-decoration-none mb-1">Sobre Nosotros</a>
-                    <a href="#" class="d-block text-white text-decoration-none mb-1">Servicios</a>
-                    <a href="#" class="d-block text-white text-decoration-none mb-1">Contacto</a>
-                </div>
-                <div class="col-xs-12 col-md-6 col-lg-3 mb-3">
-                    <h5 class="mb-2">Contacto</h5>
-                    <p class="mb-1">Email: info@canchapp.com</p>
-                    <p class="mb-1">Tel: +54 11 1234-5678</p>
-                    <p class="mb-1">Dirección: Av. Pádel 123, Buenos Aires</p>
-                </div>
-                <div class="col-xs-12 col-md-6 col-lg-3 mb-3">
-                    <h5 class="mb-2">Síguenos</h5>
-                    <a href="#" class="d-block text-white text-decoration-none mb-1">Instagram</a>
-                    <a href="#" class="d-block text-white text-decoration-none mb-1">Facebook</a>
-                    <a href="#" class="d-block text-white text-decoration-none mb-1">Twitter</a>
-                </div>
-            </div>
-            <div class="row bg-dark text-white text-center py-2">
-                <div class="col-12">
-                    <small>&copy; 2025 CanchApp. Todos los derechos reservados.</small>
-                </div>
-            </div>
-        </footer>
-    </div>
-
-
-
-
-    <!--MODAL DE ELIMINACIÓN------------------------------------------------------------------------------------>
-    <!--Está abajo del todo pq sino me tira eeror :( -->
-    <?php if ($id_usuario && $miValoracion): ?>
-        <div class="modal fade" id="modalEliminar" tabindex="-1" aria-labelledby="modalEliminarLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-body text-center">
-                        <h5 class="mb-3">¿Estás seguro de que deseas eliminar tu valoración?</h5>
-                    </div>
-                    <div class="modal-footer justify-content-center">
-                        <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">
-                            No!
-                        </button>
-                        <form method="POST" action="procesar_valoracion.php" class="d-inline">
-                            <input type="hidden" name="id_cancha" value="<?= htmlspecialchars($id_cancha) ?>">
-                            <input type="hidden" name="modo" value="eliminar">
-                            <button type="submit" class="btn btn-danger px-4">
-                                Si!
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    <?php endif; ?>
-
-
-    <!-- Bootstrap 5 JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+            <!-- Bootstrap 5 JS Bundle -->
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

@@ -160,7 +160,7 @@ if ($_POST) {
               </button>
 
             </label>
-            <select class="form-control neumorphic-input" id="categoria" name="categoria" required>
+            <select class="form-select neumorphic-select" id="categoria" name="categoria" required>
               <option value="">Selecciona tu categoría</option>
               <option value="1">Categoría 1</option>
               <option value="2">Categoría 2</option>

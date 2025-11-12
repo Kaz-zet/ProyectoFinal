@@ -574,21 +574,21 @@ try {
                                                 <div class="row">
                                                     <div class="col-md-6 mb-3">
                                                         <label class="form-label">Categoría</label>
-                                                        <select class="form-control tab-datos-personales neumorphic-input" id="categoria" name="categoria" required>
-                                                        <option value="1" <?= ($usuario['categoria'] == 1) ? 'selected' : '' ?>>Categoría 1</option>
-                                                        <option value="2" <?= ($usuario['categoria'] == 2) ? 'selected' : '' ?>>Categoría 2</option>
-                                                        <option value="3" <?= ($usuario['categoria'] == 3) ? 'selected' : '' ?>>Categoría 3</option>
-                                                        <option value="4" <?= ($usuario['categoria'] == 4) ? 'selected' : '' ?>>Categoría 4</option>
-                                                        <option value="5" <?= ($usuario['categoria'] == 5) ? 'selected' : '' ?>>Categoría 5</option>
-                                                        <option value="6" <?= ($usuario['categoria'] == 6) ? 'selected' : '' ?>>Categoría 6</option>
-                                                        <option value="7" <?= ($usuario['categoria'] == 7) ? 'selected' : '' ?>>Categoría 7</option>
+                                                        <select class="form-select tab-datos-personales neumorphic-input" id="categoria" name="categoria" required>
+                                                            <option value="1" <?= ($usuario['categoria'] == 1) ? 'selected' : '' ?>>Categoría 1</option>
+                                                            <option value="2" <?= ($usuario['categoria'] == 2) ? 'selected' : '' ?>>Categoría 2</option>
+                                                            <option value="3" <?= ($usuario['categoria'] == 3) ? 'selected' : '' ?>>Categoría 3</option>
+                                                            <option value="4" <?= ($usuario['categoria'] == 4) ? 'selected' : '' ?>>Categoría 4</option>
+                                                            <option value="5" <?= ($usuario['categoria'] == 5) ? 'selected' : '' ?>>Categoría 5</option>
+                                                            <option value="6" <?= ($usuario['categoria'] == 6) ? 'selected' : '' ?>>Categoría 6</option>
+                                                            <option value="7" <?= ($usuario['categoria'] == 7) ? 'selected' : '' ?>>Categoría 7</option>
                                                         </select>     
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-6 mb-3">
                                                         <label class="form-label">Posición</label>
-                                                        <select class="form-control tab-datos-personales neumorphic-input" id="posicion" name="posicion" required>
+                                                        <select class="form-select tab-datos-personales neumorphic-input" id="posicion" name="posicion" required>
                                                             <option value="Derecha" <?= ($usuario['posicion'] == 'Derecha') ? 'selected' : '' ?>>Derecha</option>
                                                             <option value="Izquierda" <?= ($usuario['posicion'] == 'Izquierda') ? 'selected' : '' ?>>Izquierda</option>
                                                             <option value="SinPreferencia" <?= ($usuario['posicion'] == 'SinPreferencia') ? 'selected' : '' ?>>Sin Preferencia</option>

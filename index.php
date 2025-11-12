@@ -160,7 +160,7 @@ if ($calendario)
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: rgba(0, 0, 0, 0.7);
+      background: transparent;
       /*Esto cambia el fondo que se ilumina*/
       display: none;
       z-index: 9998;
@@ -432,26 +432,7 @@ if ($calendario)
 
     </section>
 
-    
-<!-- 
-    <div class="row mt-5 d-flex justify-content-center align-items-center ">
-      <div class="col-6">
-        <div class="card shadow-sm" style="width: 18rem;">
-          <img src="https://via.placeholder.com/288x160?text=CanchApp" class="card-img-top" alt="CanchApp cancha">
-          <div class="card-body text-center">
-            <h5 class="card-title">Reservá tu cancha</h5>
-            <p class="card-text">Con CanchApp, encontrá y reservá tu cancha favorita en segundos. ¡Jugá sin
-              complicaciones!</p>
-            <a href="#reservar" class="btn btn-primary">Reservar ahora</a>
-          </div>
-        </div>
-      </div>
-    </div> -->
-
-
-
-
-
+  
     <!-- Carrusel -->
     <div id="carousel-section">
       <div class="row py-5 mt-5 rounded shadow-lg" style="background-color: #F1F0E9;">
@@ -469,7 +450,7 @@ if ($calendario)
               <div class="carousel-item active h-100">
                 <img src="image/raqueta.avif" class="d-block w-100 h-100" alt="Padel racket resting on a court"
                   style="object-fit:cover;">
-                <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-3">
+                <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-75 rounded p-3">
                   <h5 class="fw-bold text-success">Reserva Fácil</h5>
                   <p class="text-white">Elige tu cancha y horario en segundos. ¡Jugar nunca fue tan simple!</p>
                 </div>
@@ -477,7 +458,7 @@ if ($calendario)
               <div class="carousel-item h-100">
                 <img src="image/gestion.jpg" class="d-block w-100 h-100" alt="Gestiona tus canchas"
                   style="object-fit:cover;">
-                <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-3">
+                <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-75 rounded p-3">
                   <h5 class="fw-bold text-primary">Gestión Rápida</h5>
                   <p class="text-white">Administra disponibilidad y horarios con un solo click.</p>
                 </div>
@@ -485,8 +466,8 @@ if ($calendario)
               <div class="carousel-item h-100">
                 <img src="image/grupopadel.avif" class="d-block w-100 h-100" alt="Disfruta el pádel"
                   style="object-fit:cover;">
-                <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-3">
-                  <h5 class="fw-bold text-warning">Disfruta el Pádel</h5>
+                <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-75 rounded p-3">
+                  <h5 class="fw-bold " style="color: #ff6b35;">Disfruta el Pádel</h5>
                   <p class="text-white">Vive la mejor experiencia consiguiendo grupos para jugar al padel.</p>
                 </div>
               </div>
@@ -517,9 +498,9 @@ if ($calendario)
         <div class="col-12 d-flex justify-content-center gap-4 flex-wrap">
           <div class="card shadow-sm" style="width: 20rem;">
             <div class="card-body text-center">
-              <h5 class="card-title text-primary fw-semibold">Agregar Cancha</h5>
+              <h5 class="card-title text-success fw-semibold">Agregar Cancha</h5>
               <p class="card-text text-secondary">Añade nuevas canchas a tu inventario</p>
-              <a href="dueño.php" class="btn btn-primary w-100">Agregar</a>
+              <a href="dueño.php" class="btn btn-success w-100">Agregar</a>
             </div>
           </div>
           <div class="card shadow-sm" style="width: 20rem;">
